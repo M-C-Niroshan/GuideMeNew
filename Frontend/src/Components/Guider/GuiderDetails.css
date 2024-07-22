@@ -27,14 +27,13 @@
 .slide-in-right{
     animation: slide-in-right 0.5s forwards;
 }
-body{
+/* body{
     height: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #89CFF0 0%, #9ecceb 100%);
-}
+} */
 
 .containerG{
     position: fixed;

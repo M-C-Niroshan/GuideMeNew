@@ -15,7 +15,7 @@ import  PaymentMethod  from './Components/Payments/PaymentMethod';
 import  PaymentSuccess  from './Components/Payments/PaymentSuccess';
 import  PaymentFailed  from './Components/Payments/PaymentFailed';
 
-import  VehicalrentN  from './Components/pages/Test';
+import  Test  from './Components/pages/Test';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            {/* <Route path="/" element={<Login/>}></Route> */}
+            <Route path="/" element={<Login/>}></Route>
             <Route path="/1" element={<Signup/>}></Route>
             <Route path="/2" element={<GuiderDetails/>}></Route>
             <Route path="/3" element={<RenterDetails/>}></Route>
@@ -33,8 +33,8 @@ function App() {
             <Route path="/7" element={<BookYourGuiderOld/>}></Route>
             <Route path="/8" element={<PaymentMethod/>}></Route>
             <Route path="/9" element={<PaymentSuccess/>}></Route>
-            {/* <Route path="/10" element={<PaymentFailed/>}></Route> */}
-            {/* <Route path="/Test" element={<Test/>}></Route> */}
+            <Route path="/10" element={<PaymentFailed/>}></Route>
+            <Route path="/Test" element={<Test/>}></Route>
           </Routes>
         </BrowserRouter>
       </div>
