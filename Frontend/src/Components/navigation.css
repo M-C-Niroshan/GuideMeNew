@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito", sans-serif;
+}
+
+:root{
+    --maincolor: #4BCCBE  ;
+    --yellow:#FEDA59;
+    --textcolor:black;
+    --ash:#D9D9D9;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content:right;
+    height: 74px;
+    padding: 2rem;
+    background-color: var(--maincolor);
+}
+
+
+nav a{
+    margin: 0 0.8rem;
+    color: aliceblue;
+    text-decoration: none;
+    color: var(--textcolor);
+    font-weight: bold;
+}
+
+nav a:hover{
+    color: var(--yellow);
+    cursor: pointer;
+
+}
+.logo-container{
+    display: flex;
+    position: absolute;
+    left: 50px;
+}
+
+.navlogo{
+    width: 90px;
+    cursor: pointer;
+}
+
+.logotext{
+    display:flex ;
+    align-items: center;
+    justify-content:space-between;
+    color: var(--ash);
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.login,.signup{
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px;
+    margin: 0 1rem;
+    font-weight: bolder;
+    color: var(--textcolor);
+    background-color: var(--ash);
+    cursor: pointer;
+}
+
+.login:hover, .signup:hover{
+    background-color: var(--yellow);
+    color: white;
+    border: none;
+    font-weight:bolder;
+}
+
+header .nobtn{
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: aliceblue;
+    visibility: hidden;
+    opacity: 0;
+    font-size: 1.5rem;
+}
+
+nav .ncbtn{
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: aliceblue;
+    visibility: hidden;
+    opacity: 0;
+    font-size: 1.5rem;
+}
+
+@media only screen and (max-width:1024px){
+    header .nobtn {
+        visibility: visible;
+        opacity: 1;
+    }
+    header .ncbtn {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    header .ncbtn:hover{
+        color: red;
+    }
+
+    header nav{
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        background-color: var(--maincolor);
+        transition: 1s;
+        transform: translateY(-100vh);
+    }
+
+    header .responsive_nav{
+        transform: none;
+    }
+
+    nav .ncbtn{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+    }
+
+    nav a{
+        font-size: 1.5rem;
+    }
+}

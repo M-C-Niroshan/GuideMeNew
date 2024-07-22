@@ -1,0 +1,33 @@
+.dropdown-containerS {
+  position:absolute;
+    width: 210px;
+    top: 81%;
+    left: 15%;
+    align-items: center;
+    background-color: #FFFF;
+    border-radius: 36px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    font-family: Nunito;
+  }
+  
+  .label {
+    font-size: 16px;
+    color: #828282;
+    margin-right: 10px;
+  }
+  
+  .dropdown {
+    background-color: #FFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 16px;
+    color: #828282;
+    outline: none;
+  }
+  
+  .dropdown:focus {
+    border-color: #007bff;
+  }
+  
