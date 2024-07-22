@@ -25,12 +25,8 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-<<<<<<< Updated upstream
-            {/* <Route path="/" element={<Login/>}></Route> */}
-=======
-           /*  <Route path="/" element={<Home/>}></Route> */
+            <Route path="/" element={<Home/>}></Route> */
             <Route path="/0" element={<Login/>}></Route>
->>>>>>> Stashed changes
             <Route path="/1" element={<Signup/>}></Route>
             <Route path="/2" element={<GuiderDetails/>}></Route>
             <Route path="/3" element={<RenterDetails/>}></Route>
