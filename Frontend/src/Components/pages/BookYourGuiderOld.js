@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
- import Footer from "../Footer";
- import Navigation from "../Navigation";
+import Navigation from '../Navigation/Navigation'
+import Footer from '../Footer/Footer'
 
 import { ReactComponent as Male } from "../images/Profile/male.svg";
 import { ReactComponent as Female } from "../images/Profile/female.svg";
@@ -132,7 +132,7 @@ export default function BookYourGuiderOld() {
         <GuiderList />
       </div>
       {<div className="footergap">
-        <Footer />
+        <Footer/>
       </div> }
     </div>
   );

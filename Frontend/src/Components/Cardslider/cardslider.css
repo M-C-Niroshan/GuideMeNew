@@ -1,0 +1,125 @@
+:root{
+    --maincolor: #4BCCBE  ;
+    --yellow:#FEDA59;
+    --textcolor:black;
+    --ash:#D9D9D9;
+}
+
+.cslider-heading-container{
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.blackline-left{
+    width: 10%;
+    height: 2vh;
+    background-color: black;
+    border-radius: 7px 0 0 7px;
+    margin-top: 2.8%;
+    margin-left: 20%;
+}
+
+.csliderh1-container{
+    width: 40%;
+    height: 20vh;
+}
+
+.csliderh1{
+    width: 100%;
+    height: 20vh;
+    font-size: 2.9rem;
+    font-weight: 700;
+    text-align: center;
+
+}
+
+.blackline-right{
+    width: 10%;
+    height: 2vh;
+    background-color: black;
+    border-radius: 0 7px 7px 0;
+    margin-top: 2.8%;
+}
+
+@media only screen and (max-width:1024px){
+    .csliderh1{
+        width: 100%;
+        height: 20vh;
+        font-size: 2.1rem;
+        font-weight: 900;
+        text-align: center;
+    }
+    .blackline-right{
+        width: 10%;
+        height: 1vh;
+        border-radius: 0 5px 5px 0;
+        margin-top: 10%;
+}
+    .blackline-left{
+        width: 10%;
+        height: 1vh;
+        border-radius: 0 5px 5px 0;
+        margin-top: 10%;
+    }
+
+}
+
+
+.card-container{
+    background-color: white;
+    color: var(--textcolor);
+    border-radius: 20px;
+}
+
+.img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 0PX;
+    border-radius: 30px;
+}
+
+.sliderimg{
+    width: 400px;
+    height: 300px;
+    margin: 10PX;
+    border-radius: 30px;
+}
+
+.slider-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:baseline;
+    padding: 5px;
+    height: 180px;
+}
+
+.slider-content2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top:10px ;
+    font-weight: 900;
+}
+
+.skidertext{
+    font-size: x-large;
+}
+
+.slick-slide > div {
+    margin: 0 10px;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: black;
+    font-size: 2rem;
+    position: relative;
+    top: -10vh;
+    right: 1.1vh;
+} 
