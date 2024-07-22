@@ -23,7 +23,7 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login/>}></Route>
+            {/* <Route path="/" element={<Login/>}></Route> */}
             <Route path="/1" element={<Signup/>}></Route>
             <Route path="/2" element={<GuiderDetails/>}></Route>
             <Route path="/3" element={<RenterDetails/>}></Route>
