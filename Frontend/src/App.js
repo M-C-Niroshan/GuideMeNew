@@ -33,7 +33,7 @@ function App() {
             <Route path="/7" element={<BookYourGuiderOld/>}></Route>
             <Route path="/8" element={<PaymentMethod/>}></Route>
             <Route path="/9" element={<PaymentSuccess/>}></Route>
-            <Route path="/10" element={<PaymentFailed/>}></Route>
+            {/* <Route path="/10" element={<PaymentFailed/>}></Route> */}
             {/* <Route path="/Test" element={<Test/>}></Route> */}
           </Routes>
         </BrowserRouter>
