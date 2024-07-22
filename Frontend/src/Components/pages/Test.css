@@ -1,0 +1,56 @@
+/* Container for the entire slideshow */
+.slide-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Wrapper for the slides to allow for sliding effect */
+.slide-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+/* Individual slide styles */
+.slide {
+  text-align: center;
+  padding: 200px 0;
+  font-size: 30px;
+  box-sizing: border-box;
+}
+
+/* Navigation buttons */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 800px) {
+  .slide {
+    padding: 150px 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .slide {
+    padding: 100px 0;
+  }
+}

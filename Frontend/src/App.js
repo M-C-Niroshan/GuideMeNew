@@ -15,7 +15,7 @@ import  PaymentMethod  from './Components/Payments/PaymentMethod';
 import  PaymentSuccess  from './Components/Payments/PaymentSuccess';
 import  PaymentFailed  from './Components/Payments/PaymentFailed';
 
-import  VehicalrentN  from './Components/pages/Test';
+import  Test  from './Components/pages/Test';
 
 import Home from './Components/Home/Home';
 
@@ -27,6 +27,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>}></Route> */
             <Route path="/0" element={<Login/>}></Route>
+            <Route path="/" element={<Login/>}></Route>
+
             <Route path="/1" element={<Signup/>}></Route>
             <Route path="/2" element={<GuiderDetails/>}></Route>
             <Route path="/3" element={<RenterDetails/>}></Route>
@@ -38,6 +40,9 @@ function App() {
             <Route path="/9" element={<PaymentSuccess/>}></Route>
             <Route path="/10" element={<PaymentFailed/>}></Route>
             {/* <Route path="/Test" element={<Test/>}></Route> */}
+
+            <Route path="/Test" element={<Test/>}></Route>
+
           </Routes>
         </BrowserRouter>
         
