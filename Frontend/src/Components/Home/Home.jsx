@@ -5,6 +5,7 @@ import Backgroundvid from '../Backgroundvid/Backgroundvid';
 import Navigation from "../Navigation/Navigation";
 import Tlanka from '../Tlanka/Tlanka';
 import Cardslider from '../Cardslider/Cardslider';
+import Festivals from '../Festivals/Festivals';
 
 
 function Home(){
@@ -12,10 +13,11 @@ function Home(){
 
     return (
         <div className="homep">
-            <Backgroundvid/>
             <Navigation/>
+            <Backgroundvid/>
             <Tlanka/>
             <Cardslider/>
+            <Festivals/>
         </div>
     )
 }
