@@ -10,8 +10,7 @@
     height: 20vh;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 50px;
-}
+    margin-bottom: 50px;}
 
 .blackline-left{
     width: 10%;
@@ -80,14 +79,15 @@
     align-items: center;
     background-color: white;
     padding: 0PX;
-    border-radius: 30px;
 }
 
 .sliderimg{
-    width: 400px;
-    height: 300px;
+    max-width: 100%;
+    height: 350px;
+    object-fit: cover; 
     margin: 10PX;
-    border-radius: 30px;
+    border-radius: 10px;
+
 }
 
 .slider-content{
@@ -123,3 +123,10 @@
     top: -10vh;
     right: 1.1vh;
 } 
+
+.main-container{
+    max-width: 90%;
+    justify-content:center;
+    margin-left: auto;
+    margin-right: auto;
+}
