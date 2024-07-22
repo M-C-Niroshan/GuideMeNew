@@ -1,0 +1,104 @@
+
+:root{
+    --maincolor: #4BCCBE  ;
+    --yellow:#FEDA59;
+    --textcolor:black;
+    --ash:#D9D9D9;
+}
+
+.travel-lanka-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-part{
+    display: inline-block;
+    width: 50%;
+}
+
+.text-part{
+    display: inline-block;
+    width: 50%;
+    height: 100vh;
+}
+
+.post1{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media only screen and (max-width:1000px){
+    .travel-lanka-container{
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .text-part{
+        width: 100%;
+        justify-content: center;
+    }
+    .text-part,.image-part{
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+ .red-line{
+    width: 2%;
+    height: 20%;
+    background-color: red;
+    position:relative;
+    top: 28%;
+}
+
+.text-part h1{
+    font-size:  3.3rem;
+    font-weight: 700;
+    position: relative;
+    padding-left:29% ;
+    padding-top: 11%;
+    z-index: 10;
+}
+
+.ash-line{
+    width: 28%;
+    height: 13%;
+    background-color: var(--ash); 
+    position:relative;
+    left: 53%;
+    bottom: 12%;
+    z-index: 1;
+}
+
+.tlankap{
+    width: 70%;
+    height: 50%;
+    position: relative;
+    left: 13%;
+    color: black;
+    font-size: 15px;
+}
+
+.text-part-signup{
+    padding: 2% 4%;
+    border: none;
+    border-radius: 20px;
+    font-weight: bolder;
+    background-color: var(--yellow);
+    color: black;
+    font-weight: 900;
+    font-size: 0.8rem;
+    cursor: pointer;
+    position: relative;
+    left: 66%;
+    top: 8%;
+
+}
+
+.text-part-signup:hover{
+    background-color: var(--ash);
+    color:black;
+    border: none;
+    font-weight:bolder;
+}

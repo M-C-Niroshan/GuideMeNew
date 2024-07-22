@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./VehicleRentHome.css";
-import Navigation from "../Navigation";
+import Navigation from '../Navigation/Navigation'
 import Card from "react-bootstrap/Card";
 
 import { Slide } from "react-slideshow-image";
@@ -48,7 +48,7 @@ export default function VehicleRentHome() {
       <Navigation />
       <div className="head">
         <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
-{/*           <div
+          <div
             style={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
           >
             <img
@@ -56,8 +56,8 @@ export default function VehicleRentHome() {
               alt="First Slide"
               style={{ width: "100%", height: "auto" }}
             />
-          </div> */}
-{/*           <div
+          </div>
+          <div
             style={{ textAlign: "center", padding: "0", fontSize: "30px" }}
           >
             <img
@@ -65,8 +65,8 @@ export default function VehicleRentHome() {
               alt="Second Slide"
               style={{ width: "100%", height: "auto" }}
             />
-          </div> */}
-{/*           <div
+          </div>
+          <div
             style={{ textAlign: "center", padding: "0", fontSize: "30px" }}
           >
             <img
@@ -74,8 +74,8 @@ export default function VehicleRentHome() {
               alt="Third Slide"
               style={{ width: "100%", height: "auto" }}
             />
-          </div> */}
-{/*           <div
+          </div>
+          <div
             style={{ textAlign: "center", padding: "0", fontSize: "30px" }}
           >
             <img
@@ -83,8 +83,8 @@ export default function VehicleRentHome() {
               alt="Fourth Slide"
               style={{ width: "100%", height: "auto" }}
             />
-          </div> */}
-{/*           <div
+          </div>
+          <div
             style={{ textAlign: "center", padding: "0", fontSize: "30px" }}
           >
             <img
@@ -92,8 +92,8 @@ export default function VehicleRentHome() {
               alt="Fifth Slide"
               style={{ width: "100%", height: "auto" }}
             />
-          </div> */}
-{/*           <div
+          </div>
+          <div
             style={{ textAlign: "center", padding: "0", fontSize: "30px" }}
           >
             <img
@@ -101,7 +101,7 @@ export default function VehicleRentHome() {
               alt="Sixth Slide"
               style={{ width: "100%", height: "auto" }}
             />
-          </div> */}
+          </div>
         </Slide>
         <div className="rental-title">
           <div className="rental-title-label">

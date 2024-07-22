@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Footer from "../Footer";
- import Navigation from "../Navigation";
+import Footer from '../Footer/Footer'
+ import Navigation from '../Navigation/Navigation';
 
 import { ReactComponent as BicycleIcon } from '../images/Vehicle/bicycle.svg';
 import { ReactComponent as BikeIcon } from '../images/Vehicle/bike.svg';
