@@ -10,9 +10,10 @@ function Cardslider() {
         infinite: true,
         speed: 500,
         slidesToShow: 3,
-        slidesToScroll: 3
+        slidesToScroll: 2
       };
   return (
+    <div className='main-container'>
     <div className="w-3/4 m-auto">
         <div className="mt-20">
             <div className='cslider-heading-container'>
@@ -38,7 +39,7 @@ function Cardslider() {
             ))}
             </Slider>
         </div>
-
+    </div>
     </div>
   )
 }

@@ -2,6 +2,8 @@ import React from 'react'
 import './navigation.css';
 import {FaBars, FaTimes} from "react-icons/fa";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function Navigation() {
     const navRef =useRef();
@@ -9,6 +11,7 @@ function Navigation() {
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
     }
+    const Navigate = useNavigate();
 
   return (
     <header className='navheader'>
@@ -18,14 +21,14 @@ function Navigation() {
     </div>
 
     <nav ref={navRef}>
-        <a href='#'>Home</a>
+        <Link to='/5'>Rent a Vehicle</Link>
         <a href='#'>Shop</a>
         <a href='#'>RSS Feed</a>
         <a href='#'>Live Chat</a>
         <a href='#'>Wararanty</a>
 
-        <button className='login'>Login</button>
-        <button className='signup'>Sign Up</button>
+        <button className='login' onClick={()=> Navigate("/0")}>Login</button>
+        <button className='signup' onClick={()=> Navigate("/1")}>Sign Up</button>
 
         <button onClick={showNavbar} className='ncbtn'>
             <FaTimes/>
