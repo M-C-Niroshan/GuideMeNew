@@ -15,6 +15,9 @@ import  PaymentMethod  from './Components/Payments/PaymentMethod';
 import  PaymentSuccess  from './Components/Payments/PaymentSuccess';
 import  PaymentFailed  from './Components/Payments/PaymentFailed';
 
+import AuthContainer from './Components/Login1/AuthContainer';
+
+
 import  VehicalrentN  from './Components/pages/Test';
 
 import Home from './Components/Home/Home';
@@ -37,6 +40,8 @@ function App() {
             <Route path="/8" element={<PaymentMethod/>}></Route>
             <Route path="/9" element={<PaymentSuccess/>}></Route>
             <Route path="/10" element={<PaymentFailed/>}></Route>
+            <Route path="/new-page" element={<AuthContainer/>}></Route>
+            <Route path="/signin" element={<AuthContainer/>}></Route>
             {/* <Route path="/Test" element={<Test/>}></Route> */}
           </Routes>
         </BrowserRouter>

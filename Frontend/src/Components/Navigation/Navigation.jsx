@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './navigation.css';
 import {FaBars, FaTimes} from "react-icons/fa";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import AuthContainer from '../Login1/AuthContainer';
 
 function Navigation() {
     const navRef =useRef();
@@ -11,7 +12,13 @@ function Navigation() {
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
     }
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
+  
+    const handleButtonClick = (state) => {
+      navigate("/new-page", { state: { booleanState: state } });
+    };
+
+
 
   return (
     <header className='navheader'>
@@ -27,8 +34,8 @@ function Navigation() {
         <a href='#'>Live Chat</a>
         <a href='#'>Wararanty</a>
 
-        <button className='login' onClick={()=> Navigate("/0")}>Login</button>
-        <button className='signup' onClick={()=> Navigate("/1")}>Sign Up</button>
+        <button className='login' onClick={() => handleButtonClick(0)}>Login</button>
+        <button className='signup' onClick={() => handleButtonClick(1)}>Sign Up</button>
 
         <button onClick={showNavbar} className='ncbtn'>
             <FaTimes/>
