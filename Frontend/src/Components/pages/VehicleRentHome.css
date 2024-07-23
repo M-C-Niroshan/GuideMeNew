@@ -2,6 +2,16 @@
   background-color: #eee8e8;
 }
 
+.blackbackground{
+  height: 10vh;
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.29);
+}
+
 .guider-list {
   position: relative;
   display: grid;
@@ -24,6 +34,7 @@
 .head {
   position: relative;
   background-color: #eee8e8;
+  margin-top: 50px;
 }
 
 .head-img {
