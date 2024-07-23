@@ -110,11 +110,12 @@ nav .ncbtn{
     font-size: 1.5rem;
 }
 
-@media only screen and (max-width:1024px){
+@media only screen and (max-width:1200px){
     header .nobtn {
         visibility: visible;
         opacity: 1;
     }
+
     header .ncbtn {
         visibility: visible;
         opacity: 1;
@@ -123,8 +124,9 @@ nav .ncbtn{
     header .ncbtn:hover{
         color: red;
     }
+    
     header .nobtn:hover{
-        color: rgb(60, 189, 60);
+        color: rgb(207, 208, 207);
     }
 
     header nav{
@@ -138,8 +140,9 @@ nav .ncbtn{
         align-items: center;
         justify-content: center;
         gap: 1.5rem;
-        background-color: var(--maincolor) ;
         transition: 1s;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        backdrop-filter: blur(10px); /* Blur effect */
         transform: translateY(-100vh);
         z-index: 1000;
     }

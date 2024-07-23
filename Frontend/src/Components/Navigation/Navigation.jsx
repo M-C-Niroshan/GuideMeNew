@@ -1,17 +1,24 @@
-import React from 'react'
+
+import React, { useState, useRef } from 'react';
+/* import './popup.css'; */
 import './navigation.css';
 import {FaBars, FaTimes} from "react-icons/fa";
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import Popup from '../Popup/popup';
 
 function Navigation() {
     const navRef =useRef();
+    const [showPopup, setShowPopup] = useState(false);
+    const navigate = useNavigate();
 
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
     }
-    const Navigate = useNavigate();
+  const Navigate = useNavigate();
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+}
 
   return (
     <header className='navheader'>
@@ -27,8 +34,8 @@ function Navigation() {
         <a href='#'>Live Chat</a>
         <a href='#'>Wararanty</a>
 
-        <button className='login' onClick={()=> Navigate("/0")}>Login</button>
-        <button className='signup' onClick={()=> Navigate("/1")}>Sign Up</button>
+        <button className='login' onClick={togglePopup}>Login</button>
+        <button className='signup' onClick={togglePopup}>Sign Up</button>
 
         <button onClick={showNavbar} className='ncbtn'>
             <FaTimes/>
@@ -37,8 +44,10 @@ function Navigation() {
     <button className='nobtn' onClick={showNavbar}>
         <FaBars/>
     </button>
+
+    <Popup show={showPopup} onClose={togglePopup} />
     </header>
-  )
+  );
 }
 
 export default Navigation
