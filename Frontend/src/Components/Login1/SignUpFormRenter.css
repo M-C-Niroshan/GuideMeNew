@@ -1,0 +1,12 @@
+.headingDiv{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    font-family: Nunito;
+    font-weight: 800;
+}
+
+.btnPic{
+    font-size: 9px !important;
+    font-family: nunito;
+}
