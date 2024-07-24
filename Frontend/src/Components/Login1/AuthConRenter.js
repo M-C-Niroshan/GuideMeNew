@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './AuthConGuider.css';
+import './AuthConRenter.css';
 
 import SignInForm from './SignInForm';
-import SignUpFormGuider from './SignUpFormGuider';
+import SignUpFormRenter from './SignUpFormRenter';
 
 import { useLocation } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const AuthContainer = () => {
       <div className={`container ${active ? "active" : ""}`} id="container">
         
         <div className="form-container sign-in">
-          {active ? <SignUpFormGuider/> : <SignInForm/>}
+          {active ? <SignUpFormRenter/> : <SignInForm/>}
         </div>
         
         <div className="toggle-container">

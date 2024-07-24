@@ -1,0 +1,35 @@
+.dropdown-containerGen {
+    display: flex;
+    margin-left: 30%;
+    margin: 8px;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-family: Nunito;
+    width: 90%;
+    margin-left: 5%;
+
+    }
+    
+    .label {
+      font-size: 13px;
+      color: #828282;
+      margin-right: 10px;
+    }
+    
+    .dropdownGen {
+      background-color: #FFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 8px;
+      padding: 5px;
+      font-size: 13px;
+      color: #828282;
+      outline: none;
+      width: 100%;
+    }
+    
+    .dropdownGen:focus {
+      border-color: #007bff;
+    }
+    

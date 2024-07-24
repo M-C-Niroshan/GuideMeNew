@@ -89,10 +89,10 @@ const SignUpForm = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '12px',
+          sx={{ fontSize: '10px',
             width: '70%',
             height: '36%',
-            marginLeft: '10%'
+            marginLeft: '10%',
            }}
         >
           Set Image
