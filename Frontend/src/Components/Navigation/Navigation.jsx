@@ -1,11 +1,16 @@
 
+
 import React, { useState, useRef } from 'react';
 /* import './popup.css'; */
+
 import './navigation.css';
 import {FaBars, FaTimes} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+
 import Popup from '../Popup/popup';
+
+import AuthContainer from '../Login1/AuthContainer';
 
 function Navigation() {
     const navRef =useRef();
@@ -15,10 +20,18 @@ function Navigation() {
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
     }
+
   const Navigate = useNavigate();
   const togglePopup = () => {
     setShowPopup(!showPopup);
 }
+
+    const navigate = useNavigate();
+  
+    const handleButtonClick = (state) => {
+      navigate("/new-page", { state: { booleanState: state } });
+    };
+
 
   return (
     <header className='navheader'>
@@ -34,8 +47,10 @@ function Navigation() {
         <a href='#'>Live Chat</a>
         <a href='#'>Wararanty</a>
 
+
         <button className='login' onClick={togglePopup}>Login</button>
         <button className='signup' onClick={togglePopup}>Sign Up</button>
+
 
         <button onClick={showNavbar} className='ncbtn'>
             <FaTimes/>

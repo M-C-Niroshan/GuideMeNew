@@ -10,7 +10,9 @@ function Cardslider() {
         infinite: true,
         speed: 500,
         slidesToShow: 3,
+
         slidesToScroll: 3
+
       };
   return (
     <div className='main-container'>
