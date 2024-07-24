@@ -8,6 +8,8 @@ import RenterDetails from './Components/Vehicle/RenterDetails';
 import VehicleDetails from './Components/Vehicle/VehicleDetails';
 
 import VehicleRentHome from './Components/pages/VehicleRentHome';
+import BookGuiderHome from './Components/pages/BookGuiderHome';
+
 import RentYourVehicleOld from './Components/pages/RentYourVehicleOld';
 import BookYourGuiderOld from './Components/pages/BookYourGuiderOld';
 
@@ -15,7 +17,7 @@ import  PaymentMethod  from './Components/Payments/PaymentMethod';
 import  PaymentSuccess  from './Components/Payments/PaymentSuccess';
 import  PaymentFailed  from './Components/Payments/PaymentFailed';
 
-import  VehicalrentN  from './Components/pages/Test';
+import  Test  from './Components/pages/Test';
 
 import Home from './Components/Home/Home';
 
@@ -32,12 +34,13 @@ function App() {
             <Route path="/3" element={<RenterDetails/>}></Route>
             <Route path="/4" element={<VehicleDetails/>}></Route>
             <Route path="/5" element={<VehicleRentHome/>}></Route>
-            <Route path="/6" element={<RentYourVehicleOld/>}></Route>
-            <Route path="/7" element={<BookYourGuiderOld/>}></Route>
-            <Route path="/8" element={<PaymentMethod/>}></Route>
-            <Route path="/9" element={<PaymentSuccess/>}></Route>
-            <Route path="/10" element={<PaymentFailed/>}></Route>
-            {/* <Route path="/Test" element={<Test/>}></Route> */}
+            <Route path="/6" element={<BookGuiderHome/>}></Route>
+            <Route path="/7" element={<RentYourVehicleOld/>}></Route>
+            <Route path="/8" element={<BookYourGuiderOld/>}></Route>
+            <Route path="/9" element={<PaymentMethod/>}></Route>
+            <Route path="/10" element={<PaymentSuccess/>}></Route>
+            <Route path="/11" element={<PaymentFailed/>}></Route>
+            <Route path="/Test" element={<Test/>}></Route>
           </Routes>
         </BrowserRouter>
         
