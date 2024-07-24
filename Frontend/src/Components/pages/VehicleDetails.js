@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { Container, Typography, Box, TextField, Button, Grid, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
-import { useUserContext } from './UserContext'; // Import the custom hook
 import './VehicleDetails.css'; // Import the CSS file
 
 const VehicleDetails = () => {
   const location = useLocation();
   const { state } = location;
   const vehicle = state || null;
-  const { userData } = useUserContext(); // Get user data from context
-
-  useEffect(() => {
-    if (userData) {
-      console.log('User Data:', userData);
-    }
-  }, [userData]);
 
   // States for user inputs
   const [pickupDate, setPickupDate] = React.useState('');
