@@ -6,6 +6,7 @@ import Navigation from "../Navigation/Navigation";
 import Tlanka from '../Tlanka/Tlanka';
 import Cardslider from '../Cardslider/Cardslider';
 import Festivals from '../Festivals/Festivals';
+import Footer from '../Footer/Footer'
 
 
 function Home(){
@@ -18,6 +19,7 @@ function Home(){
             <Tlanka/>
             <Cardslider/>
             <Festivals/>
+            <Footer/>
         </div>
     )
 }
