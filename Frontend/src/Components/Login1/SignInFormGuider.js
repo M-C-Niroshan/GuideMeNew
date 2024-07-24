@@ -1,7 +1,6 @@
 import React from 'react';
-import DropdownAd from '../SpecialComponents/DropdownAd';
 
-const SignInForm = () => {
+const SignInFormGuider = () => {
   return (
     <form>
       <h1>Sign In</h1>
@@ -14,4 +13,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignInFormGuider;
