@@ -1,33 +1,91 @@
-import * as React from "react";
-import { useLocation } from "react-router-dom";
-import { Container, Typography, Box, TextField, Button, Grid, MenuItem, InputLabel, Select, FormControl } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Container, Typography, Box, TextField, Button, Grid } from "@mui/material";
+import axios from 'axios'; // Import axios
+import { useUserContext } from '../UserContext'; // Import the custom hook
 import './VehicleDetails.css'; // Import the CSS file
 
 const VehicleDetails = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { state } = location;
   const vehicle = state || null;
+  const { userData } = useUserContext(); // Get user data from context
 
-  // States for user inputs
-  const [pickupDate, setPickupDate] = React.useState('');
-  const [pickupTime, setPickupTime] = React.useState('');
-  const [handoverDate, setHandoverDate] = React.useState('');
-  const [handoverTime, setHandoverTime] = React.useState('');
-  const [numberOfVehicles, setNumberOfVehicles] = React.useState(1);
+  const [pickupDate, setPickupDate] = useState('');
+  const [pickupTime, setPickupTime] = useState('');
+  const [handoverDate, setHandoverDate] = useState('');
+  const [handoverTime, setHandoverTime] = useState('');
+  const [pickupDateError, setPickupDateError] = useState('');
+  const [pickupTimeError, setPickupTimeError] = useState('');
+  const [handoverDateError, setHandoverDateError] = useState('');
+  const [handoverTimeError, setHandoverTimeError] = useState('');
+
+  useEffect(() => {
+    if (userData) {
+      console.log('User Data:', userData);
+    }
+  }, [userData]);
 
   if (!vehicle) return <Typography>No details found</Typography>;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission logic
-    console.log({
+
+    let hasError = false;
+    // Validate inputs
+    if (!pickupDate) {
+      setPickupDateError('Pickup date is required.');
+      hasError = true;
+    } else {
+      setPickupDateError('');
+    }
+
+    if (!pickupTime) {
+      setPickupTimeError('Pickup time is required.');
+      hasError = true;
+    } else {
+      setPickupTimeError('');
+    }
+
+    if (!handoverDate) {
+      setHandoverDateError('Handover date is required.');
+      hasError = true;
+    } else {
+      setHandoverDateError('');
+    }
+
+    if (!handoverTime) {
+      setHandoverTimeError('Handover time is required.');
+      hasError = true;
+    } else {
+      setHandoverTimeError('');
+    }
+
+    if (hasError) return; // Stop submission if there are errors
+
+    // Prepare data for API request
+    const reservationData = {
+      email: userData.email,
+      name: userData.name,
+      vehicleId: vehicle.id,
       pickupDate,
       pickupTime,
       handoverDate,
-      handoverTime,
-      numberOfVehicles,
-      vehicle
-    });
+      handoverTime
+    };
+
+    try {
+      // Make API request using axios
+      await axios.post('https://your-api-endpoint/reservations', reservationData);
+
+      // Navigate to a success page or another component
+      navigate('/reservation-success', { state: { reservationData } });
+
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle API error here if needed
+    }
   };
 
   return (
@@ -61,6 +119,8 @@ const VehicleDetails = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                error={!!pickupDateError}
+                helperText={pickupDateError}
               />
             </Grid>
 
@@ -77,6 +137,8 @@ const VehicleDetails = () => {
                 inputProps={{
                   step: 300, // 5 min
                 }}
+                error={!!pickupTimeError}
+                helperText={pickupTimeError}
               />
             </Grid>
 
@@ -90,6 +152,8 @@ const VehicleDetails = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                error={!!handoverDateError}
+                helperText={handoverDateError}
               />
             </Grid>
 
@@ -106,26 +170,9 @@ const VehicleDetails = () => {
                 inputProps={{
                   step: 300, // 5 min
                 }}
+                error={!!handoverTimeError}
+                helperText={handoverTimeError}
               />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="number-of-vehicles-label">Number of Vehicles</InputLabel>
-                <Select
-                  labelId="number-of-vehicles-label"
-                  value={numberOfVehicles}
-                  onChange={(event) => setNumberOfVehicles(event.target.value)}
-                  label="Number of Vehicles"
-                  fullWidth
-                >
-                  {[1, 2, 3, 4, 5].map((num) => (
-                    <MenuItem key={num} value={num}>
-                      {num}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
             </Grid>
 
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
