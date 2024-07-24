@@ -1,8 +1,4 @@
-
-
 import React, { useState, useRef } from 'react';
-/* import './popup.css'; */
-
 import './navigation.css';
 import {FaBars, FaTimes} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -21,16 +17,9 @@ function Navigation() {
         navRef.current.classList.toggle("responsive_nav");
     }
 
-  const Navigate = useNavigate();
   const togglePopup = () => {
     setShowPopup(!showPopup);
-}
-
-    const navigate = useNavigate();
-  
-    const handleButtonClick = (state) => {
-      navigate("/new-page", { state: { booleanState: state } });
-    };
+  }
 
 
   return (
