@@ -1,108 +1,89 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 
-.text{
-    color: rgb(255, 255, 255);
-    font-family: "Nunito", sans-serif;
+:root{
+    --maincolor: #4BCCBE  ;
+    --yellow:#FEDA59;
+    --textcolor:black;
+    --ash:#D9D9D9;
 }
 
-.main {
+.main-container1{
     width: 100%;
-    height: 50vh;
-    background-color: #1b1b1b ;
-    position: relative;
+    margin-top: 30vh;
 }
 
-.mid {
-    width: 90%;
-    height:95%;
-    background-color: #4BCCBE;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.sub-container1{
+    height: 350px;
+    width: 100%;
+    background-image: url('/images/footerimg.png');
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-
-.coll{
-    display: flex;
-    color: white;
-    font-family: "Nunito", sans-serif;  
-}
-
-.col1{
-    margin-left: 60px;
-}
-
-.col1 ul{
-    list-style-type: none;
-    
-    
-
-}
-.col1 ul li:hover{
-    color: #1b1b1b;
-  
-    transition: 0.5s;
-
-}
-.contactus{
-    list-style-type: none;
-    margin-left: -30px;
-
-}
-
-.guidef{
-    font-size: 30px;
-    font-family: "Nunito", sans-serif;
-    font-weight: 800;
-    margin: 5px;
-    margin-left: 0;
-    margin-bottom: 10px;
-    
-    
-}
-.guidef :hover{
-    color: white;
-}
-
-.col2{
-    margin-left: 35%;    
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.socialicon ul{
-    display: flex;
-    list-style-type: none;
-    text-decoration: none;
-    font-size: larger;
-    color: #1b1b1b;
-    
-    
-}
-.socialicon li {
-    margin: 0 10px;
-}
-.copyright{
+.fspace{
+    width: 100%;
+    height: 150px;
     text-align: center;
 }
 
+.ficons{
+    height: 100px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
 
-@media only screen and (max-width:1024px){
-    .main{
-        height: 78vh;
-    }
-    .coll{
-        flex-direction: column;
-        align-items: center;   
-        margin: 20px; 
-    }
-    .col1{
-        margin: 20px;
-    }
-    .col2{
-        float: none;
-    }
+.ftext{
+    height: 100px;
+    text-align: center;
+    justify-content: center;
+    color: white;
+}
 
+.ficonlist{
+    display: flex;
+    list-style-type: none;
+}
+
+.ficonlist i{
+    font-size: 30px;
+    font-weight: bold;
+    margin: 30px ;
+}
+
+.fb{
+    color: #0077B5;
+}
+
+.linkedin{
+    color: #0077B5;
+}
+
+.insta{
+    color: #E4405F;
+}
+
+.fb:hover{
+    cursor: pointer;
+    color: #0096D6; 
+}
+
+.insta:hover {
+    cursor: pointer;
+    color: #FF6B85; 
+}
+
+.linkedin:hover {
+    cursor: pointer;
+    color: #0096D6;
+}
+
+.copyrightp{
+    color: var(--ash);
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    background-color: black;
 }
