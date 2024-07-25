@@ -22,7 +22,7 @@
     height: 74px;
     padding: 2rem;   
     position: relative;
-    top: 0;
+    top: 10px;
     z-index: 100;
 }
 
@@ -65,14 +65,25 @@ nav a:hover{
 
 }
 
-.login,.signup{
+.login{
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    margin: 0 1rem;
+    font-weight: 1000;
+    color: rgb(55, 53, 53);
+    background-color: var(--ash);
+    cursor: pointer;
+}
+
+.signup{
     padding: 8px 20px;
     border: none;
     border-radius: 20px;
     margin: 0 1rem;
     font-weight: 800;
-    color: var(--textcolor);
-    background-color: var(--yellow);
+    color: white;
+    background-color: #0571ba;
     cursor: pointer;
 }
 
@@ -80,10 +91,13 @@ nav a:hover{
     padding: 8px 28px;
 }
 
-.login:hover, .signup:hover{
-    background-color: var(--ash);
+.signup:hover{
+    background-color: #0687d4; 
+}
+
+.login:hover{
+    background-color: #FFFFFF; 
     color: black;
-    
 }
 
 header .nobtn{
@@ -141,8 +155,8 @@ nav .ncbtn{
         justify-content: center;
         gap: 1.5rem;
         transition: 1s;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-        backdrop-filter: blur(10px); /* Blur effect */
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px); 
         transform: translateY(-100vh);
         z-index: 1000;
     }
