@@ -1,0 +1,111 @@
+/* .Main {
+  background-color: #eee8e8;
+} */
+
+/* .rental-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 50px 20px;
+  background-color: #322727;
+}
+ */
+/* .rental-services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: 50px;
+  max-width: 100%;
+} */
+
+/* .rental-services .card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #4bccbe;
+  width: 18rem;
+}
+ */
+/* .rental-services .card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border: 1px solid #007BFF;
+} */
+
+/* .rental-title {
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  color: #000000;
+}
+ */
+/* Responsive Design */
+/* @media (max-width: 1330px) {
+  .rental-services {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .rental-title {
+    font-size: 2em;
+  }
+} */
+
+/* @media (max-width: 1200px) {
+  .rental-services {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .rental-title {
+    font-size: 2em;
+  }
+  .Form {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .rental-services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rental-title {
+    font-size: 1.5em;
+  }
+  .Form {
+    padding: 10px;
+  }
+} */
+
+/* @media (max-width: 768px) {
+  .rental-services {
+    grid-template-columns: 1fr;
+  }
+  .rental-title {
+    font-size: 1.35em;
+  }
+  .Form {
+    padding: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .rental-title {
+    font-size: 1em;
+  }
+  .Form {
+    flex-direction: column;
+    padding: 2px;
+  }
+  .MuiAutocomplete-root, .MuiTextField-root, .MuiButton-root {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .rental-title {
+    font-size: 0.85em;
+  }
+} */
+/* .Form {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box; 
+} */

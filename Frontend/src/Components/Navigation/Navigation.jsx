@@ -9,13 +9,16 @@ import Popup from '../Popup/popup';
 function Navigation() {
     const navRef =useRef();
     const [showPopup, setShowPopup] = useState(false);
+    const [status, setstatus] = useState(false);
     const navigate = useNavigate();
+
 
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
     }
 
-  const togglePopup = () => {
+  const togglePopup = (value) => {
+    setstatus(value);
     setShowPopup(!showPopup);
   }
 
@@ -35,8 +38,8 @@ function Navigation() {
         <a href='#'>Wararanty</a>
 
 
-        <button className='login' onClick={togglePopup}>Login</button>
-        <button className='signup' onClick={togglePopup}>Sign Up</button>
+        <button className='login' onClick={() => togglePopup(0)}>Login</button>
+        <button className='signup'  onClick={() => togglePopup(1)}>Sign Up</button>
 
 
         <button onClick={showNavbar} className='ncbtn'>
@@ -47,7 +50,7 @@ function Navigation() {
         <FaBars/>
     </button>
 
-    <Popup show={showPopup} onClose={togglePopup} />
+    <Popup show={showPopup} onClose={togglePopup} status={status} />
     </header>
   );
 }
