@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { TextField, Button, MenuItem, Grid, Box } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import "./CarRentalForm.css";
@@ -128,3 +128,4 @@ const CarRentalForm = () => {
 };
 
 export default CarRentalForm;
+ */
