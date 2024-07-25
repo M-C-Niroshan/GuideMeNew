@@ -1,7 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Grid, Pagination, Fade } from "@mui/material";
-
-import { useUserContext } from '../UserContext'; // Import the custom hook
 import VehicleCard from "./VehicleCard";
 
 import profileImage1 from "./images/Vehicle/1 person.svg";
@@ -19,7 +17,7 @@ const vehicleData = [
   { id: 1, pic: profileImage1, name: "Chamizka Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
   { id: 2, pic: profileImage2, name: "Chamisdka Nirsdoshan", image: car, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
   { id: 3, pic: profileImage3, name: "Chamsdika Nirosvdshan", image: van, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 4, pic: profileImage1, name: "Chamizka Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
+  { id: 4, pic: profileImage1, name: "Chamizkxxxxxxxxxxa Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
   { id: 5, pic: profileImage2, name: "Chamisdka Nirsdoshan", image: car, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
   { id: 6, pic: profileImage3, name: "Chamsdika Nirosvdshan", image: van, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
   { id: 7, pic: profileImage1, name: "Chamizka Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
@@ -31,7 +29,6 @@ const vehicleData = [
 ];
 
 export default function Test() {
-  const { setUserData } = useUserContext(); // Get the setUserData method
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -40,11 +37,6 @@ export default function Test() {
   };
 
   const displayedItems = vehicleData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-
-  useEffect(() => {
-    // Setting user data for temporary purposes
-    setUserData({ name: 'John Doe', email: 'john@example.com' });
-  }, [setUserData]);
 
   return (
     <Box sx={{ flexGrow: 1, padding: 15 }}>
