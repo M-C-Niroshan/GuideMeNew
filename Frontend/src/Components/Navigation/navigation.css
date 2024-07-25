@@ -52,6 +52,11 @@ nav a:hover{
     width: 90px;
     cursor: pointer;
 }
+.navlogo:hover{
+    transform: scale(1.05);
+    transition: ease-in-out 300ms;
+    cursor: pointer;
+}
 
 .navlogotext{
     display:flex ;

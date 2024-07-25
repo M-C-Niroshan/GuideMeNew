@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 
 import Popup from '../Popup/popup';
 
-import AuthContainer from '../Login1/AuthContainer';
-
 function Navigation() {
     const navRef =useRef();
     const [showPopup, setShowPopup] = useState(false);
@@ -25,13 +23,13 @@ function Navigation() {
   return (
     <header className='navheader'>
       <div className="logo-container">
-      <img src={`${process.env.PUBLIC_URL}/images/logovid.png`} className='navlogo' alt='logo'></img>
+      <Link to='/'><img src={`${process.env.PUBLIC_URL}/images/logovid.png`} className='navlogo' alt='logo'></img></Link>
       <h1 className='navlogotext'>GuideMe</h1>
     </div>
 
     <nav ref={navRef}>
         <Link to='/5'>Rent a Vehicle</Link>
-        <a href='#'>Shop</a>
+        <Link to='/14'>Plan your trip</Link>
         <a href='#'>RSS Feed</a>
         <a href='#'>Live Chat</a>
         <a href='#'>Wararanty</a>

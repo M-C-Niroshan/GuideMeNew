@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './popup.css';
 import AuthContainer from '../Login1/AuthContainer'; 
 import AuthConGuider from '../Login1/AuthConGuider';
-/* import AuthConRenter from './AuthConRenter'; */
+import AuthConRenter from '../Login1/AuthConRenter';
 
 function Popup({ show, onClose }) {
     const [selectedRole, setSelectedRole] = useState(null);
@@ -17,8 +17,8 @@ function Popup({ show, onClose }) {
                 return <AuthContainer />;
             case 'guider':
                 return <AuthConGuider />;
-/*             case 'renter':
-                return <AuthConRenter />; */
+            case 'renter':
+                return <AuthConRenter />;
             default:
                 return null;
         }
@@ -38,7 +38,7 @@ function Popup({ show, onClose }) {
                             <img src={`${process.env.PUBLIC_URL}/images/guiderrole.jpg`} alt='image' className='post2'/>
                             <h3><br/>Guider</h3>
                         </div>
-                        <div className="card" /* onClick={() => setSelectedRole('renter')} */>
+                        <div className="card" onClick={() => setSelectedRole('renter')}>
                             <img src={`${process.env.PUBLIC_URL}/images/renterrole.png`} alt='image' className='post3'/>
                             <h3><br/>Renter</h3>
                         </div>
