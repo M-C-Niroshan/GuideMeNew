@@ -3,7 +3,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
 
-const SignUpForm = () => {
+const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
@@ -14,8 +14,6 @@ const SignUpForm = () => {
     nic: '',
     age: '',
     mobile: '',
-    price: '',
-    description: ''
   });
 
   const handleImageChange = (e) => {
@@ -133,7 +131,7 @@ const SignUpForm = () => {
             value={formData.age}
             onChange={handleInputChange}
           />
-          <Dropdown />
+          
         </div>
         <div className='minisub2'>
           <input
@@ -160,22 +158,8 @@ const SignUpForm = () => {
             value={formData.mobile}
             onChange={handleInputChange}
           />
-          <input
-            type="number"
-            name="price"
-            placeholder="Price for 1 day"
-            className='tx8'
-            value={formData.price}
-            onChange={handleInputChange}
-          />
-          <textarea
-            name="description"
-            placeholder="Tell the world about you..."
-            maxLength={230}
-            className='tx9'
-            value={formData.description}
-            onChange={handleInputChange}
-          />
+          <Dropdown />
+          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
@@ -183,4 +167,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignUpFormGuider;

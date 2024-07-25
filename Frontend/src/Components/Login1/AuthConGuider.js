@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AuthConGuider.css';
 
 import SignInForm from './SignInForm';
@@ -6,16 +6,21 @@ import SignUpFormGuider from './SignUpFormGuider';
 
 import { useLocation } from "react-router-dom";
 
-const AuthContainer = () => {
+function AuthContainer({status}) {
   
   const location = useLocation();
   const { booleanState } = location.state || {};
-  const [active, setActive] = useState(booleanState);
+  const [active, setActive] = useState(status);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleArrowClick = () => {
     setIsExpanded(!isExpanded);
   }
+
+  useEffect(() => {
+    setActive(status);
+  }, [status]);
+
 
   return (
     <div className='BigContainer'>
