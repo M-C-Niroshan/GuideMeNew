@@ -22,7 +22,7 @@
     height: 74px;
     padding: 2rem;   
     position: relative;
-    top: -650px;
+    top: 10px;
     z-index: 100;
 }
 
@@ -31,7 +31,9 @@ nav a{
     margin: 0 0.8rem;
     color: aliceblue;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 780;
+    font-size: 18px;
+    letter-spacing: 0.1em;
 }
 
 nav a:hover{
@@ -43,10 +45,11 @@ nav a:hover{
     display: flex;
     position: absolute;
     left: 50px;
+    top: 10px;
 }
 
 .navlogo{
-    width: 70px;
+    width: 90px;
     cursor: pointer;
 }
 
@@ -54,20 +57,33 @@ nav a:hover{
     display:flex ;
     align-items: center;
     justify-content:space-between;
-    color: var(--ash);
+    color: white;
     font-weight: bolder;
     cursor: pointer;
     font-size: xx-large;
+    padding-top: 30px;
+
 }
 
-.login,.signup{
+.login{
     padding: 8px 20px;
     border: none;
     border-radius: 20px;
     margin: 0 1rem;
-    font-weight: bolder;
-    color: var(--textcolor);
-    background-color: var(--yellow);
+    font-weight: 1000;
+    color: rgb(55, 53, 53);
+    background-color: var(--ash);
+    cursor: pointer;
+}
+
+.signup{
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    margin: 0 1rem;
+    font-weight: 800;
+    color: white;
+    background-color: #0571ba;
     cursor: pointer;
 }
 
@@ -75,10 +91,13 @@ nav a:hover{
     padding: 8px 28px;
 }
 
-.login:hover, .signup:hover{
-    background-color: var(--ash);
+.signup:hover{
+    background-color: #0687d4; 
+}
+
+.login:hover{
+    background-color: #FFFFFF; 
     color: black;
-    
 }
 
 header .nobtn{
@@ -105,11 +124,12 @@ nav .ncbtn{
     font-size: 1.5rem;
 }
 
-@media only screen and (max-width:1024px){
+@media only screen and (max-width:1200px){
     header .nobtn {
         visibility: visible;
         opacity: 1;
     }
+
     header .ncbtn {
         visibility: visible;
         opacity: 1;
@@ -118,8 +138,9 @@ nav .ncbtn{
     header .ncbtn:hover{
         color: red;
     }
+    
     header .nobtn:hover{
-        color: rgb(60, 189, 60);
+        color: rgb(207, 208, 207);
     }
 
     header nav{
@@ -133,8 +154,9 @@ nav .ncbtn{
         align-items: center;
         justify-content: center;
         gap: 1.5rem;
-        background-color: var(--maincolor) ;
         transition: 1s;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px); 
         transform: translateY(-100vh);
         z-index: 1000;
     }

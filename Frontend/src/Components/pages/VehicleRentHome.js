@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "./VehicleRentHome.css";
-import Navigation from '../Navigation/Navigation'
 import Card from "react-bootstrap/Card";
 
 import { Slide } from "react-slideshow-image";
@@ -21,6 +20,11 @@ import Flex from "../images/RentVehiclePageImages/vehicles/flex.webp";
 import Car from "../images/RentVehiclePageImages/vehicles/car.jpg";
 import Van from "../images/RentVehiclePageImages/vehicles/van.jpg";
 import { useNavigate } from "react-router-dom";
+
+import Navigation from "../Navigation/Navigation";
+import Footer from "../Footer/Footer";
+
+
 
 export default function VehicleRentHome() {
   useEffect(() => {
@@ -45,7 +49,8 @@ export default function VehicleRentHome() {
 
   return (
     <div className="Main">
-      <Navigation />
+      <Navigation/>
+      <div className="blackbackground"></div>
       <div className="head">
         <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
           <div
@@ -262,6 +267,7 @@ export default function VehicleRentHome() {
           </Card>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
