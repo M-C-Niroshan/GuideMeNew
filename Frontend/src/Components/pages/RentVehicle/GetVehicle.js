@@ -1,16 +1,18 @@
-/* import React, { useState,useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { Box, Grid, Pagination, Fade } from "@mui/material";
-import VehicleCard from "./RentVehicle/VehicleCard";
 
-import profileImage1 from "../images/Vehicle/1 person.svg";
-import profileImage2 from "../images/Vehicle/1 person.svg";
-import profileImage3 from "../images/Vehicle/1 person.svg";
+import { useUserContext } from '../UserContext'; // Import the custom hook
+import VehicleCard from "./VehicleCard";
 
-import Bicycle from "../images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import car from "../images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import van from "../images/RentVehiclePageImages/vehicles/bicycle.jpg";
+import profileImage1 from "./images/Vehicle/1 person.svg";
+import profileImage2 from "./images/Vehicle/1 person.svg";
+import profileImage3 from "./images/Vehicle/1 person.svg";
 
-import { useUserContext } from './UserContext'; // Import the custom hook
+import Bicycle from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
+import car from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
+import van from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
+
+
 
 // Vehicle data
 const vehicleData = [
@@ -59,4 +61,3 @@ export default function Test() {
     </Box>
   );
 }
- */

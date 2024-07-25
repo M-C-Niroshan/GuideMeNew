@@ -1,0 +1,34 @@
+.Form {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+
+}
+
+@media (max-width: 1200px) {
+  .Form {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .Form {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Form {
+    padding: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .Form {
+    padding: 2px;
+  }
+  .MuiAutocomplete-root, .MuiTextField-root, .MuiButton-root {
+    width: 100%;
+  }
+}
