@@ -31,7 +31,7 @@ function Navigation() {
     </div>
 
     <nav ref={navRef}>
-        <Link to='/5'>Rent a Vehicle</Link>
+        <Link to='/RentVehicle'>Rent a Vehicle</Link>
         <Link to='/14'>Plan your trip</Link>
         <a href='#'>RSS Feed</a>
         <a href='#'>Live Chat</a>

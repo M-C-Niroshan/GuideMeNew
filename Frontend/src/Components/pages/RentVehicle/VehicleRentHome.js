@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './VehicleRentHome.css';
 import {
   Box,
   Typography,
@@ -25,6 +26,8 @@ import Flex from "./images/RentVehiclePageImages/vehicles/flex.webp";
 import Car from "./images/RentVehiclePageImages/vehicles/car.jpg";
 import Van from "./images/RentVehiclePageImages/vehicles/van.jpg";
 import { Slide } from "react-slideshow-image";
+import Navigation from "../../Navigation/Navigation";
+import Footer from "../../Footer/Footer";
 
 const services = [
   {
@@ -103,7 +106,16 @@ export default function VehicleRentHome() {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#eee8e8" }}>
+    <div>
+      <Navigation/>
+      <div className="travelheader">
+        <p className="travelheaderp" >Rent your vehicle with us</p>
+    </div>
+      <div>
+      <img src={`${process.env.PUBLIC_URL}/images/navback.png`} alt='image'  className='navbackimg' />
+      </div>
+    <div className="Vmaincontainer">
+    <Box sx={{ backgroundColor: "" }}>
       {/* Slideshow Section */}
       <Box sx={{ padding: { xs: "0px", md: "0px" } }}>
         <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
@@ -287,5 +299,8 @@ export default function VehicleRentHome() {
         </Box>
       </Box>
     </Box>
+    <Footer/>
+    </div>
+    </div>
   );
 }
