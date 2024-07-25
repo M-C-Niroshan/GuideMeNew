@@ -1,47 +1,97 @@
-/* styles.css */
-.travel-planner {
-    padding: 20px;
-    max-width: 900px;
-    margin: auto;
+.mapcontainer{
+    margin-top: 0px;
 }
 
-.travel-planner form {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+@media (max-width: 1000px) {
+    .mapcontainer {
+        margin-top: 140px;
+    }
 }
 
-.travel-planner input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-    width: 70%;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.travelheader{
+height: auto;
+width: 100%;
+position: absolute;
+top: 20vh;
+color: white;
+font-weight: 900;
+font-size: 44px;
 }
 
-.travel-planner button {
+.travelheaderp{
+    text-align: center;
+    background: linear-gradient(to right, #d6b583 20%, #FFFFFF 80%); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text; 
+    color: transparent;
+}
+
+.searchbox{
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 40%;
+    z-index: 1;
+    display: grid;
+    align-items: center;
     padding: 10px 20px;
-    font-size: 16px;
-    background-color: #0571ba;
-    color: #fff;
+    margin-top: 20px;
+  }
+  
+  .locationbox{
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    z-index: 1;
+  }
+  .form-control{
+    border-radius: 20px;
+  }
+  
+  .roundbox{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: #fa0;
+  }
+  
+  .makethiscenter{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn{
+    width: 100%;
+    border-radius: 20px;
+    margin-top: 5px;
+  }
+
+
+  .navback{
+    width: 100vh;
+    margin-top: -150px;
+    z-index: 1;
+  }
+
+#clearbtn{
+    background: #FF7777;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: 700;
+  }
+  #clearbtn:hover {
+    background: #FF4C4C;  
 }
 
-.travel-planner button:hover {
-    background-color: #0687d4;
+#inputbox{
+    margin-top: 5px;
 }
 
-@media (max-width: 600px) {
-    .travel-planner input[type="text"] {
-        width: 60%;
-    }
-
-    .travel-planner button {
-        padding: 10px;
-        font-size: 14px;
-    }
+.renttext{
+  width: 100%;
+  padding: 50px;
+  font-size: 1.7rem;
+  text-align: center;
 }
