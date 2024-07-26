@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { Box, Button } from '@mui/material';
+import Axios from 'axios';
 
 const SignUpForm = () => {
   const [image, setImage] = useState(null);
@@ -12,7 +13,6 @@ const SignUpForm = () => {
     password: '',
     nic: '',
     mobile: '',
-    
   });
 
   const handleImageChange = (e) => {
@@ -37,15 +37,28 @@ const SignUpForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-    if (image) {
-      formDataToSend.append('image', image);
-    }
-    console.log([...formDataToSend]);
-    // Perform further actions like sending data to the server
+    const formDataToSend= {
+      id: formData.mobile,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      nic: formData.nic,
+      mobile: formData.mobile,
+    };
+
+    Axios.post("http://localhost:3001/api/traveler", formDataToSend, {
+      headers: {
+       
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log("User created successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Axios Error:", error);
+      });
   };
 
   return (
@@ -86,15 +99,10 @@ const SignUpForm = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '10px',
-            width: '70%',
-            height: '36%',
-            marginLeft: '10%',
-           }}
+          sx={{ fontSize: '10px', width: '70%', height: '36%', marginLeft: '10%' }}
         >
           Set Image
         </Button>
-    
       </div>
       <div className='sub1'>
         <div className='minisub1'>
@@ -122,8 +130,6 @@ const SignUpForm = () => {
             value={formData.nic}
             onChange={handleInputChange}
           />
-          
-          
         </div>
         <div className='minisub2'>
           <input
@@ -150,8 +156,6 @@ const SignUpForm = () => {
             value={formData.mobile}
             onChange={handleInputChange}
           />
-         
-          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>

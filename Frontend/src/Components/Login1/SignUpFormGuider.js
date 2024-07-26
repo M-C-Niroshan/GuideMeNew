@@ -14,7 +14,10 @@ const SignUpFormGuider = () => {
     nic: '',
     age: '',
     mobile: '',
+    gender: ''
   });
+
+  const [error, setError] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -36,7 +39,7 @@ const SignUpFormGuider = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -45,8 +48,22 @@ const SignUpFormGuider = () => {
     if (image) {
       formDataToSend.append('image', image);
     }
-    console.log([...formDataToSend]);
-    // Perform further actions like sending data to the server
+
+    try {
+      const response = await fetch('http://localhost:3001/createuser', {
+        method: 'POST',
+        body: formDataToSend
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert('User created successfully!');
+        // Close the SignUpForm or redirect here if needed
+      } else {
+        setError(result.message || 'Something went wrong');
+      }
+    } catch (error) {
+      setError('An error occurred: ' + error.message);
+    }
   };
 
   return (
@@ -163,6 +180,7 @@ const SignUpFormGuider = () => {
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };
