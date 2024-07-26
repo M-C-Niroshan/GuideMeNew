@@ -19,12 +19,14 @@ import Customer_Support from "./images/RentVehiclePageImages/Customer Support.jp
 import Convenient_Locations from "./images/RentVehiclePageImages/Convenient Locations.jpg";
 import Safe_and_Reliable_Vehicles from "./images/RentVehiclePageImages/Safe and Reliable Vehicles.jpg";
 import Vehicle_Ratings from "./images/RentVehiclePageImages/Vehicle Ratings.jpg";
-import Bicycle from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import Bike from "./images/RentVehiclePageImages/vehicles/bike.jpg";
-import Tuk from "./images/RentVehiclePageImages/vehicles/tuk.webp";
-import Flex from "./images/RentVehiclePageImages/vehicles/flex.webp";
-import Car from "./images/RentVehiclePageImages/vehicles/car.jpg";
-import Van from "./images/RentVehiclePageImages/vehicles/van.jpg";
+
+import lcar from "./images/RentVehiclePageImages/vehicles/lcar.png";
+import Bike from "./images/RentVehiclePageImages/vehicles/Bike.png";
+import Tuk from "./images/RentVehiclePageImages/vehicles/Tuk.png";
+import Flex from "./images/RentVehiclePageImages/vehicles/flex.png";
+import Car from "./images/RentVehiclePageImages/vehicles/Car.png";
+import Van from "./images/RentVehiclePageImages/vehicles/Van.png";
+
 import { Slide } from "react-slideshow-image";
 import Navigation from "../../Navigation/Navigation";
 import Footer from "../../Footer/Footer";
@@ -73,7 +75,7 @@ const services = [
 ];
 
 const carTypes = [
-  { value: "Bicycle", label: "Bicycle" },
+  { value: "lcar", label: "lcar" },
   { value: "Bike", label: "Bike" },
   { value: "Tuk", label: "Tuk" },
   { value: "Flex", label: "Flex" },
@@ -109,10 +111,14 @@ export default function VehicleRentHome() {
     <div className="maincont">
     <Navigation/>
     <div className="navback">
-    <div className="travelheader">
+    <div className="travelheadervr">
     <p className="travelheaderpvr" >Discover the Freedom to Explore with Our Comprehensive</p>
     </div>
-    <img src={`${process.env.PUBLIC_URL}/images/navback.png`} alt='image'  className='navbackimgvr' />
+
+    <div className="relative w-full h-screen overflow-hidden" id="backimg">
+      <img src={`${process.env.PUBLIC_URL}/images/navback.jpg`} alt='background' className='absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2' />
+    </div>
+   
     </div>
       <Box sx={{ backgroundColor: "" }}>
 
@@ -258,7 +264,7 @@ export default function VehicleRentHome() {
               {/* Slideshow Section */}
               <Box sx={{ padding: { xs: "0px", md: "0px", marginTop:"150px" } }}>
         <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
-          {[Bicycle, Bike, Tuk, Flex, Car, Van].map((src, index) => (
+          {[lcar, Bike, Tuk, Flex, Car, Van].map((src, index) => (
             <Box
               key={index}
               sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}

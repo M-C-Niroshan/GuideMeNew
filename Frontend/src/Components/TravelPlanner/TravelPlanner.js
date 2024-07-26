@@ -59,7 +59,9 @@ function TravelPlanner() {
     <div className="travelheader">
     <p className="travelheaderp" >Plan your trip with us</p>
     </div>
-    <img src={`${process.env.PUBLIC_URL}/images/navback.png`} alt='image'  className='navbackimg' />
+    <div className="relative w-full h-screen overflow-hidden" id="backimg">
+      <img src={`${process.env.PUBLIC_URL}/images/navback.jpg`} alt='background' className='absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2' />
+    </div>    
     </div>
       <div className="searchbox">
         <div className="row">
