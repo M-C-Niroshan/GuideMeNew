@@ -185,3 +185,8 @@ nav .ncbtn{
 body.nav-open {
     overflow: hidden; /* Prevent body scrolling when nav is open */
   }
+
+  .navheader .active {
+    color: #0687d4; 
+    font-weight: 900;
+}
