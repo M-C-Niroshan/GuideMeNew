@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -25,7 +25,7 @@ import Flex from "./images/RentVehiclePageImages/vehicles/flex.webp";
 import Car from "./images/RentVehiclePageImages/vehicles/car.jpg";
 import Van from "./images/RentVehiclePageImages/vehicles/van.jpg";
 import { Slide } from "react-slideshow-image";
-
+import { useUserContext } from '../UserContext';
 const services = [
   {
     img: Diverse_Vehicle_Selection,
@@ -92,6 +92,7 @@ const top100Films = [
 ];
 
 export default function VehicleRentHome() {
+  const { setUserData } = useUserContext(); // Get the setUserData method
   const [carType, setCarType] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [showGetVehicle, setShowGetVehicle] = useState(false);
@@ -101,6 +102,11 @@ export default function VehicleRentHome() {
       setShowGetVehicle(true);
     }
   };
+
+  useEffect(() => {
+    // Setting user data for temporary purposes
+    setUserData({  travelerId:15, name: 'John Doe', email: 'john@example.com' });
+  }, [setUserData]);
 
   return (
     <Box sx={{ backgroundColor: "#eee8e8" }}>

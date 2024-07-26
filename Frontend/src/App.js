@@ -21,9 +21,11 @@ import AuthConRenter from './Components/Login1/AuthConRenter';
 
 
 import  VehicalrentN  from './Components/pages/Test';
-import VehicleDetails from "./Components/pages/RentVehicle/VehicleDetails";
+import VehicleReservation from "./Components/pages/RentVehicle/VehicleReservation";
 import Home from './Components/Home/Home';
 import SignUpForm from './Components/Login1/SignUpFormGuider';
+import VehicleReservationSuccess from './Components/pages/RentVehicle/VehicleReservationSuccess';
+
 
 function App() {
   return (
@@ -39,7 +41,7 @@ function App() {
 
             <Route path="/RentVehicle" element={<VehicleRentHome/>}></Route>
             <Route path="/BookGuider" element={<BookGuiderHome/>}></Route>
-            <Route path="/details/:id" element={<VehicleDetails />} />
+            <Route path="/reservation/:id" element={<VehicleReservation/>} />
 
 
             <Route path="/8" element={<PaymentMethod/>}></Route>
@@ -49,7 +51,7 @@ function App() {
             <Route path="/55" element={<AuthConGuider/>}></Route>
             <Route path="/56" element={<AuthContainer/>}></Route>
             <Route path="/57" element={<AuthConRenter/>}></Route>
-            <Route path="/Test" element={<Test/>}></Route>
+            <Route path="/vehicle-reservation-success" element={<VehicleReservationSuccess />} />
           </Routes>
         </BrowserRouter>
         
