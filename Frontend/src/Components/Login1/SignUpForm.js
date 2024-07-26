@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { Box, Button } from '@mui/material';
 import Axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
   const [image, setImage] = useState(null);
@@ -15,9 +14,6 @@ const SignUpForm = () => {
     nic: '',
     mobile: '',
   });
-
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -39,16 +35,29 @@ const SignUpForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await Axios.post('http://localhost:3001/api/createuser', formData);
-      console.log('User created:', response.data);
-      navigate('/'); // Redirect to home page
-    } catch (error) {
-      console.error('Error creating user:', error);
-      setError('An error occurred while creating the user.');
-    }
+    const formDataToSend= {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      nic: formData.nic,
+      mobile: formData.mobile,
+    };
+
+    Axios.post("http://localhost:3001/api/createuser", formDataToSend, {
+      headers: {
+       
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log("User created successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Axios Error:", error);
+      });
   };
 
   return (
@@ -149,7 +158,6 @@ const SignUpForm = () => {
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };

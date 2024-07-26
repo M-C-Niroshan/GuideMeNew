@@ -23,8 +23,9 @@ const connect = async() =>{
 
 connect();
 
+app.use('/api', router);
 const server = app.listen(port,host, () =>
     console.log(`Node server is listening to ${server.address().port}`)
 );
 
-app.use('/api',router)
+

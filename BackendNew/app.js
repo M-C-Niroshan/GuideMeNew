@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
 const controller = require('./controller');
 
 app.use(cors());
@@ -22,12 +21,12 @@ app.get('/users', (req, res) => {
     });
 });
 
-app.post('/api/createuser', (req, res) => {
+app.post('/createuser', (req, res) => {
     controller.addUser(req.body, (err, user) => {
         if (err) {
-            return res.status(500).json({error: 'Error creating user'});
+            return res.status(500).send(err);
         }
-        res.status(201).json(user);
+        res.json(user);
     });
 });
 
@@ -50,4 +49,3 @@ app.post('/deleteuser', (req, res) => {
 });
 
 module.exports = app;
-

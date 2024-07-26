@@ -1,68 +1,71 @@
-const User = require('./model');
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' }); // Or configure as needed
+const User = require('./Model');
 
+// Get all users
 const getUsers = (req, res, next) => {
-  User.find()
-    .then(response => {
-      res.json({ users: response });
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+    User.find()
+        .then(users => {
+            res.json({ success: true, users });
+        })
+        .catch(error => {
+            res.status(500).json({ success: false, error: error.message });
+        });
 };
 
+// Add a new user
 const addUser = (req, res, next) => {
-  const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    nic: req.body.nic,
-    mobile: req.body.mobile,
-    gender: req.body.gender,
-    image: req.file ? req.file.filename : null, // Save the file name if uploaded
-  });
-
-  user.save()
-    .then(response => {
-      res.json({ user: response });
-    })
-    .catch(error => {
-      res.json({ error });
+    const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        nic: req.body.nic,
+        mobile: req.body.mobile,
     });
+
+    user.save()
+        .then(savedUser => {
+            res.json({ success: true, user: savedUser });
+        })
+        .catch(error => {
+            res.status(500).json({ success: false, error: error.message });
+        });
 };
 
+// Update an existing user
 const updateUser = (req, res, next) => {
-  const { id, firstName, lastName, email, password, nic, mobile } = req.body;
-  const updateData = { firstName, lastName, email, password, nic, mobile };
+    const { id, firstName, lastName, email, password, nic, mobile } = req.body;
 
-  if (req.file) {
-    updateData.image = req.file.filename; // Update image if new one is uploaded
-  }
-
-  User.updateOne({ _id: id }, { $set: updateData })
-    .then(response => {
-      res.json({ user: response });
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+    User.updateOne({ _id: id }, { $set: { firstName, lastName, email, password, nic, mobile } })
+        .then(response => {
+            if (response.nModified > 0) {
+                res.json({ success: true, message: 'User updated successfully' });
+            } else {
+                res.status(404).json({ success: false, message: 'User not found or no changes made' });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ success: false, error: error.message });
+        });
 };
 
+// Delete a user
 const deleteUser = (req, res, next) => {
-  const { id } = req.body;
+    const id = req.body.id;
 
-  User.deleteOne({ _id: id })
-    .then(response => {
-      res.json({ user: response });
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+    User.deleteOne({ _id: id })
+        .then(response => {
+            if (response.deletedCount > 0) {
+                res.json({ success: true, message: 'User deleted successfully' });
+            } else {
+                res.status(404).json({ success: false, message: 'User not found' });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ success: false, error: error.message });
+        });
 };
 
 exports.getUsers = getUsers;
-exports.addUser = [upload.single('image'), addUser]; // Using multer middleware
-exports.updateUser = [upload.single('image'), updateUser]; // Using multer middleware
+exports.addUser = addUser;
+exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;

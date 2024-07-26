@@ -8,8 +8,6 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     nic: { type: String, required: true, unique: true },
     mobile: { type: String, required: true, unique: true },
-    profilePic:{ type: String},
-    gender: { type: String, enum: ['Male', 'Female'], required: true },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
