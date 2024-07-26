@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, TextField, Button, Grid, Paper, CircularProgress, Alert } from "@mui/material";
+import { Container, Typography, Box, TextField, Button, Grid, Paper, CircularProgress, Alert, LinearProgress } from "@mui/material";
 import axios from 'axios'; // Import axios
 import { useUserContext } from '../UserContext'; // Import the custom hook
 import './VehicleReservation.css'; // Import the CSS file
@@ -22,12 +22,26 @@ const VehicleReservation = () => {
   const [handoverTimeError, setHandoverTimeError] = useState('');
   const [loading, setLoading] = useState(false); // State for loading spinner
   const [error, setError] = useState(''); // State for error message
+  const [countdown, setCountdown] = useState(null); // State for countdown
+  const [showCountdown, setShowCountdown] = useState(false); // State to control countdown display
 
   useEffect(() => {
     if (userData) {
       console.log('User Data:', userData);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      navigate('/'); // Redirect to home page
+    } else if (countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [countdown, navigate]);
 
   if (!vehicle) return <Typography variant="h6" color="error">No details found</Typography>;
 
@@ -106,6 +120,8 @@ const VehicleReservation = () => {
     } catch (error) {
       console.error('Error:', error);
       setError('Reservation failed. Please try again later.'); // Set error message
+      setShowCountdown(true); // Show countdown and initiate redirection
+      setCountdown(5); // Set countdown duration in seconds
     } finally {
       setLoading(false); // Hide the loading spinner
     }
@@ -120,19 +136,19 @@ const VehicleReservation = () => {
           </Alert>
         )}
 
+        {showCountdown && (
+          <Box sx={{ width: '100%', mb: 2 }}>
+            <Typography variant="body1" align="center">Redirecting in {countdown} seconds...</Typography>
+            <LinearProgress variant="indeterminate" />
+          </Box>
+        )}
+
         <img
           src={vehicle.vehicleImage}
           alt={vehicle.name}
           className="vehicle-image"
           style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
         />
-
-        <Typography variant="h4" gutterBottom>{vehicle.name}</Typography>
-
-        <Box mt={2} mb={2}>
-          <Typography variant="h6" gutterBottom>Description:</Typography>
-          <Typography variant="body1">{vehicle.description}</Typography>
-        </Box>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
           <Typography variant="h6" gutterBottom>Reservation Details</Typography>

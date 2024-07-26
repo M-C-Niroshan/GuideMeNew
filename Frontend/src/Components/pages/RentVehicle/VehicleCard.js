@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -11,8 +10,7 @@ import { Box, Typography, Stack, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 
-  
-  const VehicleCard = ({ renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg}) => {
+const VehicleCard = ({ renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -35,8 +33,16 @@ import Rating from "@mui/material/Rating";
       />
       <CardMedia component="img" height="194" image={vehicleImage} alt="Vehicle Image" />
       <CardContent>
-        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={3}>
-          <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
+        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
+            <Typography variant="body2" color="text.secondary">
+              {rating}
+            </Typography>
+          </Stack>
+          <Typography variant="h6" color="text.primary">
+            {rentPrice}
+          </Typography>
         </Stack>
         <Box mt={2} />
         <Typography variant="body2" color="text.secondary">
