@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AuthContainer.css';
 
 import SignInForm from './SignInForm';
@@ -6,13 +6,18 @@ import SignUpForm from './SignUpForm';
 
 import { useLocation } from "react-router-dom";
 
-const AuthContainer = () => {
+function AuthContainer({status}) {
   
   const location = useLocation();
   const { booleanState } = location.state || {};
-  const [active, setActive] = useState(booleanState);
+  const [active, setActive] = useState(status);
 
+  useEffect(() => {
+    setActive(status);
+  }, [status]);
+  console.log("Value passed:", status);
   return (
+  
     <div className='BigContainer'>
     <div className={`container ${active ? "active" : ""}`} id="container">
       

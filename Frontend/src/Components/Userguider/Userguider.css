@@ -1,0 +1,21 @@
+.userguider{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -70px;
+}
+
+.userguidersub{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 900px) {
+    .userguidersub {
+      flex-direction: column;
+    }
+  }
+
+.space1{
+    width: 90px;
+}

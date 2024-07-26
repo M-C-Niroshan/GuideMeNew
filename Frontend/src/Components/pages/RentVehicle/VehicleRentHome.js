@@ -1,4 +1,6 @@
+import './VehicleRentHome.css';
 import React, { useState, useEffect } from "react";
+
 import {
   Box,
   Typography,
@@ -18,14 +20,21 @@ import Customer_Support from "./images/RentVehiclePageImages/Customer Support.jp
 import Convenient_Locations from "./images/RentVehiclePageImages/Convenient Locations.jpg";
 import Safe_and_Reliable_Vehicles from "./images/RentVehiclePageImages/Safe and Reliable Vehicles.jpg";
 import Vehicle_Ratings from "./images/RentVehiclePageImages/Vehicle Ratings.jpg";
-import Bicycle from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import Bike from "./images/RentVehiclePageImages/vehicles/bike.jpg";
-import Tuk from "./images/RentVehiclePageImages/vehicles/tuk.webp";
-import Flex from "./images/RentVehiclePageImages/vehicles/flex.webp";
-import Car from "./images/RentVehiclePageImages/vehicles/car.jpg";
-import Van from "./images/RentVehiclePageImages/vehicles/van.jpg";
+
+import lcar from "./images/RentVehiclePageImages/vehicles/lcar.png";
+import Bike from "./images/RentVehiclePageImages/vehicles/Bike.png";
+import Tuk from "./images/RentVehiclePageImages/vehicles/Tuk.png";
+import Flex from "./images/RentVehiclePageImages/vehicles/flex.png";
+import Car from "./images/RentVehiclePageImages/vehicles/Car.png";
+import Van from "./images/RentVehiclePageImages/vehicles/Van.png";
+
 import { Slide } from "react-slideshow-image";
+
+import Navigation from "../../Navigation/Navigation";
+import Footer from "../../Footer/Footer";
+
 import { useUserContext } from '../UserContext';
+
 const services = [
   {
     img: Diverse_Vehicle_Selection,
@@ -70,7 +79,7 @@ const services = [
 ];
 
 const carTypes = [
-  { value: "Bicycle", label: "Bicycle" },
+  { value: "lcar", label: "lcar" },
   { value: "Bike", label: "Bike" },
   { value: "Tuk", label: "Tuk" },
   { value: "Flex", label: "Flex" },
@@ -109,51 +118,19 @@ export default function VehicleRentHome() {
   }, [setUserData]);
 
   return (
-    <Box sx={{ backgroundColor: "#eee8e8" }}>
-      {/* Slideshow Section */}
-      <Box sx={{ padding: { xs: "0px", md: "0px" } }}>
-        <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
-          {[Bicycle, Bike, Tuk, Flex, Car, Van].map((src, index) => (
-            <Box
-              key={index}
-              sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
-            >
-              <img
-                src={src}
-                alt={`Slide ${index + 1}`}
-                style={{ width: "100%", height: "auto" }}
-              />
-            </Box>
-          ))}
-        </Slide>
-      </Box>
+    <div className="maincont">
+    <Navigation/>
+    <div className="navback">
+    <div className="travelheadervr">
+    <p className="travelheaderpvr" >Discover the Freedom to Explore with Our Comprehensive</p>
+    </div>
 
-      {/* Title Section */}
-      <Box sx={{ padding: { xs: "20px", md: "5px" }, textAlign: "center" }}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-            color: "#000",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            fontFamily: "Times New Roman, Times, serif",
-            marginBottom: "10px",
-          }}
-        >
-          Discover the Freedom to Explore with Our Comprehensive
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-            color: "#000",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            fontFamily: "Times New Roman, Times, serif",
-          }}
-        >
-          Vehicle Rental Services
-        </Typography>
-      </Box>
+    <div className="relative w-full h-screen overflow-hidden" id="backimg">
+      <img src={`${process.env.PUBLIC_URL}/images/navback.jpg`} alt='background' className='absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2' />
+    </div>
+   
+    </div>
+      <Box sx={{ backgroundColor: "" }}>
 
       {/* Car Rental Form Section */}
 
@@ -169,6 +146,7 @@ export default function VehicleRentHome() {
               justifyContent: "center",
               width: "100%",
               maxWidth: "800px",
+              marginTop: "-110px"
             }}
           >
             <Grid
@@ -252,7 +230,7 @@ export default function VehicleRentHome() {
       )}
 
       {/* Rental Services Section */}
-      <Box sx={{ padding: { xs: "20px", md: "5px" } }}>
+      <Box sx={{ padding: { xs: "20px", md: "5px", marginTop:"180px" } }}>
         <Box
           sx={{
             display: "flex",
@@ -293,5 +271,25 @@ export default function VehicleRentHome() {
         </Box>
       </Box>
     </Box>
+              {/* Slideshow Section */}
+              <Box sx={{ padding: { xs: "0px", md: "0px", marginTop:"150px" } }}>
+        <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
+          {[lcar, Bike, Tuk, Flex, Car, Van].map((src, index) => (
+            <Box
+              key={index}
+              sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
+            >
+              <img
+                src={src}
+                alt={`Slide ${index + 1}`}
+                style={{ width: "100%", height: "auto" }}
+              />
+            </Box>
+          ))}
+        </Slide>
+      </Box>
+
+    <Footer/>
+    </div>
   );
 }
