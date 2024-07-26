@@ -139,6 +139,26 @@ const VehicleReservation = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
+                label="Pickup Location"
+                value={vehicle.avilableLocation}
+                fullWidth
+                InputProps={{ readOnly: true }} // Make it read-only
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Vehicle Type"
+                value={vehicle.type}
+                fullWidth
+                InputProps={{ readOnly: true }} // Make it read-only
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
                 label="Pickup Date"
                 type="date"
                 value={pickupDate}

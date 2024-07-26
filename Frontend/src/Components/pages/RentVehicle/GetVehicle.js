@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Pagination, Fade } from "@mui/material";
+import { Box, Grid, Pagination, Fade, CircularProgress, Typography } from "@mui/material";
 import Axios from "axios";
-
 import VehicleCard from "./VehicleCard";
 
-/* import profileImage1 from "./images/Vehicle/1 person.svg";
-import profileImage2 from "./images/Vehicle/1 person.svg";
-import profileImage3 from "./images/Vehicle/1 person.svg";
-
-import Bicycle from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import car from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import van from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
- */
-// Vehicle data
+const itemsPerPage = 6;
+//sample data
 const vehicleServisesData = [
   {
     renterId: 1,
@@ -172,60 +164,94 @@ const vehicleServisesData = [
   },
 ];
 
-export default function Test() {
+const GetVehicle = ({ pickupLocation, vehicleType }) => {
   const [page, setPage] = useState(1);
-  const [vehicle, setVehicles] = useState([]);
-  const itemsPerPage = 6;
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getVehicle();
-  }, []);
+    const fetchVehicles = async () => {
+      try {
+        setLoading(true);
+        const response = await Axios.get("http://localhost:3001/api/vehiclelist", {
+          params: {
+            pickupLocation,
+            vehicleType,
+          },
+        });
+        setVehicles(response.data?.response || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const getVehicle = () => {
-    Axios.get("http://localhost:3001/api/vehiclelist")
-      .then((Response) => {
-        /* console.log(Response.data.response); */
-        setVehicles(Response.data?.response || []);
-      })
-      .catch((error) => {
-        console.error("Axios Error:", error);
-      });
-  };
+    fetchVehicles();
+  }, [pickupLocation, vehicleType]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-
+  // sample data display const displayedItems = vehicles.slice 
   const displayedItems = vehicleServisesData.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage
   );
 
+  if (loading) {
+    return (
+      <Box sx={{ textAlign: "center", padding: 2 }}>
+        <CircularProgress />
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Loading vehicles...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ textAlign: "center", padding: 2 }}>
+        <Typography variant="h6" color="error">
+          Error fetching vehicles: {error}
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ flexGrow: 1, padding: 15 }}>
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Fade in timeout={500}>
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          {displayedItems.map((vehicle) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={vehicle.renterId}
-              display="flex"
-              justifyContent="center"
-            >
-              <VehicleCard {...vehicle} />
-            </Grid>
-          ))}
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {displayedItems.length > 0 ? (
+            displayedItems.map((vehicle) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={vehicle.renterId}
+                display="flex"
+                justifyContent="center"
+              >
+                <VehicleCard {...vehicle} />
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="h6">No vehicles found.</Typography>
+          )}
         </Grid>
       </Fade>
       <Pagination
-        count={Math.ceil(vehicleServisesData.length / itemsPerPage)}
+        count={Math.ceil(vehicles.length / itemsPerPage)}
         page={page}
         onChange={handlePageChange}
         sx={{ mt: 2, display: "flex", justifyContent: "center" }}
       />
     </Box>
   );
-}
+};
+
+export default GetVehicle;
