@@ -106,60 +106,15 @@ export default function VehicleRentHome() {
   };
 
   return (
-    <div>
-      <Navigation/>
-      <div className="travelheader">
-        <p className="travelheaderp" >Rent your vehicle with us</p>
+    <div className="maincont">
+    <Navigation/>
+    <div className="navback">
+    <div className="travelheader">
+    <p className="travelheaderpvr" >Discover the Freedom to Explore with Our Comprehensive</p>
     </div>
-      <div>
-      <img src={`${process.env.PUBLIC_URL}/images/navback.png`} alt='image'  className='navbackimg' />
-      </div>
-    <div className="Vmaincontainer">
-    <Box sx={{ backgroundColor: "" }}>
-      {/* Slideshow Section */}
-      <Box sx={{ padding: { xs: "0px", md: "0px" } }}>
-        <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
-          {[Bicycle, Bike, Tuk, Flex, Car, Van].map((src, index) => (
-            <Box
-              key={index}
-              sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
-            >
-              <img
-                src={src}
-                alt={`Slide ${index + 1}`}
-                style={{ width: "100%", height: "auto" }}
-              />
-            </Box>
-          ))}
-        </Slide>
-      </Box>
-
-      {/* Title Section */}
-      <Box sx={{ padding: { xs: "20px", md: "5px" }, textAlign: "center" }}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-            color: "#000",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            fontFamily: "Times New Roman, Times, serif",
-            marginBottom: "10px",
-          }}
-        >
-          Discover the Freedom to Explore with Our Comprehensive
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-            color: "#000",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            fontFamily: "Times New Roman, Times, serif",
-          }}
-        >
-          Vehicle Rental Services
-        </Typography>
-      </Box>
+    <img src={`${process.env.PUBLIC_URL}/images/navback.png`} alt='image'  className='navbackimgvr' />
+    </div>
+      <Box sx={{ backgroundColor: "" }}>
 
       {/* Car Rental Form Section */}
 
@@ -175,6 +130,7 @@ export default function VehicleRentHome() {
               justifyContent: "center",
               width: "100%",
               maxWidth: "800px",
+              marginTop: "-110px"
             }}
           >
             <Grid
@@ -258,7 +214,7 @@ export default function VehicleRentHome() {
       )}
 
       {/* Rental Services Section */}
-      <Box sx={{ padding: { xs: "20px", md: "5px" } }}>
+      <Box sx={{ padding: { xs: "20px", md: "5px", marginTop:"180px" } }}>
         <Box
           sx={{
             display: "flex",
@@ -299,8 +255,25 @@ export default function VehicleRentHome() {
         </Box>
       </Box>
     </Box>
+              {/* Slideshow Section */}
+              <Box sx={{ padding: { xs: "0px", md: "0px", marginTop:"150px" } }}>
+        <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
+          {[Bicycle, Bike, Tuk, Flex, Car, Van].map((src, index) => (
+            <Box
+              key={index}
+              sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
+            >
+              <img
+                src={src}
+                alt={`Slide ${index + 1}`}
+                style={{ width: "100%", height: "auto" }}
+              />
+            </Box>
+          ))}
+        </Slide>
+      </Box>
+
     <Footer/>
-    </div>
     </div>
   );
 }
