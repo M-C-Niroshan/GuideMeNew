@@ -57,7 +57,7 @@ function TravelPlanner() {
     <Navigation/>
     <div className="navback">
     <div className="travelheader">
-        <p className="travelheaderp" >Plan your trip with us</p>
+    <p className="travelheaderp" >Plan your trip with us</p>
     </div>
     <img src={`${process.env.PUBLIC_URL}/images/navback.png`} alt='image'  className='navbackimg' />
     </div>
