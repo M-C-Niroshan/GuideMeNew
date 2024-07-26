@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { Box, Button } from '@mui/material';
+import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
   const [image, setImage] = useState(null);
@@ -12,8 +14,10 @@ const SignUpForm = () => {
     password: '',
     nic: '',
     mobile: '',
-    
   });
+
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -35,17 +39,16 @@ const SignUpForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
+    try {
+      const response = await Axios.post('http://localhost:3001/api/createuser', formData);
+      console.log('User created:', response.data);
+      navigate('/'); // Redirect to home page
+    } catch (error) {
+      console.error('Error creating user:', error);
+      setError('An error occurred while creating the user.');
     }
-    if (image) {
-      formDataToSend.append('image', image);
-    }
-    console.log([...formDataToSend]);
-    // Perform further actions like sending data to the server
   };
 
   return (
@@ -86,15 +89,10 @@ const SignUpForm = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '10px',
-            width: '70%',
-            height: '36%',
-            marginLeft: '10%',
-           }}
+          sx={{ fontSize: '10px', width: '70%', height: '36%', marginLeft: '10%' }}
         >
           Set Image
         </Button>
-    
       </div>
       <div className='sub1'>
         <div className='minisub1'>
@@ -122,8 +120,6 @@ const SignUpForm = () => {
             value={formData.nic}
             onChange={handleInputChange}
           />
-          
-          
         </div>
         <div className='minisub2'>
           <input
@@ -150,11 +146,10 @@ const SignUpForm = () => {
             value={formData.mobile}
             onChange={handleInputChange}
           />
-         
-          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };
