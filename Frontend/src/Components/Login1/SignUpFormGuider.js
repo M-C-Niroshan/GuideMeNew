@@ -3,7 +3,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
 
-const SignUpForm = () => {
+const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
@@ -14,9 +14,10 @@ const SignUpForm = () => {
     nic: '',
     age: '',
     mobile: '',
-    price: '',
-    description: ''
+    gender: ''
   });
+
+  const [error, setError] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -38,7 +39,7 @@ const SignUpForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -47,8 +48,22 @@ const SignUpForm = () => {
     if (image) {
       formDataToSend.append('image', image);
     }
-    console.log([...formDataToSend]);
-    // Perform further actions like sending data to the server
+
+    try {
+      const response = await fetch('http://localhost:3001/createuser', {
+        method: 'POST',
+        body: formDataToSend
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert('User created successfully!');
+        // Close the SignUpForm or redirect here if needed
+      } else {
+        setError(result.message || 'Something went wrong');
+      }
+    } catch (error) {
+      setError('An error occurred: ' + error.message);
+    }
   };
 
   return (
@@ -133,7 +148,7 @@ const SignUpForm = () => {
             value={formData.age}
             onChange={handleInputChange}
           />
-          <Dropdown />
+          
         </div>
         <div className='minisub2'>
           <input
@@ -160,27 +175,14 @@ const SignUpForm = () => {
             value={formData.mobile}
             onChange={handleInputChange}
           />
-          <input
-            type="number"
-            name="price"
-            placeholder="Price for 1 day"
-            className='tx8'
-            value={formData.price}
-            onChange={handleInputChange}
-          />
-          <textarea
-            name="description"
-            placeholder="Tell the world about you..."
-            maxLength={230}
-            className='tx9'
-            value={formData.description}
-            onChange={handleInputChange}
-          />
+          <Dropdown />
+          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };
 
-export default SignUpForm;
+export default SignUpFormGuider;
