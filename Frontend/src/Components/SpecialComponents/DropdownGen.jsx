@@ -14,8 +14,8 @@ const Dropdown = () => {
     <div className="dropdown-containerGen">
       <label htmlFor="dropdown" className="label">Gender</label>
       <select id="dropdown" value={selectedValue} onChange={handleChange} className="dropdownGen">
-        <option value="User">Male</option>
-        <option value="Guider">Female</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
       </select>
     </div>
   );
