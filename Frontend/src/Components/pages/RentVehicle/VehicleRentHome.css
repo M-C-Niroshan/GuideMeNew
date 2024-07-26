@@ -118,3 +118,17 @@
   background-clip: text; 
   color: transparent;
 }
+
+.travelheadervr{
+  height: auto;
+  width: 100%;
+  position: absolute;
+  top: 18vh;
+  color: white;
+  font-weight: 900;
+  font-size: 44px;
+}
+
+#backimg{
+  margin-top: -150px;
+}
