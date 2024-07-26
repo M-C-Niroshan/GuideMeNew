@@ -46,7 +46,7 @@ const SignUpForm = () => {
       mobile: formData.mobile,
     };
 
-    Axios.post("http://localhost:3001/api/createuser", formDataToSend, {
+    Axios.post("http://localhost:3001/api/traveler", formDataToSend, {
       headers: {
        
         "Content-Type": "application/json",
