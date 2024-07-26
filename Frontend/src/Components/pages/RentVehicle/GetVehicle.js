@@ -5,114 +5,6 @@ import VehicleCard from "./VehicleCard";
 
 const itemsPerPage = 6;
 
-// Sample data
-const vehicleServisesData = [
-  {
-    renterId: 1,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This imprefhssive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 5,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 2,
-    vehicleRegNum: "Wp11258",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 2,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 3,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 4,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 4,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 1,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 5,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 3,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 6,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 5,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 7,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 1,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-  {
-    renterId: 8,
-    vehicleRegNum: "Wp1158",
-    type: "car",
-    vehicleImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    rentPrice: "1500 LKR",
-    avilableLocation: "Colombo",
-    description:
-      "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like.",
-    rating: 3.5,
-    name: "Chamizka Niroshdvan",
-    profileImg: "https://www.w3schools.com/w3images/avatar2.png",
-  },
-];
-
 const GetVehicle = ({ pickupLocation, vehicleType }) => {
   const [page, setPage] = useState(1);
   const [vehicles, setVehicles] = useState([]);
@@ -120,7 +12,7 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
   const [error, setError] = useState(null);
   const [transition, setTransition] = useState(false);
 
-  /* useEffect(() => {
+  useEffect(() => {
     const fetchVehicles = async () => {
       try {
         setLoading(true);
@@ -130,7 +22,8 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
             vehicleType,
           },
         });
-        setVehicles(response.data?.response || []);
+        console.log("API Response:", response.data); // Log the response
+        setVehicles(response.data); // Directly set the vehicles data
       } catch (err) {
         setError(err.message);
       } finally {
@@ -139,7 +32,7 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
     };
 
     fetchVehicles();
-  }, [pickupLocation, vehicleType]); */
+  }, [pickupLocation, vehicleType]);
 
   const handlePageChange = (event, value) => {
     setTransition(true);
@@ -156,13 +49,13 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
     }
   }, [transition]);
 
-  // Sample data display "const displayedItems = vehicles.slice"
-  const displayedItems = vehicleServisesData.slice(
+  // Slice the vehicles array for pagination
+  const displayedItems = vehicles.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage
   );
 
-  /* if (loading) {
+  if (loading) {
     return (
       <Box sx={{ textAlign: "center", padding: 2 }}>
         <CircularProgress />
@@ -171,7 +64,7 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
         </Typography>
       </Box>
     );
-  } */
+  }
 
   if (error) {
     return (
@@ -207,7 +100,7 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
         </Grid>
       </Fade>
       <Pagination
-        count={Math.ceil(vehicleServisesData.length / itemsPerPage)}
+        count={Math.ceil(vehicles.length / itemsPerPage)} // Use vehicles.length for pagination
         page={page}
         onChange={handlePageChange}
         sx={{ mt: 2, display: "flex", justifyContent: "center" }}
