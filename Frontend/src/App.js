@@ -27,6 +27,8 @@ import Home from './Components/Home/Home';
 import SignUpForm from './Components/Login1/SignUpFormGuider';
 
 import Userdash from './Components/Dashbord/Userdash';
+import Renterdash from './Components/Dashbord/Renterdash';
+import Guiderdash from './Components/Dashbord/Guiderdash';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -59,6 +61,9 @@ function App() {
             <Route path='/14' element={<Userguider/>}></Route> 
 
             <Route path='/15' element={<Userdash/>}></Route> 
+            <Route path='/16' element={<Renterdash/>}></Route> 
+            <Route path='/17' element={<Guiderdash/>}></Route> 
+
             {/* <Route path="/Test" element={<Test/>}></Route> */}
           </Routes>
         </BrowserRouter>
