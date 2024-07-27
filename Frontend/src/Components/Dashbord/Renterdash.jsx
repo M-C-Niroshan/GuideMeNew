@@ -413,7 +413,7 @@ export default function FAQCard() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Typography level="title-lg" sx={{ mt: 2 , marginBottom:20}}>
+          <Typography level="title-lg" sx={{ mt: 2 , marginBottom:10, marginTop:10}}>
             You Rented Vehicle Details
           </Typography>
           <div className="vehicle-cards" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
@@ -422,7 +422,7 @@ export default function FAQCard() {
             ))}
           </div>
 
-          <Typography level="title-lg" sx={{ mt: 2 }}>
+          <Typography level="title-lg" sx={{ mt: 2, marginBottom:10, marginTop:10}}>
             You Hired Guider Details
           </Typography>
           <div className="guide-cards" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
@@ -431,7 +431,7 @@ export default function FAQCard() {
             ))}
           </div>
 
-          <Typography level="title-lg" sx={{ mt: 2 }}>
+          <Typography level="title-lg" sx={{ mt: 2, marginBottom:10, marginTop:10}}>
             User Details
           </Typography>
           <div className="user-cards" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
