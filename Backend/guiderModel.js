@@ -1,22 +1,29 @@
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const mongooseSequence = require('mongoose-sequence')(mongoose);
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const guiderSchema = new Schema({
-  guiderId: Number,
-  fName: String,
-  lName: String,
-  profileImage: String,
-  NICnum: String,
-  email: { type: String, unique: true }, // Ensure email is unique
-  password: String,
-  contactNum: String,
+  fName: { type: String, required: true},
+  lName: { type: String, required: true},
+  profileImage: { type: String, required: true},
+  NICnum: { type: String, required: true},
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  contactNum: { type: String, required: true},
   age: Number,
   gender: String
 });
 
-// Apply mongoose-sequence plugin to auto-increment guiderId
-guiderSchema.plugin(mongooseSequence, { inc_field: 'guiderId' });
+guiderSchema.pre('save', async function(next) {
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  next();
+});
+
+guiderSchema.plugin(autoIncrement, { inc_field: 'guiderId', start_seq: 2000 });
 
 const Guider = mongoose.model('Guider', guiderSchema);
 
