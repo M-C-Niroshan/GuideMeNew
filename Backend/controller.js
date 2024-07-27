@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs'); // Add bcrypt for password hashing
 const VehicleRentService = require('./vehicleRentServiseModel.js'); // Ensure this path is correct
 const VehicleRentDetails = require('./vehicleRentDetailsModel.js'); // Ensure this path is correct
 const GuideServise = require('./guideServiseModel.js'); // Ensure this path is correct
@@ -6,7 +7,22 @@ const Renter = require('./renterModel'); // Ensure this path is correct
 const Guider = require('./guiderModel'); // Ensure this path is correct
 const Traveler = require('./travelerModel'); // Ensure this path is correct
 
-const getVehicleRentServices = (req, res, next) => {
+// Utility function to check if an email exists in any role
+const checkEmailExists = async (email) => {
+  const traveler = await Traveler.findOne({ email });
+  if (traveler) return true;
+
+  const renter = await Renter.findOne({ email });
+  if (renter) return true;
+
+  const guider = await Guider.findOne({ email });
+  if (guider) return true;
+
+  return false;
+};
+
+// Get all vehicle rent services
+const getVehicleRentServices = async (req, res, next) => {
   const { pickupLocation, vehicleType } = req.query;
 
   // Construct the query object based on provided parameters
@@ -20,14 +36,36 @@ const getVehicleRentServices = (req, res, next) => {
     query.type = vehicleType;
   }
 
-  VehicleRentService.find(query)
-    .select('-_id -__v') // Exclude _id and __v fields
-    .then(response => {
-      res.json(response); // Return response directly as array
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+  try {
+    // Find vehicle rent services based on query
+    const services = await VehicleRentService.find(query)
+      .where('vehicleStatus').equals('available')
+      .exec();
+
+    // Fetch renter details for each service and reshape the response
+    const servicesWithRenterDetails = await Promise.all(services.map(async (service) => {
+      const renter = await Renter.findOne({ renterId: service.renterId }).exec();
+      return {
+        renterId: service.renterId,
+        vehicleRegNum: service.vehicleRegNum,
+        type: service.type,
+        vehicleImage: service.vehicleImage,
+        rentPrice: service.rentPrice,
+        avilableLocation: service.avilableLocation,
+        description: service.description,
+        rating: service.rating,
+        name: renter ? `${renter.fName} ${renter.lName}` : null,
+        profileImg: renter ? renter.profileImg : null,
+        email: renter ? renter.email : null,
+        contactNum: renter ? renter.contactNum : null
+      };
+    }));
+
+    res.json(servicesWithRenterDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 
@@ -54,94 +92,102 @@ const addVehicleRentService = (req, res, next) => {
     });
 };
 
+// Get vehicle rent details
 const getVehicleRentDetails = (req, res, next) => {
-    VehicleRentDetails.find()
-      .select('-_id -__v') // Exclude _id and __v fields
-      .then(response => {
-        res.json(response); // Return response directly as array
-      })
-      .catch(error => {
-        res.json({ error });
-      });
-  };
+  VehicleRentDetails.find()
+    .select('-_id -__v') // Exclude _id and __v fields
+    .then(response => {
+      res.json(response); // Return response directly as array
+    })
+    .catch(error => {
+      res.json({ error });
+    });
+};
+
+// Add vehicle rent details
 const addVehicleRentDetails = (req, res, next) => {
-    const vehicleRentDetails = new VehicleRentDetails({
-      travelerId: req.body.travelerId,
-      renterId: req.body.renterId,
-      pickupDate: req.body.pickupDate,
-      pickupTime: req.body.pickupTime,
-      returnDate: req.body.returnDate,
-      returnTime: req.body.returnTime
+  const vehicleRentDetails = new VehicleRentDetails({
+    travelerId: req.body.travelerId,
+    renterId: req.body.renterId,
+    pickupDate: req.body.pickupDate,
+    pickupTime: req.body.pickupTime,
+    returnDate: req.body.returnDate,
+    returnTime: req.body.returnTime
+  });
+
+  vehicleRentDetails.save()
+    .then(response => {
+      res.json(response);
+    })
+    .catch(error => {
+      res.json({ error });
     });
-  
-    vehicleRentDetails.save()
-      .then(response => {
-        res.json(response);
-      })
-      .catch(error => {
-        res.json({ error });
-      });
-  };
-  const getGuideServises = (req, res, next) => {
-    GuideServise.find()
-      .select('-_id -__v') // Exclude _id and __v fields
-      .then(response => {
-        res.json(response); // Return response directly as array
-      })
-      .catch(error => {
-        res.json({ error });
-      });
-  };
-  
-  const addGuideServise = (req, res, next) => {
-    const guideServise = new GuideServise({
-      guiderId: req.body.guiderId,
-      serviceId: req.body.serviceId,
-      language: req.body.language,
-      price: req.body.price,
-      description: req.body.description,
-      rating: req.body.rating,
-      serviseStatus: req.body.serviseStatus
+};
+
+// Get all guide services
+const getGuideServises = (req, res, next) => {
+  GuideServise.find()
+    .select('-_id -__v') // Exclude _id and __v fields
+    .then(response => {
+      res.json(response); // Return response directly as array
+    })
+    .catch(error => {
+      res.json({ error });
     });
-  
-    guideServise.save()
-      .then(response => {
-        res.json(response);
-      })
-      .catch(error => {
-        res.json({ error });
-      });
-  };
-// Get GuiderBookingDetails
+};
+
+// Add a new guide service
+const addGuideServise = (req, res, next) => {
+  const guideServise = new GuideServise({
+    guiderId: req.body.guiderId,
+    serviceId: req.body.serviceId,
+    language: req.body.language,
+    price: req.body.price,
+    description: req.body.description,
+    rating: req.body.rating,
+    serviseStatus: req.body.serviseStatus
+  });
+
+  guideServise.save()
+    .then(response => {
+      res.json(response);
+    })
+    .catch(error => {
+      res.json({ error });
+    });
+};
+
+// Get guider booking details
 const getGuiderBookingDetails = (req, res, next) => {
-    GuiderBookingDetails.find()
-      .then(response => {
-        res.json(response);
-      })
-      .catch(error => {
-        res.json({ error });
-      });
-  };
-  
-  // Add GuiderBookingDetails
-  const addGuiderBookingDetails = (req, res, next) => {
-    const guiderBookingDetails = new GuiderBookingDetails({
-      travelerId: req.body.travelerId,
-      serviceId: req.body.serviceId,
-      startDate: req.body.startDate,
-      startTime: req.body.startTime,
-      endDate: req.body.endDate,
-      endTime: req.body.endTime
+  GuiderBookingDetails.find()
+    .then(response => {
+      res.json(response);
+    })
+    .catch(error => {
+      res.json({ error });
     });
-  
-    guiderBookingDetails.save()
-      .then(response => {
-        res.json(response);
-      })
-      .catch(error => {
-        res.json({ error });
-      });
-  };  
+};
+
+// Add guider booking details
+const addGuiderBookingDetails = (req, res, next) => {
+  const guiderBookingDetails = new GuiderBookingDetails({
+    travelerId: req.body.travelerId,
+    serviceId: req.body.serviceId,
+    startDate: req.body.startDate,
+    startTime: req.body.startTime,
+    endDate: req.body.endDate,
+    endTime: req.body.endTime
+  });
+
+  guiderBookingDetails.save()
+    .then(response => {
+      res.json(response);
+    })
+    .catch(error => {
+      res.json({ error });
+    });
+};
+
 // Get all renters
 const getRenters = (req, res, next) => {
   Renter.find()
@@ -157,9 +203,8 @@ const getRenters = (req, res, next) => {
 // Add a new renter
 const addRenter = async (req, res, next) => {
   try {
-    // Check if email already exists
-    const existingRenter = await Renter.findOne({ email: req.body.email });
-    if (existingRenter) {
+    const emailExists = await checkEmailExists(req.body.email);
+    if (emailExists) {
       return res.status(400).json({ error: "Account with this email already exists." });
     }
 
@@ -197,9 +242,8 @@ const getGuiders = (req, res, next) => {
 // Add a new guider
 const addGuider = async (req, res, next) => {
   try {
-    // Check if email already exists
-    const existingGuider = await Guider.findOne({ email: req.body.email });
-    if (existingGuider) {
+    const emailExists = await checkEmailExists(req.body.email);
+    if (emailExists) {
       return res.status(400).json({ error: "Account with this email already exists." });
     }
 
@@ -238,9 +282,8 @@ const getTravelers = (req, res, next) => {
 // Add a new traveler
 const addTraveler = async (req, res, next) => {
   try {
-    // Check if email already exists
-    const existingTraveler = await Traveler.findOne({ email: req.body.email });
-    if (existingTraveler) {
+    const emailExists = await checkEmailExists(req.body.email);
+    if (emailExists) {
       return res.status(400).json({ error: "Account with this email already exists." });
     }
 
@@ -248,7 +291,7 @@ const addTraveler = async (req, res, next) => {
       fName: req.body.fName,
       lName: req.body.lName,
       profileImage: req.body.profileImage,
-      NICpassportNum: req.body.NICpassportNum,  // Changed field name for clarity
+      NICpassportNum: req.body.NICpassportNum,
       email: req.body.email,
       password: req.body.password,
       contactNumber: req.body.contactNumber
@@ -262,18 +305,50 @@ const addTraveler = async (req, res, next) => {
   }
 };
 
+// Login function
+const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-exports.getVehicleRentServices = getVehicleRentServices;
-exports.addVehicleRentService = addVehicleRentService;
-exports.getVehicleRentDetails = getVehicleRentDetails;
-exports.addVehicleRentDetails = addVehicleRentDetails;
-exports.getGuideServises = getGuideServises;
-exports.addGuideServise = addGuideServise;
-exports.getGuiderBookingDetails = getGuiderBookingDetails;
-exports.addGuiderBookingDetails = addGuiderBookingDetails;
-exports.getRenters = getRenters;
-exports.addRenter = addRenter;
-exports.getGuiders = getGuiders;
-exports.addGuider = addGuider;
-exports.getTravelers = getTravelers;
-exports.addTraveler = addTraveler;
+    // Check if the user exists in any of the collections
+    let user = await Renter.findOne({ email });
+    if (!user) user = await Guider.findOne({ email });
+    if (!user) user = await Traveler.findOne({ email });
+
+    // If user not found, return error
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Compare the provided password with the hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Invalid credentials' });
+    }
+
+    // Exclude password from the response
+    const { password: _, ...userDetails } = user.toObject();
+    res.json(userDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getVehicleRentServices,
+  addVehicleRentService,
+  getVehicleRentDetails,
+  addVehicleRentDetails,
+  getGuideServises,
+  addGuideServise,
+  getGuiderBookingDetails,
+  addGuiderBookingDetails,
+  getRenters,
+  addRenter,
+  getGuiders,
+  addGuider,
+  getTravelers,
+  addTraveler,
+  loginUser
+};

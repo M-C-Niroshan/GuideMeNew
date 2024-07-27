@@ -111,7 +111,7 @@ const VehicleReservation = () => {
       setError(''); // Clear any existing error
       console.log('Sending reservation data:', reservationData);
       // Make API request using axios
-      await axios.post('https://your-api-endpoint/reservations', reservationData);
+      await axios.post('http://localhost:3001/api/vehicle-rent-details', reservationData);
 
       console.log('Reservation confirmed, navigating to success page...');
       // Navigate to a success page or another component
