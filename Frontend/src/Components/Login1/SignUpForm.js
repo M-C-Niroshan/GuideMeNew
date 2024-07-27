@@ -7,7 +7,7 @@ const SignUpForm = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    guiderID: '',
+    
     fName: '',
     lName: '',
     email: '',
@@ -39,7 +39,7 @@ const SignUpForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend= {
-      guiderID: formData.contactNum,
+      
       fName: formData.fName,
       lName: formData.lName,
       email: formData.email,

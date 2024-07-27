@@ -8,7 +8,7 @@ const SignUpFormRenter = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    guiderID: '',
+    
     fName: '',
     lName: '',
     email: '',
@@ -44,7 +44,7 @@ const SignUpFormRenter = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend= {
-      id: formData.mobile,
+      
       fName: formData.fName,
       lName: formData.lName,
       email: formData.email,
