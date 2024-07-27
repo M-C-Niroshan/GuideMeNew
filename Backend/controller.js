@@ -155,27 +155,33 @@ const getRenters = (req, res, next) => {
 };
 
 // Add a new renter
-const addRenter = (req, res, next) => {
-  const renter = new Renter({
-    renterId: req.body.renterId,
-    fName: req.body.fName,
-    lName: req.body.lName,
-    address: req.body.address,
-    profileImg: req.body.profileImg,
-    NICnum: req.body.NICnum,
-    email: req.body.email,
-    password: req.body.password,
-    contactNum: req.body.contactNum
-  });
+const addRenter = async (req, res, next) => {
+  try {
+    // Check if email already exists
+    const existingRenter = await Renter.findOne({ email: req.body.email });
+    if (existingRenter) {
+      return res.status(400).json({ error: "Account with this email already exists." });
+    }
 
-  renter.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+    const renter = new Renter({
+      fName: req.body.fName,
+      lName: req.body.lName,
+      address: req.body.address,
+      profileImg: req.body.profileImg,
+      NICnum: req.body.NICnum,
+      email: req.body.email,
+      password: req.body.password,
+      contactNum: req.body.contactNum
     });
+
+    const savedRenter = await renter.save();
+    res.json(savedRenter);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 // Get all guiders
 const getGuiders = (req, res, next) => {
   Guider.find()
@@ -189,27 +195,32 @@ const getGuiders = (req, res, next) => {
 };
 
 // Add a new guider
-const addGuider = (req, res, next) => {
-  const guider = new Guider({
-    guiderId: req.body.guiderId,
-    fName: req.body.fName,
-    lName: req.body.lName,
-    profileImage: req.body.profileImage,
-    NICnum: req.body.NICnum,
-    email: req.body.email,
-    password: req.body.password,
-    contactNum: req.body.contactNum,
-    age: req.body.age,
-    gender: req.body.gender
-  });
+const addGuider = async (req, res, next) => {
+  try {
+    // Check if email already exists
+    const existingGuider = await Guider.findOne({ email: req.body.email });
+    if (existingGuider) {
+      return res.status(400).json({ error: "Account with this email already exists." });
+    }
 
-  guider.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+    const guider = new Guider({
+      fName: req.body.fName,
+      lName: req.body.lName,
+      profileImage: req.body.profileImage,
+      NICnum: req.body.NICnum,
+      email: req.body.email,
+      password: req.body.password,
+      contactNum: req.body.contactNum,
+      age: req.body.age,
+      gender: req.body.gender
     });
+
+    const savedGuider = await guider.save();
+    res.json(savedGuider);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Get all travelers
@@ -225,26 +236,32 @@ const getTravelers = (req, res, next) => {
 };
 
 // Add a new traveler
-const addTraveler = (req, res, next) => {
-  const traveler = new Traveler({
-    travelerId: req.body.travelerId,
-    fName: req.body.fName,
-    lName: req.body.lName,
-    profileImage: req.body.profileImage,
-    NICpassportNum: req.body.NICpassportNum,  // Changed field name for clarity
-    email: req.body.email,
-    password: req.body.password,
-    contactNumber: req.body.contactNumber
-  });
+const addTraveler = async (req, res, next) => {
+  try {
+    // Check if email already exists
+    const existingTraveler = await Traveler.findOne({ email: req.body.email });
+    if (existingTraveler) {
+      return res.status(400).json({ error: "Account with this email already exists." });
+    }
 
-  traveler.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+    const traveler = new Traveler({
+      fName: req.body.fName,
+      lName: req.body.lName,
+      profileImage: req.body.profileImage,
+      NICpassportNum: req.body.NICpassportNum,  // Changed field name for clarity
+      email: req.body.email,
+      password: req.body.password,
+      contactNumber: req.body.contactNumber
     });
+
+    const savedTraveler = await traveler.save();
+    res.json(savedTraveler);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 
 exports.getVehicleRentServices = getVehicleRentServices;
 exports.addVehicleRentService = addVehicleRentService;
