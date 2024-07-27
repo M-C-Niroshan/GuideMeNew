@@ -31,6 +31,8 @@ import VehicleReservationSuccess from './Components/pages/RentVehicle/VehicleRes
 import GuiderReservationSuccess from './Components/pages/Bookguider/GuiderReservationSuccess';
 
 import Userdash from './Components/Dashbord/Userdash';
+import Renterdash from './Components/Dashbord/Renterdash';
+import Guiderdash from './Components/Dashbord/Guiderdash';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -64,6 +66,9 @@ function App() {
             <Route path='/14' element={<Userguider/>}></Route> 
 
             <Route path='/15' element={<Userdash/>}></Route> 
+            <Route path='/16' element={<Renterdash/>}></Route> 
+            <Route path='/17' element={<Guiderdash/>}></Route> 
+
             {/* <Route path="/Test" element={<Test/>}></Route> */}
 
             <Route path="/new-page" element={<AuthContainer/>}></Route>

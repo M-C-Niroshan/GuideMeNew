@@ -1,38 +1,44 @@
 .user-dashboard {
     width: 90%;
-    max-width: 600px;
     margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #f9f9f9;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: small;
+    margin-top: -10px;
   }
   
   .user-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  label {
     display: flex;
     flex-direction: column;
   }
   
-  label {
-    margin-bottom: 10px;
-  }
-  
-  textarea {
+  .user-info textarea {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+    height: 30px;
+    padding: 5px;
+    margin-top: px;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
   }
   
   @media (max-width: 600px) {
-    .user-dashboard {
-      padding: 10px;
+    .user-info {
+      grid-template-columns: 1fr;
     }
   
     textarea {
       padding: 8px;
     }
   }
+  

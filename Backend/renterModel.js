@@ -1,30 +1,28 @@
-const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const autoIncrement = require('mongoose-sequence')(mongoose);
+const express = require('express');
+const router = express.Router();
+const controller = require('./controller');
 
-const renterSchema = new Schema({
-  renterId: { type: Number, unique: true },
-  fName: { type: String, required: true},
-  lName: { type: String, required: true},
-  address: { type: String, required: true},
-  profileImg: String,
-  NICnum: { type: String, required: true},
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  contactNum: { type: String, required: true},
-});
+router.get('/vehiclelist', controller.getVehicleRentServices);
+router.post('/vehicle-rent-service', controller.addVehicleRentService);
 
-renterSchema.pre('save', async function(next) {
-  if (this.isModified('password')) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-  }
-  next();
-});
+router.get('/vehicle-rent-details', controller.getVehicleRentDetails);
+router.post('/vehicle-rent-details', controller.addVehicleRentDetails);
 
-renterSchema.plugin(autoIncrement, { inc_field: 'renterId', start_seq: 1000 });
+router.get('/guide-servise', controller.getGuideServises);
+router.post('/guide-servise', controller.addGuideServise);
 
-const Renter = mongoose.model('Renter', renterSchema);
+router.get('/guider-booking-details', controller.getGuiderBookingDetails);
+router.post('/guider-booking-details', controller.addGuiderBookingDetails);
 
-module.exports = Renter;
+router.get('/renters', controller.getRenters);
+router.post('/renter', controller.addRenter);
+
+router.get('/guiders', controller.getGuiders);
+router.post('/guider', controller.addGuider);
+
+router.get('/travelers', controller.getTravelers);
+router.post('/traveler', controller.addTraveler);
+
+router.post('/api/login', controller.loginUser);
+
+module.exports = router;
