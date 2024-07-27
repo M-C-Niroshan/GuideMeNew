@@ -110,18 +110,18 @@ const getVehicleRentDetails = (req, res, next) => {
 // Add vehicle rent details
 // Add vehicle rent details
 const addVehicleRentDetails = async (req, res, next) => {
-  const { travelerId, renterId, rentServiceId, pickupDate, pickupTime, returnDate, returnTime } = req.body;
+  const { travelerId, renterId, vehicleRentServiceId, pickupDate, pickupTime, handoverDate, handoverTime } = req.body;
 
   try {
     // Create new vehicle rent details entry
     const vehicleRentDetails = new VehicleRentDetails({
       travelerId,
       renterId,
-      rentServiceId,
+      vehicleRentServiceId,
       pickupDate,
       pickupTime,
-      returnDate,
-      returnTime
+      handoverDate,
+      handoverTime
     });
 
     // Save the vehicle rent details
@@ -129,7 +129,7 @@ const addVehicleRentDetails = async (req, res, next) => {
 
     // Update the vehicle status to "Booked"
     await VehicleRentService.findOneAndUpdate(
-      { rentServiceId: rentServiceId }, // Assuming rentServiceId is vehicleRegNum
+      { vehicleRentServiceId: vehicleRentServiceId }, // Assuming rentServiceId is vehicleRegNum
       { vehicleStatus: "Booked" },
       { new: true }
     ).exec();
