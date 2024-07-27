@@ -23,4 +23,6 @@ router.post('/guider', controller.addGuider);
 router.get('/travelers', controller.getTravelers);
 router.post('/traveler', controller.addTraveler);
 
+router.post('/api/login', controller.loginUser);
+
 module.exports = router;
