@@ -7,12 +7,13 @@ const SignUpForm = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    guiderID: '',
+    fName: '',
+    lName: '',
     email: '',
     password: '',
-    nic: '',
-    mobile: '',
+    NICnum: '',
+    contactNum: '',
   });
 
   const handleImageChange = (e) => {
@@ -38,13 +39,13 @@ const SignUpForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend= {
-      id: formData.mobile,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
+      guiderID: formData.contactNum,
+      fName: formData.fName,
+      lName: formData.lName,
       email: formData.email,
       password: formData.password,
-      nic: formData.nic,
-      mobile: formData.mobile,
+      NICnum: formData.NICnum,
+      contactNum: formData.contactNum,
     };
 
     Axios.post("http://localhost:3001/api/traveler", formDataToSend, {
@@ -108,7 +109,7 @@ const SignUpForm = () => {
         <div className='minisub1'>
           <input
             type="text"
-            name="firstName"
+            name="fName"
             placeholder="First name"
             className='tx1'
             value={formData.firstName}
@@ -124,7 +125,7 @@ const SignUpForm = () => {
           />
           <input
             type="text"
-            name="nic"
+            name="NICnum"
             placeholder="NIC number"
             className='tx4'
             value={formData.nic}
@@ -134,7 +135,7 @@ const SignUpForm = () => {
         <div className='minisub2'>
           <input
             type="text"
-            name="lastName"
+            name="lName"
             placeholder="Last name"
             className='tx7'
             value={formData.lastName}
@@ -150,7 +151,7 @@ const SignUpForm = () => {
           />
           <input
             type="text"
-            name="mobile"
+            name="contactNum"
             placeholder="Mobile number"
             className='tx6'
             value={formData.mobile}

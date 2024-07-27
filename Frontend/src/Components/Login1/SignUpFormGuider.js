@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
+import Axios from 'axios';
 
 const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    guiderID: '',
+    fName: '',
+    lName: '',
     email: '',
     password: '',
-    nic: '',
+    NICnum: '',
     age: '',
-    mobile: '',
+    contactNum: '',
     gender: ''
   });
 
@@ -39,31 +40,31 @@ const SignUpFormGuider = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-    if (image) {
-      formDataToSend.append('image', image);
-    }
+    const formDataToSend = {
+      guiderID: formData.contactNum,
+      fName: formData.fName,
+      lName: formData.lName,
+      email: formData.email,
+      password: formData.password,
+      NICnum: formData.NICnum,
+      age: formData.age,
+      contactNum: formData.contactNum,
+      gender: formData.gender,
+    };
 
-    try {
-      const response = await fetch('http://localhost:3001/createuser', {
-        method: 'POST',
-        body: formDataToSend
+    Axios.post("http://localhost:3001/api/guider", formDataToSend, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log("User created successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Axios Error:", error);
       });
-      const result = await response.json();
-      if (response.ok) {
-        alert('User created successfully!');
-        // Close the SignUpForm or redirect here if needed
-      } else {
-        setError(result.message || 'Something went wrong');
-      }
-    } catch (error) {
-      setError('An error occurred: ' + error.message);
-    }
   };
 
   return (
@@ -104,21 +105,16 @@ const SignUpFormGuider = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '10px',
-            width: '70%',
-            height: '36%',
-            marginLeft: '10%',
-           }}
+          sx={{ fontSize: '10px', width: '70%', height: '36%', marginLeft: '10%' }}
         >
           Set Image
         </Button>
-    
       </div>
       <div className='sub1'>
         <div className='minisub1'>
           <input
             type="text"
-            name="firstName"
+            name="fName"
             placeholder="First name"
             className='tx1'
             value={formData.firstName}
@@ -134,7 +130,7 @@ const SignUpFormGuider = () => {
           />
           <input
             type="text"
-            name="nic"
+            name="NICnum"
             placeholder="NIC number"
             className='tx4'
             value={formData.nic}
@@ -148,12 +144,11 @@ const SignUpFormGuider = () => {
             value={formData.age}
             onChange={handleInputChange}
           />
-          
         </div>
         <div className='minisub2'>
           <input
             type="text"
-            name="lastName"
+            name="lName"
             placeholder="Last name"
             className='tx7'
             value={formData.lastName}
@@ -169,14 +164,26 @@ const SignUpFormGuider = () => {
           />
           <input
             type="text"
-            name="mobile"
+            name="contactNum"
             placeholder="Mobile number"
             className='tx6'
             value={formData.mobile}
             onChange={handleInputChange}
           />
-          <Dropdown />
-          
+          <div className="dropdown-containerGen">
+            <label htmlFor="gender" className="label">Gender</label>
+            <select
+              id="gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className="dropdownGen"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
