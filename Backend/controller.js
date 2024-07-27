@@ -22,7 +22,7 @@ const checkEmailExists = async (email) => {
 };
 
 // Get all vehicle rent services
-const getVehicleRentServices = (req, res, next) => {
+const getVehicleRentServices = async (req, res, next) => {
   const { pickupLocation, vehicleType } = req.query;
 
   // Construct the query object based on provided parameters
@@ -36,17 +36,40 @@ const getVehicleRentServices = (req, res, next) => {
     query.type = vehicleType;
   }
 
-  VehicleRentService.find(query)
-    .select('-_id -__v') // Exclude _id and __v fields
-    .then(response => {
-      res.json(response); // Return response directly as array
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+  try {
+    // Find vehicle rent services based on query
+    const services = await VehicleRentService.find(query)
+      .where('vehicleStatus').equals('available')
+      .exec();
+
+    // Fetch renter details for each service and reshape the response
+    const servicesWithRenterDetails = await Promise.all(services.map(async (service) => {
+      const renter = await Renter.findOne({ renterId: service.renterId }).exec();
+      return {
+        renterId: service.renterId,
+        vehicleRegNum: service.vehicleRegNum,
+        type: service.type,
+        vehicleImage: service.vehicleImage,
+        rentPrice: service.rentPrice,
+        avilableLocation: service.avilableLocation,
+        description: service.description,
+        rating: service.rating,
+        name: renter ? `${renter.fName} ${renter.lName}` : null,
+        profileImg: renter ? renter.profileImg : null,
+        email: renter ? renter.email : null,
+        contactNum: renter ? renter.contactNum : null
+      };
+    }));
+
+    res.json(servicesWithRenterDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
-// Add a new vehicle rent service
+
+// Add similar method for adding VehicleRentService if needed
 const addVehicleRentService = (req, res, next) => {
   const vehicleRentService = new VehicleRentService({
     renterId: req.body.renterId,
