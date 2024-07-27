@@ -10,11 +10,11 @@ import { Box, Typography, Stack, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 
-const VehicleCard = ({ renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg }) => {
+const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/reservation/${renterId}`, { state: { renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name } });
+    navigate(`/reservation/${vehicleRentServiceId}`, { state: { vehicleRentServiceId, renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name } });
   };
 
   return (

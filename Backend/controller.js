@@ -46,6 +46,7 @@ const getVehicleRentServices = async (req, res, next) => {
     const servicesWithRenterDetails = await Promise.all(services.map(async (service) => {
       const renter = await Renter.findOne({ renterId: service.renterId }).exec();
       return {
+        vehicleRentServiceId: service.vehicleRentServiceId, // Include the vehicleRentServiceId
         renterId: service.renterId,
         vehicleRegNum: service.vehicleRegNum,
         type: service.type,
@@ -69,27 +70,29 @@ const getVehicleRentServices = async (req, res, next) => {
 };
 
 
-// Add similar method for adding VehicleRentService if needed
-const addVehicleRentService = (req, res, next) => {
-  const vehicleRentService = new VehicleRentService({
-    renterId: req.body.renterId,
-    vehicleRegNum: req.body.vehicleRegNum,
-    type: req.body.type,
-    vehicleImage: req.body.vehicleImage,
-    rentPrice: req.body.rentPrice,
-    avilableLocation: req.body.avilableLocation,
-    description: req.body.description,
-    rating: req.body.rating,
-    vehicleStatus: req.body.vehicleStatus,
-  });
 
-  vehicleRentService.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+
+// Add a new vehicle rental service
+const addVehicleRentService = async (req, res, next) => {
+  try {
+    const vehicleRentService = new VehicleRentService({
+      renterId: req.body.renterId,
+      vehicleRegNum: req.body.vehicleRegNum,
+      type: req.body.type,
+      vehicleImage: req.body.vehicleImage,
+      rentPrice: req.body.rentPrice,
+      avilableLocation: req.body.avilableLocation,
+      description: req.body.description,
+      rating: req.body.rating,
+      vehicleStatus: req.body.vehicleStatus,
     });
+
+    const savedVehicleRentService = await vehicleRentService.save();
+    res.json(savedVehicleRentService);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Get vehicle rent details
@@ -105,23 +108,37 @@ const getVehicleRentDetails = (req, res, next) => {
 };
 
 // Add vehicle rent details
-const addVehicleRentDetails = (req, res, next) => {
-  const vehicleRentDetails = new VehicleRentDetails({
-    travelerId: req.body.travelerId,
-    renterId: req.body.renterId,
-    pickupDate: req.body.pickupDate,
-    pickupTime: req.body.pickupTime,
-    returnDate: req.body.returnDate,
-    returnTime: req.body.returnTime
-  });
+// Add vehicle rent details
+const addVehicleRentDetails = async (req, res, next) => {
+  const { travelerId, renterId, rentServiceId, pickupDate, pickupTime, returnDate, returnTime } = req.body;
 
-  vehicleRentDetails.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+  try {
+    // Create new vehicle rent details entry
+    const vehicleRentDetails = new VehicleRentDetails({
+      travelerId,
+      renterId,
+      rentServiceId,
+      pickupDate,
+      pickupTime,
+      returnDate,
+      returnTime
     });
+
+    // Save the vehicle rent details
+    await vehicleRentDetails.save();
+
+    // Update the vehicle status to "Booked"
+    await VehicleRentService.findOneAndUpdate(
+      { rentServiceId: rentServiceId }, // Assuming rentServiceId is vehicleRegNum
+      { vehicleStatus: "Booked" },
+      { new: true }
+    ).exec();
+
+    res.json({ message: 'Vehicle rent details added and vehicle status updated.' });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Get all guide services

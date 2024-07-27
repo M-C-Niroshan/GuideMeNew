@@ -84,6 +84,7 @@ const VehicleReservation = () => {
     const reservationData = {
       travelerId: userData.travelerId,
       renterId: vehicle.renterId,
+      vehicleRentServiceId: vehicle.vehicleRentServiceId,
       pickupDate,
       pickupTime,
       handoverDate,
