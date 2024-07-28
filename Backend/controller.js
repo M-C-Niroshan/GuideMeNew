@@ -211,24 +211,36 @@ const getGuideServises = async (req, res, next) => {
 
 
 // Add a new guide service
-const addGuideServise = (req, res, next) => {
-  const guideServise = new GuideServise({
-    guiderId: req.body.guiderId,
-    // No need to pass serviceId; it will be auto-incremented
-    language: req.body.language,
-    price: req.body.price,
-    description: req.body.description,
-    rating: req.body.rating,
-    serviseStatus: req.body.serviseStatus
-  });
+const addGuideServise = async (req, res, next) => {
+  const { guiderId, language, price, description, rating, serviseStatus } = req.body;
 
-  guideServise.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+  try {
+    // Check if a service already exists for the given guiderId
+    const existingService = await GuideServise.findOne({ guiderId }).exec();
+
+    if (existingService) {
+      // Service already exists
+      return res.status(400).json({ message: 'Service already added for this guider.' });
+    }
+
+    // Create a new service entry
+    const guideServise = new GuideServise({
+      guiderId,
+      language,
+      price,
+      description,
+      rating,
+      serviseStatus
     });
+
+    // Save the new service to the database
+    const savedService = await guideServise.save();
+    res.json(savedService);
+
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ error: error.message });
+  }
 };
 
 
