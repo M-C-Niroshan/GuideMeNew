@@ -170,7 +170,7 @@ nav .ncbtn {
 
     nav .ncbtn {
         position: absolute;
-        top: 80px;
+        top: 2rem;
         right: 2rem;
         padding: 5px;
         cursor: pointer;

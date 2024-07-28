@@ -203,6 +203,7 @@ const GuiderDash = () => {
                     <Typography>Contact: {service.travelerContactNumber}</Typography>
                   </Box>
                 )}
+                
               </CardContent>
             </Card>
           ))
