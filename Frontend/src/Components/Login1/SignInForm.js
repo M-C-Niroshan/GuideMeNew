@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
+import { useUserContext } from '../pages/UserContext'; // Make sure this path is correct
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // Assuming `useUserContext` provides `setUserData`
+  const { setUserData } = useUserContext(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +19,9 @@ const SignInForm = () => {
 
       // If login is successful, log user details
       console.log('Login successful:', response.data);
+
+      // Set user data using context
+      setUserData({ name: '', email: '' }); // Adjust as necessary based on your user data
 
       // Optionally redirect or perform additional actions with user details
     } catch (error) {
@@ -27,7 +34,7 @@ const SignInForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h1>Sign In</h1>
-      <span>or use your email password</span>
+      <span>or use your email and password</span>
       <input
         type="email"
         placeholder="Email"
