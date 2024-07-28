@@ -84,12 +84,51 @@ const top100Languages = [
   { title: "Arabic" },
   { title: "Portuguese" },
   { title: "Russian" },
+  { title: "French" },
+  { title: "German" },
+  { title: "Italian" },
+  { title: "Dutch" },
+  { title: "Turkish" },
+  { title: "Swedish" },
+  { title: "Norwegian" },
+  { title: "Danish" },
+  { title: "Polish" },
+  { title: "Ukrainian" },
+  { title: "Hebrew" },
+  { title: "Thai" },
+  { title: "Vietnamese" },
+  { title: "Indonesian" },
+  { title: "Malay" },
+  { title: "Filipino" },
+  { title: "Bengali" },
+  { title: "Hindi" },
+  { title: "Urdu" },
+  { title: "Persian" },
+  { title: "Swahili" },
+  { title: "Czech" },
+  { title: "Hungarian" },
+  { title: "Romanian" },
+  { title: "Slovak" },
+  { title: "Bulgarian" },
+  { title: "Serbian" },
+  { title: "Croatian" },
+  { title: "Slovenian" },
+  { title: "Latvian" },
+  { title: "Lithuanian" },
+  { title: "Estonian" },
+  { title: "Georgian" },
+  { title: "Armenian" },
+  { title: "Kazakh" },
+  { title: "Uzbek" },
+  { title: "Turkmen" },
+  { title: "Kyrgyz" },
 ];
 
+
 const BookGuiderHome = () => {
-  const { setUserData } = useUserContext(); // Get the setUserData method
+  const { setUserData } = useUserContext();
   useEffect(() => {
-    // Setting user data for temporary purposes
+
     setUserData({
       _id: "66a4632bb0a3d660a6c0a7ed",
       fName: "John",
@@ -204,7 +243,7 @@ const BookGuiderHome = () => {
                     label="Select Native Language"
                     variant="outlined"
                     fullWidth
-                    sx={{ backgroundColor: "#fff" }} // Ensure the background color is white
+                    sx={{ backgroundColor: "#fff" }}
                   />
                 )}
                 sx={{
