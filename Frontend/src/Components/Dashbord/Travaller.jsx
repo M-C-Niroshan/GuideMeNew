@@ -8,6 +8,8 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from "@mui/joy/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useUserContext } from "../pages/UserContext";
+import { NavLink } from 'react-router-dom';
+import { Button } from '@mui/material';
 import "./Traveller.css";
 
 const textContainerStyle = {
@@ -232,11 +234,11 @@ const TravelerDashboard = () => {
                 <Typography textAlign="center" sx={{ mb: 1 }}>
                   {reservation.vehicleRegNum}
                 </Typography>
-                <Avatar
+{/*                 <Avatar
                   alt="Renter Image"
                   src={reservation.renterProfileImg}
                   sx={{ width: 80, height: 80, mb: 2 }}
-                />
+                /> */}
                 <Typography textAlign="center" sx={{ mb: 1 }}>
                   Pickup Date: {new Date(reservation.pickupDate).toLocaleDateString()} {reservation.pickupTime}
                 </Typography>
@@ -250,6 +252,21 @@ const TravelerDashboard = () => {
             ))}
           </div>
         )}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom:'20px' }}>
+        <NavLink to="/">
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{
+              '--variant-borderWidth': '2px',
+              borderRadius: 40,
+              borderColor: 'primary.500',
+            }}
+          >
+            Home
+          </Button>
+        </NavLink>
       </div>
     </div>
   );

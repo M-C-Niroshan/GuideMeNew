@@ -185,6 +185,8 @@ const Renterdash = () => {
           overflow: 'auto'
         }}
       >
+                <div className="bluecon"></div>
+
         <CardOverflow
           variant="solid"
           color="primary"
@@ -360,6 +362,7 @@ const Renterdash = () => {
           ))
         )}
       </div>
+      
 
       {/* Snackbar for messages */}
       <Snackbar
