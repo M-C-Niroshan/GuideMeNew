@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { storage } from '..//Login1/firebase'; // Import your configured Firebase storage
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const textContainerStyle = {
   width: '100%',
@@ -42,6 +44,8 @@ const Renterdash = () => {
     avilableLocation: '',
     description: ''
   });
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -82,14 +86,68 @@ const Renterdash = () => {
     setForm(prevForm => ({ ...prevForm, [name]: value }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    } else {
+      setImagePreview(null);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let imageUrl = '';
+    if (image) {
+      // Define a reference to the storage location
+      const storageRef = ref(storage, `vehicleImages/${image.name}`);
+
+      // Start the upload task
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      try {
+        // Create a promise to handle the upload completion
+        await new Promise((resolve, reject) => {
+          uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+              // Handle progress here if needed
+            },
+            (error) => {
+              // Handle unsuccessful uploads
+              console.error('Upload error:', error);
+              reject(error);
+            },
+            async () => {
+              // Handle successful uploads
+              try {
+                imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve();
+              } catch (error) {
+                reject(error);
+              }
+            }
+          );
+        });
+      } catch (error) {
+        setErrorMessage('Image upload failed. Please try again.');
+        setSnackbarOpen(true);
+        return;
+      }
+    }
+
     const newVehicle = {
       ...form,
       renterId: u_Data.renterId,
+      vehicleImage: imageUrl,
       rating: 0,
       vehicleStatus: "available",
     };
+
     try {
       await axios.post('http://localhost:3001/api/vehicle-rent-service', newVehicle);
       setSuccessMessage('Vehicle added successfully!');
@@ -209,16 +267,37 @@ const Renterdash = () => {
             onChange={handleInputChange}
             required
           />
-          <TextField
-            label="Vehicle Image URL"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            name="vehicleImage"
-            value={form.vehicleImage}
-            onChange={handleInputChange}
-            required
+          <input
+            id="image-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ display: 'none' }}
           />
+          {imagePreview ? (
+            <Box
+              component="img"
+              sx={{
+                height: 100,
+                width: 100,
+                borderRadius: '8px',
+                objectFit: 'cover',
+                cursor: 'pointer',
+                marginBottom: '16px',
+              }}
+              src={imagePreview}
+              alt="Image preview"
+              onClick={() => document.getElementById('image-upload').click()}
+            />
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => document.getElementById('image-upload').click()}
+            >
+              Upload Image
+            </Button>
+          )}
           <TextField
             label="Rent Price"
             variant="outlined"
@@ -260,23 +339,14 @@ const Renterdash = () => {
         </form>
       </Box>
 
-      {/* Vehicle Rental Services */}
-      <div style={{ marginTop: "20px" }}>
-        <Typography variant="h4" sx={{ textAlign: "center", mb: 2 }}>
-          Vehicle Rental Services
-        </Typography>
+      {/* Vehicle List */}
+      <div>
         {loading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>
-            <CircularProgress />
-          </Box>
-        ) : rentServices.length === 0 ? (
-          <Card sx={{ mb: 2, p: 2, textAlign: "center" }}>
-            <Typography>No rental services available.</Typography>
-          </Card>
+          <CircularProgress />
         ) : (
-          rentServices.map(service => (
-            <Card key={service.vehicleRentServiceId} sx={{ mb: 2, position: 'relative' }}>
-              <CardOverflow variant="solid" color="primary" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          rentServices.map((service) => (
+            <Card key={service._id} sx={{ mb: 2 }}>
+              <CardOverflow>
                 <CardContent>
                   <img src={service.vehicleImage} alt={service.vehicleRegNum} style={vehicleImageStyle} />
                   <Typography variant="h6" sx={{ mb: 1 }}>{service.vehicleRegNum}</Typography>
