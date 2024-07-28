@@ -2,20 +2,16 @@ import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
-
 import Axios from 'axios';
 import { storage } from './firebase'; // Import the configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-
 
 const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-
     fName: '',
     lName: '',
-
     email: '',
     password: '',
     nic: '',
@@ -49,27 +45,27 @@ const SignUpFormGuider = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     let imageUrl = '';
     if (image) {
       // Define a reference to the storage location
       const storageRef = ref(storage, `profileImages/${image.name}`);
-      
+
       // Start the upload task
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       try {
         // Create a promise to handle the upload completion
         await new Promise((resolve, reject) => {
-          uploadTask.on('state_changed', 
+          uploadTask.on(
+            'state_changed',
             (snapshot) => {
               // Handle progress here if needed
-            }, 
+            },
             (error) => {
               // Handle unsuccessful uploads
-              console.error("Upload error:", error);
+              console.error('Upload error:', error);
               reject(error);
-            }, 
+            },
             async () => {
               // Handle successful uploads
               try {
@@ -92,50 +88,39 @@ const SignUpFormGuider = () => {
       lName: formData.lName,
       email: formData.email,
       password: formData.password,
-      NICnum: formData.NICnum,
+      NICnum: formData.nic,
       age: formData.age,
-      contactNum: formData.contactNum,
+      contactNum: formData.mobile,
       gender: formData.gender,
       profileImage: imageUrl // Include the image URL in the data to be sent
     };
 
-    Axios.post("http://localhost:3001/api/guider", formDataToSend)
-      .then((response) => {
-        console.log("User created successfully:", response.data);
-        setFormData({
-          fName: '',
-          lName: '',
-          email: '',
-          password: '',
-          NICnum: '',
-          age: '',
-          contactNum: '',
-          gender: ''
-        });
-        setImage(null);
-        setImagePreview(null);
-      })
-      .catch((error) => {
-        console.error("Axios Error:", error);
-        setError('An error occurred. Please try again.');
-
+    try {
+      const response = await Axios.post('http://localhost:3001/api/guider', formDataToSend);
+      console.log('User created successfully:', response.data);
+      setFormData({
+        fName: '',
+        lName: '',
+        email: '',
+        password: '',
+        nic: '',
+        age: '',
+        mobile: '',
+        gender: ''
       });
-      const result = await response.json();
-      if (response.ok) {
-        alert('User created successfully!');
-        // Close the SignUpForm or redirect here if needed
-      } else {
-        setError(result.message || 'Something went wrong');
-      }
+      setImage(null);
+      setImagePreview(null);
+      alert('User created successfully!');
     } catch (error) {
-      setError('An error occurred: ' + error.message);
+      console.error('Axios Error:', error);
+      setError('An error occurred. Please try again.');
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h1 className='heading1'>Create Account</h1>
-      <div className='subm' style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', marginBottom: '2%', marginLeft: '-52%'}}>
+      <div className='subm' style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', marginBottom: '2%', marginLeft: '-52%' }}>
         <input
           id="image-upload"
           type="file"
@@ -170,21 +155,16 @@ const SignUpFormGuider = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '10px',
-            width: '70%',
-            height: '36%',
-            marginLeft: '10%',
-           }}
+          sx={{ fontSize: '10px', width: '70%', height: '36%', marginLeft: '10%' }}
         >
           Set Image
         </Button>
-    
       </div>
       <div className='sub1'>
         <div className='minisub1'>
           <input
             type="text"
-            name="firstName"
+            name="fName"
             placeholder="First name"
             className='tx1'
             value={formData.fName}
@@ -203,7 +183,7 @@ const SignUpFormGuider = () => {
             name="nic"
             placeholder="NIC number"
             className='tx4'
-            value={formData.NICnum}
+            value={formData.nic}
             onChange={handleInputChange}
           />
           <input
@@ -214,12 +194,11 @@ const SignUpFormGuider = () => {
             value={formData.age}
             onChange={handleInputChange}
           />
-          
         </div>
         <div className='minisub2'>
           <input
             type="text"
-            name="lastName"
+            name="lName"
             placeholder="Last name"
             className='tx7'
             value={formData.lName}
@@ -238,11 +217,10 @@ const SignUpFormGuider = () => {
             name="mobile"
             placeholder="Mobile number"
             className='tx6'
-            value={formData.contactNum}
+            value={formData.mobile}
             onChange={handleInputChange}
           />
           <Dropdown />
-          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
