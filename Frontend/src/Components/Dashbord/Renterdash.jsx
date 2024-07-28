@@ -189,13 +189,13 @@ const Renterdash = () => {
           variant="solid"
           color="primary"
           sx={{
-            flex: '0 0 auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            width: '100%',
-            height: 'auto',
-            px: 'var(--Card-padding)',
+            flex: "0 0 auto",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            width: "100%",
+            height: "auto",
+            px: "var(--Card-padding)",
             borderRadius: 0,
           }}
         >
