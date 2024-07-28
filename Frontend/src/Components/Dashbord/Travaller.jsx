@@ -8,6 +8,8 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from "@mui/joy/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useUserContext } from "../pages/UserContext";
+import { NavLink } from 'react-router-dom';
+import { Button } from '@mui/material';
 import "./Traveller.css";
 
 const textContainerStyle = {
@@ -251,6 +253,20 @@ const TravelerDashboard = () => {
           </div>
         )}
       </div>
+      <NavLink to='/'>
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{
+              '--variant-borderWidth': '2px',
+              borderRadius: 40,
+              borderColor: 'primary.500',
+              mx: 'auto',
+            }}
+          >
+            Home
+          </Button>
+        </NavLink>
     </div>
   );
 };
