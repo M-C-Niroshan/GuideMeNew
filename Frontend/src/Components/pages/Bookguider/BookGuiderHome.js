@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./BookGuiderHome.css";
 import Card from "react-bootstrap/Card";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import { useNavigate } from "react-router-dom";
-import BookGuiderForm from "../../VehicleRent/BookGuiderForm";
-import { Box, Typography } from "@mui/material";
-
+import GetGuider from "./GetGuider"; // Import the GetGuider component
+import { useUserContext } from '../UserContext';
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 // Image Imports
-import Diverse_Vehicle_Selection from "./images/RentVehiclePageImages/Diverse Vehicle Selection.jpg";
+import Guiding_Services_Selection from "./images/RentVehiclePageImages/Diverse Vehicle Selection.jpg";
 import Simple_Booking_Process from "./images/RentVehiclePageImages/Simple Booking Process.jpg";
-import Flexible_Rental_Periods from "./images/RentVehiclePageImages/Flexible Rental Periods.jpg";
+import Flexible_Guide_Periods from "./images/RentVehiclePageImages/Flexible Rental Periods.jpg";
 import Competitive_Pricing from "./images/RentVehiclePageImages/Competitive Pricing.jpg";
 import Customer_Support from "./images/RentVehiclePageImages/Customer Support.jpg";
 import Convenient_Locations from "./images/RentVehiclePageImages/Convenient Locations.jpg";
-import Safe_and_Reliable_Vehicles from "./images/RentVehiclePageImages/Safe and Reliable Vehicles.jpg";
-import Vehicle_Ratings from "./images/RentVehiclePageImages/Vehicle Ratings.jpg";
+import Safe_and_Reliable_Guides from "./images/RentVehiclePageImages/Safe and Reliable Vehicles.jpg";
+import Guide_Ratings from "./images/RentVehiclePageImages/Vehicle Ratings.jpg";
 import image1 from "./images/BookGuiderPageImages/guider/image1.jpg";
 import image2 from "./images/BookGuiderPageImages/guider/image2.jpg";
 import image3 from "./images/BookGuiderPageImages/guider/image3.jpg";
@@ -25,19 +32,19 @@ import image6 from "./images/BookGuiderPageImages/guider/image6.jpg";
 
 const serviceCards = [
   {
-    src: Diverse_Vehicle_Selection,
-    title: "Diverse Vehicle Selection",
-    text: "Choose from a range of vehicles, from compact cars for city travel to spacious SUVs for family adventures.",
+    src: Guiding_Services_Selection,
+    title: "Diverse Guiding Services",
+    text: "Choose from a range of guiding services, from cultural tours to adventurous excursions.",
   },
   {
     src: Simple_Booking_Process,
     title: "Simple Booking Process",
-    text: "Our intuitive booking system lets you reserve your vehicle with ease. Select your dates, pick your vehicle, and confirm your booking in minutes.",
+    text: "Our intuitive booking system lets you reserve your guide with ease. Select your dates, pick your guide, and confirm your booking in minutes.",
   },
   {
-    src: Flexible_Rental_Periods,
-    title: "Flexible Rental Periods",
-    text: "Rent a vehicle for as long as you need, with customizable rental durations to fit your schedule.",
+    src: Flexible_Guide_Periods,
+    title: "Flexible Guide Periods",
+    text: "Book a guide for as long as you need, with customizable durations to fit your schedule.",
   },
   {
     src: Competitive_Pricing,
@@ -52,26 +59,53 @@ const serviceCards = [
   {
     src: Convenient_Locations,
     title: "Convenient Locations",
-    text: "With multiple pickup and drop-off locations, renting a vehicle has never been more convenient.",
+    text: "With multiple guide locations, booking a guide has never been more convenient.",
   },
   {
-    src: Safe_and_Reliable_Vehicles,
-    title: "Safe and Reliable Vehicles",
-    text: "Our vehicles are regularly maintained and inspected to ensure your safety and comfort during your rental period.",
+    src: Safe_and_Reliable_Guides,
+    title: "Safe and Reliable Guides",
+    text: "Our guides are thoroughly vetted and trained to ensure your safety and a memorable experience.",
   },
   {
-    src: Vehicle_Ratings,
-    title: "Customer Vehicle Ratings",
-    text: "Read reviews and ratings from previous customers to help you choose the best vehicle for your needs.",
+    src: Guide_Ratings,
+    title: "Customer Guide Ratings",
+    text: "Read reviews and ratings from previous customers to help you choose the best guide for your needs.",
   },
 ];
 
+const top100Languages = [
+  { title: "Sinhala" },
+  { title: "English" },
+  { title: "Tamil" },
+  { title: "Korean" },
+  { title: "Japanese" },
+  { title: "Spanish" },
+  { title: "Mandarin" },
+  { title: "Arabic" },
+  { title: "Portuguese" },
+  { title: "Russian" },
+];
+
 const BookGuiderHome = () => {
+  const { setUserData } = useUserContext(); // Get the setUserData method
+  useEffect(() => {
+    // Setting user data for temporary purposes
+    setUserData({  travelerId:15, name: 'John Doe', email: 'john@example.com' });
+  }, [setUserData]);
+
   const navigate = useNavigate();
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [showGetGuider, setShowGetGuider] = useState(false);
+
+  const handleFindGuideClick = () => {
+    if (selectedLanguage) {
+      setShowGetGuider(true);
+    }
+  };
 
   return (
     <Box sx={{ backgroundColor: "#eee8e8" }}>
-      {/* <div className="head"> */}
+      {/* Slideshow Section */}
       <Box sx={{ padding: { xs: "0px", md: "0px" } }}>
         <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
           {[image1, image2, image3, image4, image5, image6].map(
@@ -118,80 +152,136 @@ const BookGuiderHome = () => {
         </Box>
       </Box>
 
-      <div>
-        <BookGuiderForm />
-      </div>
-
-      {/* Rental Services Section */}
-      <div className="rental-container">
-        <div className="rental-services">
-          {[
-            {
-              img: Diverse_Vehicle_Selection,
-              title: "Diverse Vehicle Selection",
-              text: "Choose from a range of vehicles, from compact cars for city travel to spacious SUVs for family adventures.",
-            },
-            {
-              img: Simple_Booking_Process,
-              title: "Simple Booking Process",
-              text: "Our intuitive booking system lets you reserve your vehicle with ease. Select your dates, pick your vehicle, and confirm your booking in minutes.",
-            },
-            {
-              img: Flexible_Rental_Periods,
-              title: "Flexible Rental Periods",
-              text: "Rent a vehicle for as long as you need, with customizable rental durations to fit your schedule.",
-            },
-            {
-              img: Competitive_Pricing,
-              title: "Competitive Pricing",
-              text: "Benefit from clear, competitive pricing with no hidden fees. Multiple payment options are available to suit your needs.",
-            },
-            {
-              img: Customer_Support,
-              title: "24/7 Customer Support",
-              text: "Our dedicated support team is available around the clock to assist with any inquiries or issues you may have.",
-            },
-            {
-              img: Convenient_Locations,
-              title: "Convenient Locations",
-              text: "With multiple pickup and drop-off locations, renting a vehicle has never been more convenient.",
-            },
-            {
-              img: Safe_and_Reliable_Vehicles,
-              title: "Safe and Reliable Vehicles",
-              text: "Our vehicles are regularly maintained and inspected to ensure your safety and comfort during your rental period.",
-            },
-            {
-              img: Vehicle_Ratings,
-              title: "Customer Vehicle Ratings",
-              text: "Read reviews and ratings from previous customers to help you choose the best vehicle for your needs.",
-            },
-          ].map((service, index) => (
-            <Card
-              key={index}
-              style={{
-                width: "18rem",
-                height: "100%",
-                backgroundColor: "#4bccbe",
+      {/* Booking Form Section */}
+      <div className="Form">
+        <Box
+          sx={{
+            p: 2,
+            bgcolor: "background.paper",
+            borderRadius: 5,
+            boxShadow: 5,
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            maxWidth: "800px", // Ensure the max width is consistent
+          }}
+        >
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px",
               }}
             >
-              <Card.Img
-                variant="top"
-                src={service.img}
-                style={{
+              <Autocomplete
+                options={top100Languages}
+                getOptionLabel={(option) => option.title}
+                value={selectedLanguage}
+                onChange={(event, newValue) => setSelectedLanguage(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select Native Language"
+                    variant="outlined"
+                    fullWidth
+                    sx={{ backgroundColor: "#fff" }} // Ensure the background color is white
+                  />
+                )}
+                sx={{
                   width: "100%",
-                  height:
-                    service.title === "Convenient Locations" ? "65%" : "61%",
+                  "& .MuiAutocomplete-inputRoot": {
+                    padding: "10px",
+                  },
                 }}
               />
-              <Card.Body>
-                <Card.Title>{service.title}</Card.Title>
-                <Card.Text>{service.text}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "8px",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#0056b3",
+                  width: "100%",
+                  "&:hover": {
+                    bgcolor: "#063f7c",
+                  },
+                }}
+                onClick={handleFindGuideClick}
+              >
+                Find a Guide
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
       </div>
+
+      {/* Conditionally Render GetGuider Component */}
+      {showGetGuider && (
+        <GetGuider selectedLanguage={selectedLanguage} />
+      )}
+
+      {/* Guiding Services Section */}
+      <Box sx={{ padding: { xs: "20px", md: "5px", marginTop:"180px" } }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "16px",
+          }}
+        >
+          {serviceCards.map((service, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: { xs: "100%", sm: "45%", md: "30%" },
+                maxWidth: "300px",
+                backgroundColor: "#4bccbe",
+                borderRadius: "8px",
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src={service.src}
+                alt={service.title}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "cover",
+                  maxHeight: "200px",
+                }}
+              />
+              <Box sx={{ padding: "16px" }}>
+                <Typography variant="h6" sx={{ mb: 1 }}>
+                  {service.title}
+                </Typography>
+                <Typography variant="body2">{service.text}</Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 };

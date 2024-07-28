@@ -3,23 +3,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Typography, Box, TextField, Button, Grid, Paper, CircularProgress, Alert, LinearProgress } from "@mui/material";
 import axios from 'axios'; // Import axios
 import { useUserContext } from '../UserContext'; // Import the custom hook
-import './VehicleReservation.css'; // Import the CSS file
+import './GuiderReservation.css'; // Import the CSS file (if needed)
 
-const VehicleReservation = () => {
+const GuiderReservation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
-  const vehicle = state || null;
+  const guider = state || null;
   const { userData } = useUserContext(); // Get user data from context
 
-  const [pickupDate, setPickupDate] = useState('');
-  const [pickupTime, setPickupTime] = useState('');
-  const [handoverDate, setHandoverDate] = useState('');
-  const [handoverTime, setHandoverTime] = useState('');
-  const [pickupDateError, setPickupDateError] = useState('');
-  const [pickupTimeError, setPickupTimeError] = useState('');
-  const [handoverDateError, setHandoverDateError] = useState('');
-  const [handoverTimeError, setHandoverTimeError] = useState('');
+  const [reservationDate, setReservationDate] = useState('');
+  const [reservationTime, setReservationTime] = useState('');
+  const [reservationDateError, setReservationDateError] = useState('');
+  const [reservationTimeError, setReservationTimeError] = useState('');
   const [loading, setLoading] = useState(false); // State for loading spinner
   const [error, setError] = useState(''); // State for error message
   const [countdown, setCountdown] = useState(null); // State for countdown
@@ -43,39 +39,25 @@ const VehicleReservation = () => {
     }
   }, [countdown, navigate]);
 
-  if (!vehicle) return <Typography variant="h6" color="error">No details found</Typography>;
+  if (!guider) return <Typography variant="h6" color="error">No details found</Typography>;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     let hasError = false;
     // Validate inputs
-    if (!pickupDate) {
-      setPickupDateError('Pickup date is required.');
+    if (!reservationDate) {
+      setReservationDateError('Reservation date is required.');
       hasError = true;
     } else {
-      setPickupDateError('');
+      setReservationDateError('');
     }
 
-    if (!pickupTime) {
-      setPickupTimeError('Pickup time is required.');
+    if (!reservationTime) {
+      setReservationTimeError('Reservation time is required.');
       hasError = true;
     } else {
-      setPickupTimeError('');
-    }
-
-    if (!handoverDate) {
-      setHandoverDateError('Handover date is required.');
-      hasError = true;
-    } else {
-      setHandoverDateError('');
-    }
-
-    if (!handoverTime) {
-      setHandoverTimeError('Handover time is required.');
-      hasError = true;
-    } else {
-      setHandoverTimeError('');
+      setReservationTimeError('');
     }
 
     if (hasError) return; // Stop submission if there are errors
@@ -83,28 +65,24 @@ const VehicleReservation = () => {
     // Prepare data for API request
     const reservationData = {
       travelerId: userData.travelerId,
-      renterId: vehicle.renterId,
-      vehicleRentServiceId: vehicle.vehicleRentServiceId,
-      pickupDate,
-      pickupTime,
-      handoverDate,
-      handoverTime,
+      guiderId: guider.guiderId,
+      serviceId: guider.serviceId,
+      reservationDate,
+      reservationTime,
     };
     const fullReservationData = {
       travelerId: userData.travelerId,
-      renterId: vehicle.renterId,
-      pickupDate,
-      pickupTime,
-      handoverDate,
-      handoverTime,
-      vehicleRegNum: vehicle.vehicleRegNum,
-      type: vehicle.type,
-      vehicleImage: vehicle.vehicleImage,
-      rentPrice: vehicle.rentPrice,
-      avilableLocation: vehicle.avilableLocation,
-      description: vehicle.description,
+      guiderId: guider.guiderId,
+      serviceId: guider.serviceId,
+      reservationDate,
+      reservationTime,
+      name: guider.name,
+      profileImg: guider.profileImg,
+      description: guider.description,
+      rating: guider.rating,
       email: userData.email,
       name: userData.name,
+      contactNum:guider.contactNum
     };
 
     try {
@@ -112,11 +90,11 @@ const VehicleReservation = () => {
       setError(''); // Clear any existing error
       console.log('Sending reservation data:', reservationData);
       // Make API request using axios
-      await axios.post('http://localhost:3001/api/vehicle-rent-details', reservationData);
+      await axios.post('http://localhost:3001/api/guider-booking-details', reservationData);
 
       console.log('Reservation confirmed, navigating to success page...');
       // Navigate to a success page or another component
-      navigate('/vehicle-reservation-success', { state: { fullReservationData } });
+      navigate('/guider-reservation-success', { state: { fullReservationData } });
 
     } catch (error) {
       console.error('Error:', error);
@@ -145,9 +123,9 @@ const VehicleReservation = () => {
         )}
 
         <img
-          src={vehicle.vehicleImage}
-          alt={vehicle.name}
-          className="vehicle-image"
+          src={guider.profileImg}
+          alt={guider.name}
+          className="guider-image"
           style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
         />
 
@@ -156,8 +134,8 @@ const VehicleReservation = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Pickup Location"
-                value={vehicle.avilableLocation}
+                label="Guider Name"
+                value={guider.name}
                 fullWidth
                 InputProps={{ readOnly: true }} // Make it read-only
                 sx={{ mb: 2 }}
@@ -166,8 +144,8 @@ const VehicleReservation = () => {
 
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Vehicle Type"
-                value={vehicle.type}
+                label="Email"
+                value={userData.email}
                 fullWidth
                 InputProps={{ readOnly: true }} // Make it read-only
                 sx={{ mb: 2 }}
@@ -176,58 +154,29 @@ const VehicleReservation = () => {
 
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Pickup Date"
+                label="Reservation Date"
                 type="date"
-                value={pickupDate}
-                onChange={(e) => setPickupDate(e.target.value)}
+                value={reservationDate}
+                onChange={(e) => setReservationDate(e.target.value)}
                 fullWidth
                 InputLabelProps={{ shrink: true }}
-                error={!!pickupDateError}
-                helperText={pickupDateError}
+                error={!!reservationDateError}
+                helperText={reservationDateError}
                 sx={{ mb: 2 }}
               />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Pickup Time"
+                label="Reservation Time"
                 type="time"
-                value={pickupTime}
-                onChange={(e) => setPickupTime(e.target.value)}
+                value={reservationTime}
+                onChange={(e) => setReservationTime(e.target.value)}
                 fullWidth
                 InputLabelProps={{ shrink: true }}
                 inputProps={{ step: 300 }} // 5 min
-                error={!!pickupTimeError}
-                helperText={pickupTimeError}
-                sx={{ mb: 2 }}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Handover Date"
-                type="date"
-                value={handoverDate}
-                onChange={(e) => setHandoverDate(e.target.value)}
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-                error={!!handoverDateError}
-                helperText={handoverDateError}
-                sx={{ mb: 2 }}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Handover Time"
-                type="time"
-                value={handoverTime}
-                onChange={(e) => setHandoverTime(e.target.value)}
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-                inputProps={{ step: 300 }} // 5 min
-                error={!!handoverTimeError}
-                helperText={handoverTimeError}
+                error={!!reservationTimeError}
+                helperText={reservationTimeError}
                 sx={{ mb: 2 }}
               />
             </Grid>
@@ -244,4 +193,4 @@ const VehicleReservation = () => {
   );
 };
 
-export default VehicleReservation;
+export default GuiderReservation;

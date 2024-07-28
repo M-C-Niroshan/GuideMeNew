@@ -10,28 +10,20 @@ import { Box, Typography, Stack, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 
-const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg }) => {
+
+const GuiderCard = ({ guiderId, serviceId, language, price, description, rating, name, profileImg, email, contactNum }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/reservation/${vehicleRentServiceId}`, { state: { vehicleRentServiceId, renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name } });
+    navigate(`/guider-reservation/${guiderId}`, { state: { guiderId, serviceId, language, price, description, rating, name, profileImg, email, contactNum } });
   };
 
   return (
     <Card sx={{ maxWidth: 345, backgroundColor: "white" }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            <img
-              src={profileImg}
-              style={{ width: "50%", height: "auto" }}
-              alt="Avatar"
-            />
-          </Avatar>
-        }
         title={name}
       />
-      <CardMedia component="img" height="194" image={vehicleImage} alt="Vehicle Image" />
+      <CardMedia component="img" height="194" image={profileImg} alt="fill Image" />
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
           <Stack direction="row" alignItems="center" spacing={1}>
@@ -40,13 +32,16 @@ const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehi
               {rating}
             </Typography>
           </Stack>
-          <Typography variant="h6" color="text.primary">
-            {rentPrice}
+          <Typography variant="h7" color="text.primary">
+            LKR{price} / Day
           </Typography>
         </Stack>
         <Box mt={2} />
         <Typography variant="body2" color="text.secondary">
           {description}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" mt={1}>
+          Languages: {language}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -66,7 +61,7 @@ const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehi
             }}
             onClick={handleClick}
           >
-            Rent Now
+            Book Now
           </Button>
         </Stack>
       </CardActions>
@@ -74,4 +69,4 @@ const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehi
   );
 };
 
-export default VehicleCard;
+export default GuiderCard;
