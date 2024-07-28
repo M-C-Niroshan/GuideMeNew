@@ -1,29 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AuthConGuider.css';
 
-import SignInFormGuider from './SignInFormGuider';
+import SignInForm from './SignInForm';
 import SignUpFormGuider from './SignUpFormGuider';
 
 import { useLocation } from "react-router-dom";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const AuthContainer = () => {
+function AuthContainer({status}) {
   
   const location = useLocation();
   const { booleanState } = location.state || {};
-  const [active, setActive] = useState(booleanState);
+  const [active, setActive] = useState(status);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleArrowClick = () => {
     setIsExpanded(!isExpanded);
   }
 
+  useEffect(() => {
+    setActive(status);
+  }, [status]);
+
+
   return (
     <div className='BigContainer'>
       <div className={`container ${active ? "active" : ""}`} id="container">
         
         <div className="form-container sign-in">
-          {active ? <SignUpFormGuider/> : <SignInFormGuider/>}
+          {active ? <SignUpFormGuider/> : <SignInForm/>}
         </div>
         
         <div className="toggle-container">

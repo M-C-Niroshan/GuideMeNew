@@ -6,8 +6,7 @@ import Navigation from "../Navigation/Navigation";
 import Tlanka from '../Tlanka/Tlanka';
 import Cardslider from '../Cardslider/Cardslider';
 import Festivals from '../Festivals/Festivals';
-import Footer from '../Footer/Footer'
-
+import Footer from '../Footer/Footer';
 
 function Home(){
     const location=useLocation()
@@ -18,7 +17,7 @@ function Home(){
             <Backgroundvid/>
             <Tlanka/>
             <Cardslider/>
-            <Festivals/>
+            <Festivals/> 
             <Footer/>
         </div>
     )

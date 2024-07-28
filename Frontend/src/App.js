@@ -5,11 +5,10 @@ import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import GuiderDetails from './Components/Guider/GuiderDetails';
 import RenterDetails from './Components/Vehicle/RenterDetails';
-import VehicleDetails from './Components/Vehicle/VehicleDetails';
+/* import VehicleDetails from './Components/Vehicle/VehicleDetails'; */
 
-import VehicleRentHome from './Components/pages/VehicleRentHome';
-import RentYourVehicleOld from './Components/pages/RentYourVehicleOld';
-import BookYourGuiderOld from './Components/pages/BookYourGuiderOld';
+import VehicleRentHome from './Components/pages/RentVehicle/VehicleRentHome';
+import BookGuiderHome from './Components/pages/Bookguider/BookGuiderHome';
 
 import  PaymentMethod  from './Components/Payments/PaymentMethod';
 import  PaymentSuccess  from './Components/Payments/PaymentSuccess';
@@ -18,12 +17,26 @@ import Test from './Components/Login1/Test';
 
 import AuthContainer from './Components/Login1/AuthContainer';
 import AuthConGuider from './Components/Login1/AuthConGuider';
+import AuthConRenter from './Components/Login1/AuthConRenter';
+import Userguider from './Components/TravelPlanner/TravelPlanner';
 
 
 import  VehicalrentN  from './Components/pages/Test';
-
+import VehicleReservation from "./Components/pages/RentVehicle/VehicleReservation";
 import Home from './Components/Home/Home';
 import SignUpForm from './Components/Login1/SignUpFormGuider';
+import VehicleReservationSuccess from './Components/pages/RentVehicle/VehicleReservationSuccess';
+
+
+import Userdash from './Components/Dashbord/Userdash';
+import Renterdash from './Components/Dashbord/Renterdash';
+import Guiderdash from './Components/Dashbord/Guiderdash';
+
+import AboutUs from './Components/AboutUs/AboutUs';
+
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
@@ -36,17 +49,36 @@ function App() {
             <Route path="/1" element={<SignUpForm/>}></Route>
             <Route path="/2" element={<GuiderDetails/>}></Route>
             <Route path="/3" element={<RenterDetails/>}></Route>
-            <Route path="/4" element={<VehicleDetails/>}></Route>
-            <Route path="/5" element={<VehicleRentHome/>}></Route>
-            <Route path="/6" element={<RentYourVehicleOld/>}></Route>
-            <Route path="/7" element={<BookYourGuiderOld/>}></Route>
+
+            <Route path="/RentVehicle" element={<VehicleRentHome/>}></Route>
+            <Route path="/BookGuider" element={<BookGuiderHome/>}></Route>
+            <Route path="/reservation/:id" element={<VehicleReservation/>} />
+
+
             <Route path="/8" element={<PaymentMethod/>}></Route>
             <Route path="/9" element={<PaymentSuccess/>}></Route>
             <Route path="/10" element={<PaymentFailed/>}></Route>
+
+            {/* <Route path="/new-page" element={<AuthContainer/>}></Route> */}
+            <Route path="/11" element={<AuthConGuider/>}></Route>
+            <Route path="/12" element={<AuthContainer/>}></Route>
+            <Route path="/13" element={<AuthConRenter/>}></Route>
+            <Route path='/14' element={<Userguider/>}></Route> 
+
+            <Route path='/15' element={<Userdash/>}></Route> 
+            <Route path='/16' element={<Renterdash/>}></Route> 
+            <Route path='/17' element={<Guiderdash/>}></Route> 
+
+            <Route path="/about-us" element={<AboutUs />} />
+
+            {/* <Route path="/Test" element={<Test/>}></Route> */}
+
             <Route path="/new-page" element={<AuthContainer/>}></Route>
             <Route path="/55" element={<AuthConGuider/>}></Route>
-            <Route path="/signin" element={<AuthContainer/>}></Route>
-            <Route path="/Test" element={<Test/>}></Route>
+            <Route path="/56" element={<AuthContainer/>}></Route>
+            <Route path="/57" element={<AuthConRenter/>}></Route>
+            <Route path="/vehicle-reservation-success" element={<VehicleReservationSuccess />} />
+
           </Routes>
         </BrowserRouter>
         
