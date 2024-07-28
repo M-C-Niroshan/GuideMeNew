@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
+import Axios from 'axios';
 
 const SignUpFormRenter = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    guiderID: '',
+    fName: '',
+    lName: '',
     email: '',
     password: '',
-    nic: '',
+    NICnum: '',
     address: '',
-    mobile: '',
+    contactNum: '',
 
   });
+
+  const [error, setError] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -39,16 +43,31 @@ const SignUpFormRenter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-    if (image) {
-      formDataToSend.append('image', image);
-    }
-    console.log([...formDataToSend]);
-    // Perform further actions like sending data to the server
+    const formDataToSend= {
+      id: formData.mobile,
+      fName: formData.fName,
+      lName: formData.lName,
+      email: formData.email,
+      password: formData.password,
+      NICnum: formData.NICnum,
+      address: formData.address,
+      contactNum: formData.contactNum,
+    };
+
+    Axios.post("http://localhost:3001/api/renter", formDataToSend, {
+      headers: {
+       
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log("User created successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Axios Error:", error);
+      });
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -102,7 +121,7 @@ const SignUpFormRenter = () => {
         <div className='minisub1'>
           <input
             type="text"
-            name="firstName"
+            name="fName"
             placeholder="First name"
             className='tx1'
             value={formData.firstName}
@@ -118,7 +137,7 @@ const SignUpFormRenter = () => {
           />
           <input
             type="text"
-            name="nic"
+            name="NICnum"
             placeholder="NIC number"
             className='tx4'
             value={formData.nic}
@@ -137,7 +156,7 @@ const SignUpFormRenter = () => {
         <div className='minisub2'>
           <input
             type="text"
-            name="lastName"
+            name="lName"
             placeholder="Last name"
             className='tx7'
             value={formData.lastName}
@@ -153,7 +172,7 @@ const SignUpFormRenter = () => {
           />
           <input
             type="text"
-            name="mobile"
+            name="contactNum"
             placeholder="Mobile number"
             className='tx6'
             value={formData.mobile}

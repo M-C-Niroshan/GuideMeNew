@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import './VehicleRentHome.css';
+import React, { useState, useEffect } from "react";
+
 import {
   Box,
   Typography,
@@ -28,8 +29,11 @@ import Car from "./images/RentVehiclePageImages/vehicles/Car.png";
 import Van from "./images/RentVehiclePageImages/vehicles/Van.png";
 
 import { Slide } from "react-slideshow-image";
+
 import Navigation from "../../Navigation/Navigation";
 import Footer from "../../Footer/Footer";
+
+import { useUserContext } from '../UserContext';
 
 const services = [
   {
@@ -97,6 +101,7 @@ const top100Films = [
 ];
 
 export default function VehicleRentHome() {
+  const { setUserData } = useUserContext(); // Get the setUserData method
   const [carType, setCarType] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [showGetVehicle, setShowGetVehicle] = useState(false);
@@ -106,6 +111,11 @@ export default function VehicleRentHome() {
       setShowGetVehicle(true);
     }
   };
+
+  useEffect(() => {
+    // Setting user data for temporary purposes
+    setUserData({  travelerId:15, name: 'John Doe', email: 'john@example.com' });
+  }, [setUserData]);
 
   return (
     <div className="maincont">

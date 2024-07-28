@@ -1,55 +1,112 @@
-import React, { useState } from "react";
-import { Box, Grid, Pagination, Fade } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Pagination, Fade, CircularProgress, Typography } from "@mui/material";
+import Axios from "axios";
 import VehicleCard from "./VehicleCard";
 
-import profileImage1 from "./images/Vehicle/1 person.svg";
-import profileImage2 from "./images/Vehicle/1 person.svg";
-import profileImage3 from "./images/Vehicle/1 person.svg";
+const itemsPerPage = 6;
 
-import Bicycle from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import car from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-import van from "./images/RentVehiclePageImages/vehicles/bicycle.jpg";
-
-
-
-// Vehicle data
-const vehicleData = [
-  { id: 1, pic: profileImage1, name: "Chamizka Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 2, pic: profileImage2, name: "Chamisdka Nirsdoshan", image: car, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 3, pic: profileImage3, name: "Chamsdika Nirosvdshan", image: van, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 4, pic: profileImage1, name: "Chamizkxxxxxxxxxxa Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 5, pic: profileImage2, name: "Chamisdka Nirsdoshan", image: car, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 6, pic: profileImage3, name: "Chamsdika Nirosvdshan", image: van, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 7, pic: profileImage1, name: "Chamizka Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 8, pic: profileImage2, name: "Chamisdka Nirsdoshan", image: car, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 9, pic: profileImage3, name: "Chamsdika Nirosvdshan", image: van, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 10, pic: profileImage1, name: "Chamizka Niroshdvan", image: Bicycle, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 11, pic: profileImage2, name: "Chamisdka Nirsdoshan", image: car, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-  { id: 12, pic: profileImage3, name: "Chamsdika Nirosvdshan", image: van, description: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with themussels, if you like." },
-];
-
-export default function Test() {
+const GetVehicle = ({ pickupLocation, vehicleType }) => {
   const [page, setPage] = useState(1);
-  const itemsPerPage = 6;
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [transition, setTransition] = useState(false);
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        setLoading(true);
+        const response = await Axios.get("http://localhost:3001/api/vehiclelist", {
+          params: {
+            pickupLocation,
+            vehicleType,
+          },
+        });
+        console.log("API Response:", response.data); // Log the response
+        setVehicles(response.data); // Directly set the vehicles data
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, [pickupLocation, vehicleType]);
 
   const handlePageChange = (event, value) => {
+    setTransition(true);
     setPage(value);
   };
 
-  const displayedItems = vehicleData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  useEffect(() => {
+    if (transition) {
+      const timer = setTimeout(() => {
+        setTransition(false);
+      }, 500); // Match this duration with the transition duration
+
+      return () => clearTimeout(timer);
+    }
+  }, [transition]);
+
+  // Slice the vehicles array for pagination
+  const displayedItems = vehicles.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
+
+  if (loading) {
+    return (
+      <Box sx={{ textAlign: "center", padding: 2 }}>
+        <CircularProgress />
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Loading vehicles...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ textAlign: "center", padding: 2 }}>
+        <Typography variant="h6" color="error">
+          Error fetching vehicles: {error}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ flexGrow: 1, padding: 15 }}>
-      <Fade in timeout={500}>
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          {displayedItems.map((vehicle) => (
-            <Grid item xs={12} sm={6} md={4} key={vehicle.id} display="flex" justifyContent="center">
-              <VehicleCard {...vehicle} />
-            </Grid>
-          ))}
+      <Fade in={!transition} timeout={500}>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {displayedItems.length > 0 ? (
+            displayedItems.map((vehicle) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={vehicle.renterId}
+                display="flex"
+                justifyContent="center"
+              >
+                <VehicleCard {...vehicle} />
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="h6">No vehicles found.</Typography>
+          )}
         </Grid>
       </Fade>
-      <Pagination count={Math.ceil(vehicleData.length / itemsPerPage)} page={page} onChange={handlePageChange} sx={{ mt: 2, display: 'flex', justifyContent: 'center' }} />
+      <Pagination
+        count={Math.ceil(vehicles.length / itemsPerPage)} // Use vehicles.length for pagination
+        page={page}
+        onChange={handlePageChange}
+        sx={{ mt: 2, display: "flex", justifyContent: "center" }}
+      />
     </Box>
   );
-}
+};
+
+export default GetVehicle;

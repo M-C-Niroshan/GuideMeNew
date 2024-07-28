@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -11,11 +10,11 @@ import { Box, Typography, Stack, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 
-const VehicleCard = ({ id, pic, name, image, description }) => {
+const VehicleCard = ({ renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/details/${id}`, { state: { id, pic, name, image, description } });
+    navigate(`/reservation/${renterId}`, { state: { renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name } });
   };
 
   return (
@@ -24,7 +23,7 @@ const VehicleCard = ({ id, pic, name, image, description }) => {
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
             <img
-              src={pic}
+              src={profileImg}
               style={{ width: "50%", height: "auto" }}
               alt="Avatar"
             />
@@ -32,10 +31,18 @@ const VehicleCard = ({ id, pic, name, image, description }) => {
         }
         title={name}
       />
-      <CardMedia component="img" height="194" image={image} alt="Vehicle Image" />
+      <CardMedia component="img" height="194" image={vehicleImage} alt="Vehicle Image" />
       <CardContent>
-        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={3}>
-          <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
+        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
+            <Typography variant="body2" color="text.secondary">
+              {rating}
+            </Typography>
+          </Stack>
+          <Typography variant="h6" color="text.primary">
+            {rentPrice}
+          </Typography>
         </Stack>
         <Box mt={2} />
         <Typography variant="body2" color="text.secondary">
