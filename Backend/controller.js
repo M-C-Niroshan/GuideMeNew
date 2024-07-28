@@ -99,21 +99,36 @@ const addVehicleRentService = async (req, res, next) => {
 const getVehicleRentDetails = async (req, res, next) => {
   const { travelerId } = req.query;
 
-  if (!travelerId) {
-    return res.status(400).json({ error: "travelerId is required" });
-  }
-
   try {
     // Find vehicle rent details based on travelerId
-    const rentDetails = await VehicleRentDetails.find({ travelerId })
-      .select('-_id -__v') // Optionally exclude _id and __v fields
-      .exec();
+    const rentDetails = await VehicleRentDetails.find({ travelerId }).exec();
 
-    if (rentDetails.length === 0) {
-      return res.status(404).json({ message: "No rent details found for this travelerId" });
-    }
+    // Fetch renter and vehicle service details for each rent entry
+    const detailedRentals = await Promise.all(rentDetails.map(async (rent) => {
+      const renter = await Renter.findOne({ renterId: rent.renterId }).exec();
+      const vehicleService = await VehicleRentService.findOne({ vehicleRentServiceId: rent.vehicleRentServiceId }).exec();
 
-    res.json(rentDetails);
+      return {
+/*         travelerId: rent.travelerId, */
+        renterId: rent.renterId,
+        vehicleRentServiceId: rent.vehicleRentServiceId,
+        pickupDate: rent.pickupDate,
+        pickupTime: rent.pickupTime,
+        handoverDate: rent.handoverDate,
+        handoverTime: rent.handoverTime,
+        renterFname: renter ? renter.fName : null,
+        renterLname: renter ? renter.lName : null,
+        renterProfileImg: renter ? renter.profileImg : null,
+        renterEmail: renter ? renter.email : null,
+        renterContactNum: renter ? renter.contactNum : null,
+        vehicleRegNum: vehicleService ? vehicleService.vehicleRegNum : null,
+        vehicleType: vehicleService ? vehicleService.type : null,
+        vehicleImage: vehicleService ? vehicleService.vehicleImage : null,
+        availableLocation: vehicleService ? vehicleService.avilableLocation : null
+      };
+    }));
+
+    res.json(detailedRentals);
 
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -221,21 +236,28 @@ const addGuideServise = (req, res, next) => {
 const getGuiderBookingDetails = async (req, res, next) => {
   const { travelerId } = req.query;
 
-  if (!travelerId) {
-    return res.status(400).json({ error: "travelerId is required" });
-  }
-
   try {
     // Find guider booking details based on travelerId
-    const bookingDetails = await GuiderBookingDetails.find({ travelerId })
-      .select('-_id -__v') // Optionally exclude _id and __v fields
-      .exec();
+    const bookingDetails = await GuiderBookingDetails.find({ travelerId }).exec();
 
-    if (bookingDetails.length === 0) {
-      return res.status(404).json({ message: "No booking details found for this travelerId" });
-    }
+    // Fetch guider details for each booking and reshape the response
+    const bookingsWithGuiderDetails = await Promise.all(bookingDetails.map(async (booking) => {
+      const guider = await Guider.findOne({ guiderId: booking.guiderId }).exec();
+      return {
+        /* travelerId: booking.travelerId, */
+        guiderId: booking.guiderId,
+        serviceId: booking.serviceId,
+        reservationDate: booking.reservationDate,
+        reservationTime: booking.reservationTime,
+        guiderFname: guider ? guider.fName : null,
+        guiderLname: guider ? guider.lName : null,
+        guiderProfileImage: guider ? guider.profileImage : null,
+        guiderEmail: guider ? guider.email : null,
+        guiderContactNum: guider ? guider.contactNum : null // Corrected field name
+      };
+    }));
 
-    res.json(bookingDetails);
+    res.json(bookingsWithGuiderDetails);
 
   } catch (error) {
     res.status(500).json({ error: error.message });
