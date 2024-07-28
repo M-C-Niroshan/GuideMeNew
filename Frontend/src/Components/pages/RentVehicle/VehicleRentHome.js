@@ -69,19 +69,18 @@ const services = [
 ];
 
 const carTypes = [
+  { value: "lcar", label: "lcar" },
   { value: "Bike", label: "Bike" },
   { value: "Tuk", label: "Tuk" },
   { value: "Flex", label: "Flex" },
   { value: "Car", label: "Car" },
   { value: "Van", label: "Van" },
-  { value: "SUV", label: "SUV" },
-  { value: "Bicycle", label: "Bicycle" },
 ];
 
-const top50Locations = [
+const top100Films = [
   { label: "Colombo" },
-  { label: "Jaffna" },
-  { label: "Negombo" },
+  { label: "Jafna" },
+  { label: "Negambo" },
   { label: "Matara" },
   { label: "Beliatta" },
   { label: "Ampara" },
@@ -89,46 +88,6 @@ const top50Locations = [
   { label: "Mawaramandiya" },
   { label: "Gampaha" },
   { label: "Kandy" },
-  { label: "Galle" },
-  { label: "Trincomalee" },
-  { label: "Anuradhapura" },
-  { label: "Polonnaruwa" },
-  { label: "Batticaloa" },
-  { label: "Ratnapura" },
-  { label: "Kurunegala" },
-  { label: "Kalutara" },
-  { label: "Nuwara Eliya" },
-  { label: "Badulla" },
-  { label: "Haputale" },
-  { label: "Ella" },
-  { label: "Matale" },
-  { label: "Hambantota" },
-  { label: "Puttalam" },
-  { label: "Vavuniya" },
-  { label: "Mannar" },
-  { label: "Kegalle" },
-  { label: "Jaffna" },
-  { label: "Kilinochchi" },
-  { label: "Mullaitivu" },
-  { label: "Monaragala" },
-  { label: "Rambukkana" },
-  { label: "Dambulla" },
-  { label: "Habarana" },
-  { label: "Yala" },
-  { label: "Wilpattu" },
-  { label: "Pinnawala" },
-  { label: "Uda Walawe" },
-  { label: "Kotagala" },
-  { label: "Kegalle" },
-  { label: "Sabaragamuwa" },
-  { label: "Mihintale" },
-  { label: "Dambulla" },
-  { label: "Negombo" },
-  { label: "Kandy" },
-  { label: "Gampaha" },
-  { label: "Batticaloa" },
-  { label: "Nuwara Eliya" },
-  { label: "Jaffna" }
 ];
 
 export default function VehicleRentHome() {
@@ -182,7 +141,7 @@ export default function VehicleRentHome() {
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
-                    options={top50Locations}
+                    options={top100Films}
                     onChange={(event, newValue) => setPickupLocation(newValue ? newValue.label : "")}
                     sx={{ width: "100%" }}
                     renderInput={(params) => (
