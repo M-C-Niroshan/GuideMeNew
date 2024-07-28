@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { Box, Button } from '@mui/material';
 import Axios from 'axios';
+import { storage } from './firebase'; // Import the configured Firebase storage
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    
     fName: '',
     lName: '',
     email: '',
@@ -40,10 +41,47 @@ const SignUpFormGuider = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = {
+
+    let imageUrl = '';
+    if (image) {
+      // Define a reference to the storage location
+      const storageRef = ref(storage, `profileImages/${image.name}`);
       
+      // Start the upload task
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      try {
+        // Create a promise to handle the upload completion
+        await new Promise((resolve, reject) => {
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+              // Handle progress here if needed
+            }, 
+            (error) => {
+              // Handle unsuccessful uploads
+              console.error("Upload error:", error);
+              reject(error);
+            }, 
+            async () => {
+              // Handle successful uploads
+              try {
+                imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve();
+              } catch (error) {
+                reject(error);
+              }
+            }
+          );
+        });
+      } catch (error) {
+        setError('Image upload failed. Please try again.');
+        return;
+      }
+    }
+
+    const formDataToSend = {
       fName: formData.fName,
       lName: formData.lName,
       email: formData.email,
@@ -52,18 +90,28 @@ const SignUpFormGuider = () => {
       age: formData.age,
       contactNum: formData.contactNum,
       gender: formData.gender,
+      profileImage: imageUrl // Include the image URL in the data to be sent
     };
 
-    Axios.post("http://localhost:3001/api/guider", formDataToSend, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    Axios.post("http://localhost:3001/api/guider", formDataToSend)
       .then((response) => {
         console.log("User created successfully:", response.data);
+        setFormData({
+          fName: '',
+          lName: '',
+          email: '',
+          password: '',
+          NICnum: '',
+          age: '',
+          contactNum: '',
+          gender: ''
+        });
+        setImage(null);
+        setImagePreview(null);
       })
       .catch((error) => {
         console.error("Axios Error:", error);
+        setError('An error occurred. Please try again.');
       });
   };
 
@@ -117,7 +165,7 @@ const SignUpFormGuider = () => {
             name="fName"
             placeholder="First name"
             className='tx1'
-            value={formData.firstName}
+            value={formData.fName}
             onChange={handleInputChange}
           />
           <input
@@ -133,7 +181,7 @@ const SignUpFormGuider = () => {
             name="NICnum"
             placeholder="NIC number"
             className='tx4'
-            value={formData.nic}
+            value={formData.NICnum}
             onChange={handleInputChange}
           />
           <input
@@ -151,7 +199,7 @@ const SignUpFormGuider = () => {
             name="lName"
             placeholder="Last name"
             className='tx7'
-            value={formData.lastName}
+            value={formData.lName}
             onChange={handleInputChange}
           />
           <input
@@ -167,7 +215,7 @@ const SignUpFormGuider = () => {
             name="contactNum"
             placeholder="Mobile number"
             className='tx6'
-            value={formData.mobile}
+            value={formData.contactNum}
             onChange={handleInputChange}
           />
           <div className="dropdown-containerGen">
