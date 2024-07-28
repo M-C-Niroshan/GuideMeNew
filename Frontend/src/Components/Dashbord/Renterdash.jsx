@@ -13,10 +13,13 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import AddPhotoAlternate from '@mui/icons-material/AddPhotoAlternate';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper'; // Added for border styling
 import { storage } from '../Login1/firebase'; // Import your configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { NavLink } from 'react-router-dom';
+
 
 const textContainerStyle = {
   width: '100%',
@@ -247,135 +250,8 @@ const Renterdash = () => {
         </CardContent>
       </Card>
 
-      {/* Add Vehicle Form */}
-      <Box sx={{ marginTop: 4, width: '100%', maxWidth: 600 }}>
-        <Paper
-          elevation={3}
-          sx={{
-            padding: 3,
-            borderRadius: 2,
-            border: '1px solid #ddd',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="h4" sx={{ mb: 2 }}>
-            Add New Vehicle
-          </Typography>
-          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Vehicle Registration Number"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="vehicleRegNum"
-                  value={form.vehicleRegNum}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Type"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="type"
-                  value={form.type}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Rent Price"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="rentPrice"
-                  value={form.rentPrice}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Available Location"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="avilableLocation"
-                  value={form.avilableLocation}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Description"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="description"
-                  value={form.description}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <input
-                  id="image-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  style={{ display: 'none' }}
-                />
-                {imagePreview ? (
-                  <Box
-                    component="img"
-                    sx={{
-                      height: 100,
-                      width: 100,
-                      borderRadius: '8px',
-                      objectFit: 'cover',
-                      cursor: 'pointer',
-                      marginBottom: '16px',
-                    }}
-                    src={imagePreview}
-                    alt="Image preview"
-                    onClick={() => document.getElementById('image-upload').click()}
-                  />
-                ) : (
-                  <IconButton
-                    color="primary"
-                    onClick={() => document.getElementById('image-upload').click()}
-                    sx={{ mb: 2 }}
-                  >
-                    <PhotoCamera />
-                  </IconButton>
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{ mt: 2 }}
-                >
-                  Add Vehicle
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Paper>
-      </Box>
-
-      {/* Vehicle List */}
-      <Box sx={{ marginTop: 4 }}>
+            {/* Vehicle List */}
+            <Box sx={{ marginTop: 4 }}>
         {loading ? (
           <CircularProgress />
         ) : (
@@ -396,6 +272,158 @@ const Renterdash = () => {
         )}
       </Box>
 
+      {/* Add Vehicle Form */}
+    <Box sx={{ marginTop: 4, width: '100%', maxWidth: 600 }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          borderRadius: 2,
+          border: '1px solid #ddd',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          Add New Vehicle
+        </Typography>
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Vehicle Registration Number"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                name="vehicleRegNum"
+                value={form.vehicleRegNum}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Type"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                name="type"
+                value={form.type}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Rent Price"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                name="rentPrice"
+                value={form.rentPrice}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Available Location"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                name="avilableLocation"
+                value={form.avilableLocation}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Description"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                name="description"
+                value={form.description}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
+              {imagePreview ? (
+                <Box
+                  component="img"
+                  sx={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: '8px',
+                    objectFit: 'cover',
+                    cursor: 'pointer',
+                    marginBottom: '16px',
+                  }}
+                  src={imagePreview}
+                  alt="Image preview"
+                  onClick={() => document.getElementById('image-upload').click()}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: 100,
+                    width: 100,
+                    border: '2px dashed #ccc',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    mb: 2,
+                  }}
+                  onClick={() => document.getElementById('image-upload').click()}
+                >
+                  <AddPhotoAlternate sx={{ fontSize: 48, color: '#ccc' }} />
+                </Box>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+              >
+                Add Vehicle
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Box>
+
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom:'20px' }}>
+        <NavLink to="/">
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{
+              '--variant-borderWidth': '2px',
+              borderRadius: 40,
+              borderColor: 'primary.500',
+            }}
+          >
+            Home
+          </Button>
+        </NavLink>
+      </div>
+
       {/* Snackbar for messages */}
       <Snackbar
         open={snackbarOpen}
@@ -407,6 +435,8 @@ const Renterdash = () => {
         </Alert>
       </Snackbar>
     </Box>
+
+    
   );
 };
 
