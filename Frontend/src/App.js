@@ -63,7 +63,7 @@ function App() {
             <Route path="/11" element={<AuthConGuider/>}></Route>
             <Route path="/12" element={<AuthContainer/>}></Route>
             <Route path="/13" element={<AuthConRenter/>}></Route>
-            <Route path='/14' element={<Userguider/>}></Route> 
+            <Route path='/PlanTrip' element={<Userguider/>}></Route> 
 
             <Route path='/15' element={<Userdash/>}></Route> 
             <Route path='/16' element={<Renterdash/>}></Route> 
