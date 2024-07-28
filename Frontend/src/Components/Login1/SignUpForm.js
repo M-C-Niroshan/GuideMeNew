@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { Box, Button } from '@mui/material';
 import Axios from 'axios';
+import { storage } from './firebase'; // Import the configured Firebase storage
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const SignUpForm = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+
+    fName: '',
+    lName: '',
     email: '',
     password: '',
-    nic: '',
-    mobile: '',
-  });
+    NICpassportNum: '',
+    contactNumber: '',
 
+  });
+  const [error, setError] = useState('');
+  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -35,31 +40,74 @@ const SignUpForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formDataToSend= {
-      id: formData.mobile,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      password: formData.password,
-      nic: formData.nic,
-      mobile: formData.mobile,
-    };
 
-    Axios.post("http://localhost:3001/api/traveler", formDataToSend, {
-      headers: {
-       
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        console.log("User created successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Axios Error:", error);
-      });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  let imageUrl = '';
+  if (image) {
+    // Define a reference to the storage location
+    const storageRef = ref(storage, `profileImages/${image.name}`);
+    
+    // Start the upload task
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+
+    // Create a promise to handle the upload completion
+    await new Promise((resolve, reject) => {
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          // You can handle progress here if needed
+        }, 
+        (error) => {
+          // Handle unsuccessful uploads
+          console.error("Upload error:", error);
+          reject(error);
+        }, 
+        async () => {
+          // Handle successful uploads
+          try {
+            imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        }
+      );
+    });
+  }
+
+  // Prepare the data to send to your backend
+  const formDataToSend = {
+    fName: formData.fName,
+    lName: formData.lName,
+    email: formData.email,
+    password: formData.password,
+    NICpassportNum: formData.NICpassportNum,
+    contactNumber: formData.contactNumber,
+    profileImage: imageUrl // Include the image URL in the data to be sent
   };
+
+  // Send the data to your backend
+  Axios.post("http://localhost:3001/api/traveler", formDataToSend)
+    .then((response) => {
+      console.log("User created successfully:", response.data);
+      setFormData({
+        fName: '',
+        lName: '',
+        email: '',
+        password: '',
+        NICpassportNum: '',
+        contactNumber: '',
+      });
+      setImage(null);
+      setImagePreview(null);
+    })
+    .catch((error) => {
+      console.error("Axios Error:", error);
+      setError('An error occurred. Please try again.');
+    });
+};
 
   return (
     <form onSubmit={handleSubmit}>
@@ -111,7 +159,7 @@ const SignUpForm = () => {
             name="firstName"
             placeholder="First name"
             className='tx1'
-            value={formData.firstName}
+            value={formData.fName}
             onChange={handleInputChange}
           />
           <input
@@ -124,10 +172,12 @@ const SignUpForm = () => {
           />
           <input
             type="text"
-            name="nic"
+
+            name="NICpassportNum"
+
             placeholder="NIC number"
             className='tx4'
-            value={formData.nic}
+            value={formData.NICpassportNum}
             onChange={handleInputChange}
           />
         </div>
@@ -137,7 +187,7 @@ const SignUpForm = () => {
             name="lastName"
             placeholder="Last name"
             className='tx7'
-            value={formData.lastName}
+            value={formData.lName}
             onChange={handleInputChange}
           />
           <input
@@ -150,10 +200,13 @@ const SignUpForm = () => {
           />
           <input
             type="text"
-            name="mobile"
+
+            name="contactNumber"
+
+
             placeholder="Mobile number"
             className='tx6'
-            value={formData.mobile}
+            value={formData.contactNumber}
             onChange={handleInputChange}
           />
           <button className='sign1' type="submit">Sign Up</button>

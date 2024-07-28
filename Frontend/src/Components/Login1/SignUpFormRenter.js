@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
+import Axios from 'axios';
+import { storage } from './firebase'; // Import the configured Firebase storage
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const SignUpFormRenter = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    fName: '',
+    lName: '',
     email: '',
     password: '',
-    nic: '',
+    NICnum: '',
     address: '',
-    mobile: '',
-
+    contactNum: '',
   });
+
+  const [error, setError] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -37,17 +40,77 @@ const SignUpFormRenter = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
+
+    let imageUrl = '';
     if (image) {
-      formDataToSend.append('image', image);
+      // Define a reference to the storage location
+      const storageRef = ref(storage, `profileImages/${image.name}`);
+      
+      // Start the upload task
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      try {
+        // Create a promise to handle the upload completion
+        await new Promise((resolve, reject) => {
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+              // Handle progress here if needed
+            }, 
+            (error) => {
+              // Handle unsuccessful uploads
+              console.error("Upload error:", error);
+              reject(error);
+            }, 
+            async () => {
+              // Handle successful uploads
+              try {
+                imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve();
+              } catch (error) {
+                reject(error);
+              }
+            }
+          );
+        });
+      } catch (error) {
+        setError('Image upload failed. Please try again.');
+        return;
+      }
     }
-    console.log([...formDataToSend]);
-    // Perform further actions like sending data to the server
+
+    const formDataToSend = {
+      fName: formData.fName,
+      lName: formData.lName,
+      email: formData.email,
+      password: formData.password,
+      NICnum: formData.NICnum,
+      address: formData.address,
+      contactNum: formData.contactNum,
+      profileImage: imageUrl // Include the image URL in the data to be sent
+    };
+
+    Axios.post("http://localhost:3001/api/renter", formDataToSend)
+        .then((response) => {
+        console.log("User created successfully:", response.data);
+        // Clear form and image preview after successful submission
+        setFormData({
+          fName: '',
+          lName: '',
+          email: '',
+          password: '',
+          NICnum: '',
+          address: '',
+          contactNum: '',
+        });
+        setImage(null);
+        setImagePreview(null);
+      })
+      .catch((error) => {
+        console.error("Axios Error:", error);
+        setError('An error occurred. Please try again.');
+      });
   };
 
   return (
@@ -88,24 +151,19 @@ const SignUpFormRenter = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '10px',
-            width: '70%',
-            height: '36%',
-            marginLeft: '10%',
-           }}
+          sx={{ fontSize: '10px', width: '70%', height: '36%', marginLeft: '10%' }}
         >
           Set Image
         </Button>
-    
       </div>
       <div className='sub1'>
         <div className='minisub1'>
           <input
             type="text"
-            name="firstName"
+            name="fName"
             placeholder="First name"
             className='tx1'
-            value={formData.firstName}
+            value={formData.fName}
             onChange={handleInputChange}
           />
           <input
@@ -118,10 +176,10 @@ const SignUpFormRenter = () => {
           />
           <input
             type="text"
-            name="nic"
+            name="NICnum"
             placeholder="NIC number"
             className='tx4'
-            value={formData.nic}
+            value={formData.NICnum}
             onChange={handleInputChange}
           />
           <input
@@ -132,15 +190,14 @@ const SignUpFormRenter = () => {
             value={formData.address}
             onChange={handleInputChange}
           />
-        
         </div>
         <div className='minisub2'>
           <input
             type="text"
-            name="lastName"
+            name="lName"
             placeholder="Last name"
             className='tx7'
-            value={formData.lastName}
+            value={formData.lName}
             onChange={handleInputChange}
           />
           <input
@@ -153,17 +210,16 @@ const SignUpFormRenter = () => {
           />
           <input
             type="text"
-            name="mobile"
+            name="contactNum"
             placeholder="Mobile number"
             className='tx6'
-            value={formData.mobile}
+            value={formData.contactNum}
             onChange={handleInputChange}
           />
-          
-          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };

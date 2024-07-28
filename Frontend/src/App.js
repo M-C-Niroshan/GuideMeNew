@@ -5,7 +5,6 @@ import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import GuiderDetails from './Components/Guider/GuiderDetails';
 import RenterDetails from './Components/Vehicle/RenterDetails';
-/* import VehicleDetails from './Components/Vehicle/VehicleDetails'; */
 
 import VehicleRentHome from './Components/pages/RentVehicle/VehicleRentHome';
 import BookGuiderHome from './Components/pages/Bookguider/BookGuiderHome';
@@ -22,13 +21,20 @@ import Userguider from './Components/TravelPlanner/TravelPlanner';
 
 
 import  VehicalrentN  from './Components/pages/Test';
+
 import VehicleReservation from "./Components/pages/RentVehicle/VehicleReservation";
+import GuiderReservation from "./Components/pages/Bookguider/GuiderReservation";
+
 import Home from './Components/Home/Home';
 import SignUpForm from './Components/Login1/SignUpFormGuider';
 import VehicleReservationSuccess from './Components/pages/RentVehicle/VehicleReservationSuccess';
+import GuiderReservationSuccess from './Components/pages/Bookguider/GuiderReservationSuccess';
 
+import TravelerDashboard from './Components/Dashbord/Travaller';
+import Renterdash from './Components/Dashbord/Renterdash';
+import Guiderdash from './Components/Dashbord/Guiderdash';
 
-import Userdash from './Components/Dashbord/Userdash';
+import AboutUs from './Components/AboutUs/AboutUs';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -49,7 +55,7 @@ function App() {
             <Route path="/RentVehicle" element={<VehicleRentHome/>}></Route>
             <Route path="/BookGuider" element={<BookGuiderHome/>}></Route>
             <Route path="/reservation/:id" element={<VehicleReservation/>} />
-
+            <Route path="/guider-reservation/:id" element={<GuiderReservation/>} />
 
             <Route path="/8" element={<PaymentMethod/>}></Route>
             <Route path="/9" element={<PaymentSuccess/>}></Route>
@@ -59,9 +65,14 @@ function App() {
             <Route path="/11" element={<AuthConGuider/>}></Route>
             <Route path="/12" element={<AuthContainer/>}></Route>
             <Route path="/13" element={<AuthConRenter/>}></Route>
-            <Route path='/14' element={<Userguider/>}></Route> 
+            <Route path='/PlanTrip' element={<Userguider/>}></Route> 
 
-            <Route path='/15' element={<Userdash/>}></Route> 
+            <Route path='/15' element={<TravelerDashboard/>}></Route> 
+            <Route path='/16' element={<Renterdash/>}></Route> 
+            <Route path='/17' element={<Guiderdash/>}></Route> 
+
+            <Route path="/about-us" element={<AboutUs />} />
+
             {/* <Route path="/Test" element={<Test/>}></Route> */}
 
             <Route path="/new-page" element={<AuthContainer/>}></Route>
@@ -69,6 +80,7 @@ function App() {
             <Route path="/56" element={<AuthContainer/>}></Route>
             <Route path="/57" element={<AuthConRenter/>}></Route>
             <Route path="/vehicle-reservation-success" element={<VehicleReservationSuccess />} />
+            <Route path="/guider-reservation-success" element={<GuiderReservationSuccess />} />
 
           </Routes>
         </BrowserRouter>

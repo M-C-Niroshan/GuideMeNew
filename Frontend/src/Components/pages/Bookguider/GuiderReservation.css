@@ -1,0 +1,24 @@
+.guider-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid #ddd; /* Adding a border to the image */
+  border-radius: 4px; /* Adding slight rounding for better appearance */
+  padding: 5px; /* Optional padding */
+}
+
+.MuiInputBase-root {
+  display: flex;
+  align-items: center;
+}
+
+/* Additional styling for form elements if needed */
+.MuiTextField-root {
+  margin-bottom: 16px; /* Space between form fields */
+}
+
+.MuiButton-root {
+  margin-top: 16px; /* Space above the submit button */
+}
