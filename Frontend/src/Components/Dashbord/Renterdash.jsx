@@ -6,7 +6,7 @@ import Avatar from '@mui/joy/Avatar';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import axios
 
-import './Userdash.css';
+/* import './Userdash.css'; */
 
 const textContainerStyle = {
   width: '100%',

@@ -96,15 +96,28 @@ const addVehicleRentService = async (req, res, next) => {
 };
 
 // Get vehicle rent details
-const getVehicleRentDetails = (req, res, next) => {
-  VehicleRentDetails.find()
-    .select('-_id -__v') // Exclude _id and __v fields
-    .then(response => {
-      res.json(response); // Return response directly as array
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+const getVehicleRentDetails = async (req, res, next) => {
+  const { travelerId } = req.query;
+
+  if (!travelerId) {
+    return res.status(400).json({ error: "travelerId is required" });
+  }
+
+  try {
+    // Find vehicle rent details based on travelerId
+    const rentDetails = await VehicleRentDetails.find({ travelerId })
+      .select('-_id -__v') // Optionally exclude _id and __v fields
+      .exec();
+
+    if (rentDetails.length === 0) {
+      return res.status(404).json({ message: "No rent details found for this travelerId" });
+    }
+
+    res.json(rentDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Add vehicle rent details
@@ -205,14 +218,28 @@ const addGuideServise = (req, res, next) => {
 
 
 // Get guider booking details
-const getGuiderBookingDetails = (req, res, next) => {
-  GuiderBookingDetails.find()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+const getGuiderBookingDetails = async (req, res, next) => {
+  const { travelerId } = req.query;
+
+  if (!travelerId) {
+    return res.status(400).json({ error: "travelerId is required" });
+  }
+
+  try {
+    // Find guider booking details based on travelerId
+    const bookingDetails = await GuiderBookingDetails.find({ travelerId })
+      .select('-_id -__v') // Optionally exclude _id and __v fields
+      .exec();
+
+    if (bookingDetails.length === 0) {
+      return res.status(404).json({ message: "No booking details found for this travelerId" });
+    }
+
+    res.json(bookingDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Add guider booking details
@@ -393,6 +420,8 @@ const loginUser = async (req, res, next) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 module.exports = {
   getVehicleRentServices,
