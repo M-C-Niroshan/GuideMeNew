@@ -9,7 +9,7 @@ function Backgroundvid() {
         <source src={`${process.env.PUBLIC_URL}/videoes/background.mp4`} type="video/mp4"/>
       </video>
       <div className="content">
-        <h1 className='mainheading'>Welcome to <br/> paradise of nature</h1>
+        <h1 className='mainheading'>Welcome to <br/>the paradise of nature</h1>
         <p>Discover the Beauty, Beyond Imagination.</p>
       </div>
     </div>

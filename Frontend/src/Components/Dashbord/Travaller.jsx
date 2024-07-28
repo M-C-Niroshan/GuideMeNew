@@ -107,10 +107,7 @@ const TravelerDashboard = () => {
             sx={{ width: 80, height: 80, mb: 2, mx: "auto" }}
           />
           <Typography textColor="primary.200" sx={{ fontSize: "1.5rem" }}>
-            User Account
-          </Typography>
-          <Typography textColor="primary.200">
-            {userData.fName} {userData.lName}
+          {userData.fName} {userData.lName}
           </Typography>
         </CardOverflow>
 
