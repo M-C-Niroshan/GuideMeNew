@@ -442,6 +442,49 @@ const loginUser = async (req, res, next) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getGuideServiceWithBookingStatus = async (req, res, next) => {
+  const { guiderId } = req.query;
+
+  try {
+    // Find guide services for the given guiderId
+    const guideServices = await GuideServise.find({ guiderId }).exec();
+
+    // Get booking details for each service
+    const detailedServices = await Promise.all(guideServices.map(async (service) => {
+      // Find if this service is booked
+      const booking = await GuiderBookingDetails.findOne({ guiderId, serviceId: service.serviceId }).exec();
+
+      let bookingStatus = "Available";
+      let bookedTraveler = {};
+
+      if (booking) {
+        bookingStatus = "Booked";
+        // Fetch the booked traveler's details
+        bookedTraveler = await Traveler.findOne({ travelerId: booking.travelerId }).exec();
+      }
+
+      return {
+        serviceId: service.serviceId,
+        language: service.language,
+        price: service.price,
+        description: service.description,
+        rating: service.rating,
+        serviceStatus: bookingStatus,
+        travelerId: bookedTraveler.travelerId || null,
+        travelerFname: bookedTraveler.fName || null,
+        travelerLname: bookedTraveler.lName || null,
+        travelerProfileImage: bookedTraveler.profileImage || null,
+        travelerEmail: bookedTraveler.email || null,
+        travelerContactNumber: bookedTraveler.contactNumber || null
+      };
+    }));
+
+    res.json(detailedServices);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 
 
@@ -460,5 +503,6 @@ module.exports = {
   addGuider,
   getTravelers,
   addTraveler,
-  loginUser
+  loginUser,
+  getGuideServiceWithBookingStatus
 };
