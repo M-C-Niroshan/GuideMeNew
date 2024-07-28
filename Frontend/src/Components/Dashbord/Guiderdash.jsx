@@ -1,64 +1,113 @@
-import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import CardOverflow from "@mui/joy/CardOverflow";
-import Typography from "@mui/joy/Typography";
-import Avatar from "@mui/joy/Avatar";
-import CircularProgress from "@mui/material/CircularProgress";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Box } from "@mui/material";
-import "./Guiderdash.css";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Typography from '@mui/joy/Typography';
+import Avatar from '@mui/joy/Avatar';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const textContainerStyle = {
-  width: "100%",
-  padding: "5px",
-  marginTop: "5px",
-  border: "1px solid #ccc",
-  borderRadius: "5px",
-  backgroundColor: "#f9f9f9",
-  overflow: "hidden",
-  wordWrap: "break-word",
-};
-
-const serviceImageStyle = {
   width: '100%',
-  height: 'auto',
-  borderRadius: '8px',
-  marginBottom: '8px',
+  padding: '5px',
+  marginTop: '5px',
+  border: '1px solid #ccc',
+  borderRadius: '5px',
+  backgroundColor: '#f9f9f9',
+  overflow: 'hidden',
+  wordWrap: 'break-word'
 };
 
 const GuiderDash = () => {
-  // Example guider data
   const u_Data = {
     _id: "66a4632bb0a3d660a6c0a7ed",
     fName: "John",
     lName: "Doe",
     profileImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
     NICpassportNum: "A1234567",
-    email: "joxhnx.doe@example.com",
+    email: "johnx.doe@example.com",
     contactNumber: "+1234567890",
-    guiderId: 2001, // Use guiderId instead of travelerId
+    guiderId: 20021,
   };
 
   const [guiderData, setGuiderData] = useState(u_Data);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState({
+    language: '',
+    price: '',
+    description: '',
+  });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
-    // Set guider data
     setGuiderData(u_Data);
 
-    // Fetch guider services
-    axios.get(`http://localhost:3001/api/guide-service-status?guiderId=${u_Data.guiderId}`)
-      .then(response => {
+    const fetchGuiderServices = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/guide-service-status?guiderId=${u_Data.guiderId}`);
         setServices(response.data);
         setLoading(false);
-      })
-      .catch(error => {
-        console.error("Error fetching guider services:", error);
+      } catch (error) {
+        console.error('Error fetching guider services:', error);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchGuiderServices();
   }, [u_Data.guiderId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prevForm => ({ ...prevForm, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newService = {
+      guiderId: guiderData.guiderId,
+      language: form.language,
+      price: form.price,
+      description: form.description,
+      rating: 0, // Assuming default rating; update if necessary
+      serviseStatus: 'Available' // Ensure this matches API field name
+    };
+
+    try {
+      const response = await axios.post('http://localhost:3001/api/guide-servise', newService);
+      setSuccessMessage('Service added successfully!');
+      setErrorMessage(''); // Clear error message if successful
+      setSnackbarOpen(true);
+      // Refresh services
+      const fetchServices = await axios.get(`http://localhost:3001/api/guide-service-status?guiderId=${u_Data.guiderId}`);
+      setServices(fetchServices.data);
+      setForm({ language: '', price: '', description: '' }); // Clear form fields after successful submission
+    } catch (error) {
+      if (error.response && error.response.data.message === "Service already added for this guider.") {
+        setErrorMessage('You have already added this service.');
+      } else {
+        setErrorMessage('Error adding service. Please try again.');
+      }
+      setSuccessMessage(''); // Clear success message if there's an error
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  if (!guiderData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -67,35 +116,35 @@ const GuiderDash = () => {
         variant="plain"
         orientation="horizontal"
         sx={{
-          textAlign: "center",
-          height: "100vh",
-          width: "100%",
+          textAlign: 'center',
+          height: '100vh',
+          width: '100%',
           borderRadius: 0,
-          display: "flex",
-          flexDirection: "column",
-          overflow: "auto",
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'auto'
         }}
       >
         <CardOverflow
           variant="solid"
           color="primary"
           sx={{
-            flex: "0 0 auto",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            width: "100%",
-            height: "auto",
-            px: "var(--Card-padding)",
+            flex: '0 0 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '100%',
+            height: 'auto',
+            px: 'var(--Card-padding)',
             borderRadius: 0,
           }}
         >
           <Avatar
             alt="Profile Image"
             src={guiderData.profileImage}
-            sx={{ width: 80, height: 80, mb: 2, mx: "auto" }}
+            sx={{ width: 80, height: 80, mb: 2, mx: 'auto' }}
           />
-          <Typography textColor="primary.200" sx={{ fontSize: "1.5rem" }}>
+          <Typography textColor="primary.200" sx={{ fontSize: '1.5rem' }}>
             Guider Profile
           </Typography>
           <Typography textColor="primary.200">
@@ -103,15 +152,13 @@ const GuiderDash = () => {
           </Typography>
         </CardOverflow>
 
-        <CardContent sx={{ gap: 1.5, minWidth: 200, width: "100%" }}>
-          <div className="guider-dashboard">
+        <CardContent sx={{ gap: 1.5, minWidth: 200, width: '100%' }}>
+          <div className="user-dashboard">
             <h2>Guider Dashboard</h2>
             <div className="user-info">
               <label>
                 Name:
-                <div style={textContainerStyle}>
-                  {guiderData.fName} {guiderData.lName}
-                </div>
+                <div style={textContainerStyle}>{guiderData.fName} {guiderData.lName}</div>
               </label>
               <label>
                 Email:
@@ -130,6 +177,53 @@ const GuiderDash = () => {
         </CardContent>
       </Card>
 
+      {/* Add Guider Service Form */}
+      <Box sx={{ marginTop: 4, padding: 2 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          Add New Guider Service
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Language"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="language"
+            value={form.language}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Price"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="price"
+            value={form.price}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Description"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="description"
+            value={form.description}
+            onChange={handleInputChange}
+            required
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Add Service
+          </Button>
+        </form>
+      </Box>
+
       {/* Guider Services */}
       <div style={{ marginTop: "20px" }}>
         <Typography variant="h4" sx={{ textAlign: "center", mb: 2 }}>
@@ -147,16 +241,16 @@ const GuiderDash = () => {
           services.map(service => (
             <Card key={service.serviceId} sx={{ mb: 2, position: 'relative' }}>
               <CardOverflow variant="solid" color="primary">
-              <Typography textColor="primary.200">
-                  serviceId: {service.serviceId}
+                <Typography textColor="primary.200">
+                  Service ID: {service.serviceId}
                 </Typography>
                 <Typography textColor="primary.200" sx={{ fontSize: "1.2rem" }}>
-                  language: {service.language}
+                  Language: {service.language}
                 </Typography>
                 <Typography textColor="primary.200">
                   Price: {service.price} Per Day
                 </Typography>
-                {service.serviceStatus === "Booked" && (
+                {service.serviseStatus === "Booked" && (
                   <Box
                     sx={{
                       position: 'absolute',
@@ -165,49 +259,33 @@ const GuiderDash = () => {
                       backgroundColor: 'red',
                       color: 'white',
                       padding: '4px 8px',
-                      borderRadius: '0 0 8px 0',
-                      fontWeight: 'bold',
+                      borderRadius: '4px',
                     }}
                   >
                     Booked
                   </Box>
                 )}
+                <Box sx={{ marginTop: 2 }}>
+                  <Typography textColor="primary.200">
+                    Description: {service.description}
+                  </Typography>
+                </Box>
               </CardOverflow>
-
-              
-              <CardContent>
-                <Typography>
-                  Description: {service.description}
-                </Typography>
-                <Typography>
-                  Rating: {service.rating}
-                </Typography>
-                {service.serviceStatus === "Booked" && (
-                  <Box
-                    sx={{
-                      marginTop: 2,
-                      padding: 2,
-                      borderRadius: 1,
-                      boxShadow: 1,
-                      backgroundColor: '#f1f1f1',
-                    }}
-                  >                
-                  <img
-                  src={service.travelerProfileImage}
-                  alt="Service Image"
-                  style={serviceImageStyle}
-                  />
-                    <Typography variant="h6">Booked Traveler Details:</Typography>
-                    <Typography>Name: {service.travelerFname} {service.travelerLname}</Typography>
-                    <Typography>Email: {service.travelerEmail}</Typography>
-                    <Typography>Contact: {service.travelerContactNumber}</Typography>
-                  </Box>
-                )}
-              </CardContent>
             </Card>
           ))
         )}
       </div>
+
+      {/* Snackbar Notifications */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={errorMessage ? 'error' : 'success'}>
+          {errorMessage || successMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
