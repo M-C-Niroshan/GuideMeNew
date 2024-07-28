@@ -90,7 +90,16 @@ const BookGuiderHome = () => {
   const { setUserData } = useUserContext(); // Get the setUserData method
   useEffect(() => {
     // Setting user data for temporary purposes
-    setUserData({  travelerId:15, name: 'John Doe', email: 'john@example.com' });
+    setUserData({
+      _id: "66a4632bb0a3d660a6c0a7ed",
+      fName: "John",
+      lName: "Doe",
+      profileImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
+      NICpassportNum: "A1234567",
+      email: "johnx.doe@example.com",
+      contactNumber: "+1234567890",
+      travelerId: 17,
+    });
   }, [setUserData]);
 
   const navigate = useNavigate();

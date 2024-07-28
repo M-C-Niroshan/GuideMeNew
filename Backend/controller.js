@@ -96,15 +96,43 @@ const addVehicleRentService = async (req, res, next) => {
 };
 
 // Get vehicle rent details
-const getVehicleRentDetails = (req, res, next) => {
-  VehicleRentDetails.find()
-    .select('-_id -__v') // Exclude _id and __v fields
-    .then(response => {
-      res.json(response); // Return response directly as array
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+const getVehicleRentDetails = async (req, res, next) => {
+  const { travelerId } = req.query;
+
+  try {
+    // Find vehicle rent details based on travelerId
+    const rentDetails = await VehicleRentDetails.find({ travelerId }).exec();
+
+    // Fetch renter and vehicle service details for each rent entry
+    const detailedRentals = await Promise.all(rentDetails.map(async (rent) => {
+      const renter = await Renter.findOne({ renterId: rent.renterId }).exec();
+      const vehicleService = await VehicleRentService.findOne({ vehicleRentServiceId: rent.vehicleRentServiceId }).exec();
+
+      return {
+/*         travelerId: rent.travelerId, */
+        renterId: rent.renterId,
+        vehicleRentServiceId: rent.vehicleRentServiceId,
+        pickupDate: rent.pickupDate,
+        pickupTime: rent.pickupTime,
+        handoverDate: rent.handoverDate,
+        handoverTime: rent.handoverTime,
+        renterFname: renter ? renter.fName : null,
+        renterLname: renter ? renter.lName : null,
+        renterProfileImg: renter ? renter.profileImg : null,
+        renterEmail: renter ? renter.email : null,
+        renterContactNum: renter ? renter.contactNum : null,
+        vehicleRegNum: vehicleService ? vehicleService.vehicleRegNum : null,
+        vehicleType: vehicleService ? vehicleService.type : null,
+        vehicleImage: vehicleService ? vehicleService.vehicleImage : null,
+        availableLocation: vehicleService ? vehicleService.avilableLocation : null
+      };
+    }));
+
+    res.json(detailedRentals);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Add vehicle rent details
@@ -205,14 +233,35 @@ const addGuideServise = (req, res, next) => {
 
 
 // Get guider booking details
-const getGuiderBookingDetails = (req, res, next) => {
-  GuiderBookingDetails.find()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+const getGuiderBookingDetails = async (req, res, next) => {
+  const { travelerId } = req.query;
+
+  try {
+    // Find guider booking details based on travelerId
+    const bookingDetails = await GuiderBookingDetails.find({ travelerId }).exec();
+
+    // Fetch guider details for each booking and reshape the response
+    const bookingsWithGuiderDetails = await Promise.all(bookingDetails.map(async (booking) => {
+      const guider = await Guider.findOne({ guiderId: booking.guiderId }).exec();
+      return {
+        /* travelerId: booking.travelerId, */
+        guiderId: booking.guiderId,
+        serviceId: booking.serviceId,
+        reservationDate: booking.reservationDate,
+        reservationTime: booking.reservationTime,
+        guiderFname: guider ? guider.fName : null,
+        guiderLname: guider ? guider.lName : null,
+        guiderProfileImage: guider ? guider.profileImage : null,
+        guiderEmail: guider ? guider.email : null,
+        guiderContactNum: guider ? guider.contactNum : null // Corrected field name
+      };
+    }));
+
+    res.json(bookingsWithGuiderDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Add guider booking details
@@ -393,6 +442,51 @@ const loginUser = async (req, res, next) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getGuideServiceWithBookingStatus = async (req, res, next) => {
+  const { guiderId } = req.query;
+
+  try {
+    // Find guide services for the given guiderId
+    const guideServices = await GuideServise.find({ guiderId }).exec();
+
+    // Get booking details for each service
+    const detailedServices = await Promise.all(guideServices.map(async (service) => {
+      // Find if this service is booked
+      const booking = await GuiderBookingDetails.findOne({ guiderId, serviceId: service.serviceId }).exec();
+
+      let bookingStatus = "Available";
+      let bookedTraveler = {};
+
+      if (booking) {
+        bookingStatus = "Booked";
+        // Fetch the booked traveler's details
+        bookedTraveler = await Traveler.findOne({ travelerId: booking.travelerId }).exec();
+      }
+
+      return {
+        serviceId: service.serviceId,
+        language: service.language,
+        price: service.price,
+        description: service.description,
+        rating: service.rating,
+        serviceStatus: bookingStatus,
+        travelerId: bookedTraveler.travelerId || null,
+        travelerFname: bookedTraveler.fName || null,
+        travelerLname: bookedTraveler.lName || null,
+        travelerProfileImage: bookedTraveler.profileImage || null,
+        travelerEmail: bookedTraveler.email || null,
+        travelerContactNumber: bookedTraveler.contactNumber || null
+      };
+    }));
+
+    res.json(detailedServices);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 module.exports = {
   getVehicleRentServices,
@@ -409,5 +503,6 @@ module.exports = {
   addGuider,
   getTravelers,
   addTraveler,
-  loginUser
+  loginUser,
+  getGuideServiceWithBookingStatus
 };

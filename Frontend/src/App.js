@@ -30,7 +30,7 @@ import SignUpForm from './Components/Login1/SignUpFormGuider';
 import VehicleReservationSuccess from './Components/pages/RentVehicle/VehicleReservationSuccess';
 import GuiderReservationSuccess from './Components/pages/Bookguider/GuiderReservationSuccess';
 
-import Userdash from './Components/Dashbord/Userdash';
+import TravelerDashboard from './Components/Dashbord/Travaller';
 import Renterdash from './Components/Dashbord/Renterdash';
 import Guiderdash from './Components/Dashbord/Guiderdash';
 
@@ -65,7 +65,7 @@ function App() {
             <Route path="/13" element={<AuthConRenter/>}></Route>
             <Route path='/14' element={<Userguider/>}></Route> 
 
-            <Route path='/15' element={<Userdash/>}></Route> 
+            <Route path='/15' element={<TravelerDashboard/>}></Route> 
             <Route path='/16' element={<Renterdash/>}></Route> 
             <Route path='/17' element={<Guiderdash/>}></Route> 
 
