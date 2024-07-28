@@ -1,4 +1,4 @@
-import "./VehicleRentHome.css";
+import './VehicleRentHome.css';
 import React, { useState, useEffect } from "react";
 import { Box, Typography, TextField, Button, MenuItem, Grid } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -9,7 +9,6 @@ import Navigation from "../../Navigation/Navigation";
 import Footer from "../../Footer/Footer";
 import { useUserContext } from '../UserContext';
 
-// Importing images for services and vehicles
 import Diverse_Vehicle_Selection from "./images/RentVehiclePageImages/Diverse Vehicle Selection.jpg";
 import Simple_Booking_Process from "./images/RentVehiclePageImages/Simple Booking Process.jpg";
 import Flexible_Rental_Periods from "./images/RentVehiclePageImages/Flexible Rental Periods.jpg";
@@ -18,6 +17,7 @@ import Customer_Support from "./images/RentVehiclePageImages/Customer Support.jp
 import Convenient_Locations from "./images/RentVehiclePageImages/Convenient Locations.jpg";
 import Safe_and_Reliable_Vehicles from "./images/RentVehiclePageImages/Safe and Reliable Vehicles.jpg";
 import Vehicle_Ratings from "./images/RentVehiclePageImages/Vehicle Ratings.jpg";
+
 import lcar from "./images/RentVehiclePageImages/vehicles/lcar.png";
 import Bike from "./images/RentVehiclePageImages/vehicles/Bike.png";
 import Tuk from "./images/RentVehiclePageImages/vehicles/Tuk.png";
@@ -25,7 +25,6 @@ import Flex from "./images/RentVehiclePageImages/vehicles/flex.png";
 import Car from "./images/RentVehiclePageImages/vehicles/Car.png";
 import Van from "./images/RentVehiclePageImages/vehicles/Van.png";
 
-// Service and car type options
 const services = [
   {
     img: Diverse_Vehicle_Selection,
@@ -105,127 +104,151 @@ export default function VehicleRentHome() {
 
   useEffect(() => {
     // Setting user data for temporary purposes
-    setUserData({
-      _id: "66a4632bb0a3d660a6c0a7ed",
-      fName: "John",
-      lName: "Doe",
-      profileImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-      NICpassportNum: "A1234567",
-      email: "johnx.doe@example.com",
-      contactNumber: "+1234567890",
-      travelerId: 16,
-    });
+    setUserData({ travelerId: 15, name: 'John Doe', email: 'john@example.com' });
   }, [setUserData]);
 
   return (
     <div className="maincont">
       <Navigation />
-
-      {/* Hero Section */}
       <div className="navback">
         <div className="travelheadervr">
-          <p className="travelheaderpvr">
-            Discover the Freedom to Explore with Our Comprehensive
-          </p>
+          <p className="travelheaderpvr">Discover the Freedom to Explore with Our Comprehensive</p>
         </div>
-
         <div className="relative w-full h-screen overflow-hidden" id="backimg">
-          <img
-            src={`${process.env.PUBLIC_URL}/images/navback.jpg`}
-            alt="background"
-            className="absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2"
-          />
+          <img src={`${process.env.PUBLIC_URL}/images/navback.jpg`} alt='background' className='absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2' />
         </div>
       </div>
 
-      {/* Car Rental Form Section */}
-      <Box sx={{ padding: { xs: "20px", md: "5px" }, marginTop: "-110px" }}>
-        <Box
-          sx={{
-            p: 2,
-            bgcolor: "background.paper",
-            borderRadius: 5,
-            boxShadow: 5,
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            maxWidth: "800px",
-          }}
-        >
-          <Grid container spacing={2} sx={{ width: "100%", justifyContent: "center" }}>
-            <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", padding: "8px" }}>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                onChange={(event, newValue) => setPickupLocation(newValue ? newValue.label : "")}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} label="Pickup Location" />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", padding: "8px" }}>
-              <TextField
-                select
-                label="Vehicle Type"
-                value={carType}
-                onChange={(e) => setCarType(e.target.value)}
-                fullWidth
-              >
-                <MenuItem value="">Select Vehicle Type</MenuItem>
-                {carTypes.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "8px" }}>
-              <Button
-                variant="contained"
-                sx={{ bgcolor: "#0056b3", width: "100%", "&:hover": { bgcolor: "#063f7c" } }}
-                onClick={handleFindVehicleClick}
-              >
-                Find a Vehicle
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-
-      {/* Conditionally Render GetVehicle Component */}
-      {showGetVehicle && <GetVehicle pickupLocation={pickupLocation} vehicleType={carType} />}
-
-      {/* Slideshow Section */}
-      <Box sx={{ padding: { xs: "0px", md: "0px" }, marginTop: "1px", width: '80%', height: '10%', marginLeft: 'auto', marginRight: 'auto' }}>
-        <Slide slidesToScroll={2} slidesToShow={4} indicators={true}>
-          {[lcar, Bike, Tuk, Flex, Car, Van].map((src, index) => (
-            <Box key={index} sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}>
-              <img src={src} alt={`Slide ${index + 1}`} style={{ width: "80%", height: "auto" }} />
+      <Box sx={{ backgroundColor: "" }}>
+        {/* Car Rental Form Section */}
+        <Box>
+          <div className="Form">
+            <Box
+              sx={{
+                p: 2,
+                bgcolor: "background.paper",
+                borderRadius: 5,
+                boxShadow: 5,
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+                maxWidth: "800px",
+                marginTop: "-110px"
+              }}
+            >
+              <Grid container spacing={2} sx={{ width: "100%", justifyContent: "center" }}>
+                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", padding: "8px" }}>
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={top100Films}
+                    onChange={(event, newValue) => setPickupLocation(newValue ? newValue.label : "")}
+                    sx={{ width: "100%" }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Pickup Location" />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", padding: "8px" }}>
+                  <TextField
+                    select
+                    label="Vehicle Type"
+                    value={carType}
+                    onChange={(e) => setCarType(e.target.value)}
+                    fullWidth
+                  >
+                    <MenuItem value="">Select Vehicle Type</MenuItem>
+                    {carTypes.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      bgcolor: "#0056b3",
+                      width: "100%",
+                      "&:hover": { bgcolor: "#063f7c" },
+                    }}
+                    onClick={handleFindVehicleClick}
+                  >
+                    Find a Vehicle
+                  </Button>
+                </Grid>
+              </Grid>
             </Box>
-          ))}
-        </Slide>
+          </div>
+        </Box>
+
+        {/* Conditionally Render GetVehicle Component */}
+        {showGetVehicle && (
+          <GetVehicle pickupLocation={pickupLocation} vehicleType={carType} />
+        )}
+
+        {/* Slideshow Section */}
+        <Box sx={{ padding: { xs: "0px", md: "0px" }, marginTop: "1px", width:'80%', height:'10%', marginLeft:'auto', marginRight:'auto'}}>
+          <Slide slidesToScroll={2} slidesToShow={4} indicators={true}>
+            {[lcar, Bike, Tuk, Flex, Car, Van].map((src, index) => (
+              <Box
+                key={index}
+                sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
+              >
+                <img
+                  src={src}
+                  alt={`Slide ${index + 1}`}
+                  style={{ width: "80%", height: "auto" }}
+                />
+              </Box>
+            ))}
+          </Slide>
+        </Box>
+
+        {/* Rental Services Section */}
+        <Box sx={{ padding: { xs: "20px", md: "5px" }, marginTop: "180px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "16px",
+            }}
+          >
+            {services.map((service, index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: { xs: "100%", sm: "45%", md: "30%" },
+                  maxWidth: "300px",
+                  backgroundColor: "#4bccbe",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={service.img}
+                  alt={service.title}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    objectFit: "cover",
+                    maxHeight: "200px",
+                  }}
+                />
+                <Box sx={{ padding: "16px" }}>
+                  <Typography variant="h6" sx={{ mb: 1 }}>
+                    {service.title}
+                  </Typography>
+                  <Typography variant="body2">{service.text}</Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+        <Footer />
       </Box>
-
-      {/* Service Info Section */}
-      <div className="section">
-        <Typography variant="h4" sx={{ mb: 4, textAlign: "center" }}>
-          Our Services
-        </Typography>
-        <div className="service-container">
-          {services.map((service, index) => (
-            <div key={index} className="service-card">
-              <img src={service.img} alt={service.title} className="service-img" />
-              <div className="service-text">
-                <h3>{service.title}</h3>
-                <p>{service.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
