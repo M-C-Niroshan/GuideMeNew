@@ -142,22 +142,51 @@ const addVehicleRentDetails = async (req, res, next) => {
 };
 
 // Get all guide services
-const getGuideServises = (req, res, next) => {
-  GuideServise.find()
-    .select('-_id -__v') // Exclude _id and __v fields
-    .then(response => {
-      res.json(response); // Return response directly as array
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+const getGuideServises = async (req, res, next) => {
+  const { language } = req.query;
+
+  // Construct the query object based on provided parameters
+  let query = {};
+
+  if (language) {
+    query.language = language;
+  }
+
+  try {
+    // Find guide services based on query
+    const guideServices = await GuideServise.find(query)
+      .exec();
+
+    // Fetch guider details for each service and reshape the response
+    const guideServicesWithGuiderDetails = await Promise.all(guideServices.map(async (service) => {
+      const guider = await Guider.findOne({ guiderId: service.guiderId }).exec();
+      return {
+        guiderId: service.guiderId,  // Include guiderId
+        serviceId: service.serviceId,
+        language: service.language,
+        price: service.price,
+        description: service.description,
+        rating: service.rating,
+        name: guider ? `${guider.fName} ${guider.lName}` : null,
+        profileImg: guider ? guider.profileImage : null,
+        email: guider ? guider.email : null,
+        contactNum: guider ? guider.contactNum : null
+      };
+    }));
+
+    res.json(guideServicesWithGuiderDetails);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 
 // Add a new guide service
 const addGuideServise = (req, res, next) => {
   const guideServise = new GuideServise({
     guiderId: req.body.guiderId,
-    serviceId: req.body.serviceId,
+    // No need to pass serviceId; it will be auto-incremented
     language: req.body.language,
     price: req.body.price,
     description: req.body.description,
@@ -174,6 +203,7 @@ const addGuideServise = (req, res, next) => {
     });
 };
 
+
 // Get guider booking details
 const getGuiderBookingDetails = (req, res, next) => {
   GuiderBookingDetails.find()
@@ -186,24 +216,36 @@ const getGuiderBookingDetails = (req, res, next) => {
 };
 
 // Add guider booking details
-const addGuiderBookingDetails = (req, res, next) => {
-  const guiderBookingDetails = new GuiderBookingDetails({
-    travelerId: req.body.travelerId,
-    serviceId: req.body.serviceId,
-    startDate: req.body.startDate,
-    startTime: req.body.startTime,
-    endDate: req.body.endDate,
-    endTime: req.body.endTime
-  });
+const addGuiderBookingDetails = async (req, res, next) => {
+  const { travelerId, guiderId, serviceId, reservationDate, reservationTime } = req.body;
 
-  guiderBookingDetails.save()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      res.json({ error });
+  try {
+    // Create new guider booking details entry
+    const guiderBookingDetails = new GuiderBookingDetails({
+      travelerId,
+      guiderId,
+      serviceId,
+      reservationDate,
+      reservationTime
     });
+
+    // Save the guider booking details
+    await guiderBookingDetails.save();
+
+    // Update the guide service status to "Booked"
+    await GuideServise.findOneAndUpdate(
+      { serviceId: serviceId }, // Assuming serviceId is used to find the service
+      { serviseStatus: "Booked" },
+      { new: true }
+    ).exec();
+
+    res.json({ message: 'Guider booking details added and service status updated.' });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 
 // Get all renters
 const getRenters = (req, res, next) => {
