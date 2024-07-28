@@ -9,12 +9,14 @@ const SignUpForm = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
+
     fName: '',
     lName: '',
     email: '',
     password: '',
     NICpassportNum: '',
     contactNumber: '',
+
   });
   const [error, setError] = useState('');
   
@@ -38,6 +40,7 @@ const SignUpForm = () => {
     });
   };
 
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   
@@ -48,6 +51,7 @@ const handleSubmit = async (e) => {
     
     // Start the upload task
     const uploadTask = uploadBytesResumable(storageRef, image);
+
 
     // Create a promise to handle the upload completion
     await new Promise((resolve, reject) => {
@@ -152,7 +156,7 @@ const handleSubmit = async (e) => {
         <div className='minisub1'>
           <input
             type="text"
-            name="fName"
+            name="firstName"
             placeholder="First name"
             className='tx1'
             value={formData.fName}
@@ -168,7 +172,9 @@ const handleSubmit = async (e) => {
           />
           <input
             type="text"
+
             name="NICpassportNum"
+
             placeholder="NIC number"
             className='tx4'
             value={formData.NICpassportNum}
@@ -178,7 +184,7 @@ const handleSubmit = async (e) => {
         <div className='minisub2'>
           <input
             type="text"
-            name="lName"
+            name="lastName"
             placeholder="Last name"
             className='tx7'
             value={formData.lName}
@@ -194,7 +200,10 @@ const handleSubmit = async (e) => {
           />
           <input
             type="text"
+
             name="contactNumber"
+
+
             placeholder="Mobile number"
             className='tx6'
             value={formData.contactNumber}

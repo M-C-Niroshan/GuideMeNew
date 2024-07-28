@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
+import Dropdown from '../SpecialComponents/DropdownGen';
 import { Box, Button } from '@mui/material';
+
 import Axios from 'axios';
 import { storage } from './firebase'; // Import the configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
 
 const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
+
     fName: '',
     lName: '',
+
     email: '',
     password: '',
-    NICnum: '',
+    nic: '',
     age: '',
-    contactNum: '',
+    mobile: '',
     gender: ''
   });
 
@@ -43,6 +48,7 @@ const SignUpFormGuider = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     let imageUrl = '';
     if (image) {
@@ -112,7 +118,18 @@ const SignUpFormGuider = () => {
       .catch((error) => {
         console.error("Axios Error:", error);
         setError('An error occurred. Please try again.');
+
       });
+      const result = await response.json();
+      if (response.ok) {
+        alert('User created successfully!');
+        // Close the SignUpForm or redirect here if needed
+      } else {
+        setError(result.message || 'Something went wrong');
+      }
+    } catch (error) {
+      setError('An error occurred: ' + error.message);
+    }
   };
 
   return (
@@ -153,16 +170,21 @@ const SignUpFormGuider = () => {
           variant="contained" 
           color="primary" 
           onClick={() => document.getElementById('image-upload').click()}
-          sx={{ fontSize: '10px', width: '70%', height: '36%', marginLeft: '10%' }}
+          sx={{ fontSize: '10px',
+            width: '70%',
+            height: '36%',
+            marginLeft: '10%',
+           }}
         >
           Set Image
         </Button>
+    
       </div>
       <div className='sub1'>
         <div className='minisub1'>
           <input
             type="text"
-            name="fName"
+            name="firstName"
             placeholder="First name"
             className='tx1'
             value={formData.fName}
@@ -178,7 +200,7 @@ const SignUpFormGuider = () => {
           />
           <input
             type="text"
-            name="NICnum"
+            name="nic"
             placeholder="NIC number"
             className='tx4'
             value={formData.NICnum}
@@ -192,11 +214,12 @@ const SignUpFormGuider = () => {
             value={formData.age}
             onChange={handleInputChange}
           />
+          
         </div>
         <div className='minisub2'>
           <input
             type="text"
-            name="lName"
+            name="lastName"
             placeholder="Last name"
             className='tx7'
             value={formData.lName}
@@ -212,26 +235,14 @@ const SignUpFormGuider = () => {
           />
           <input
             type="text"
-            name="contactNum"
+            name="mobile"
             placeholder="Mobile number"
             className='tx6'
             value={formData.contactNum}
             onChange={handleInputChange}
           />
-          <div className="dropdown-containerGen">
-            <label htmlFor="gender" className="label">Gender</label>
-            <select
-              id="gender"
-              name="gender"
-              value={formData.gender}
-              onChange={handleInputChange}
-              className="dropdownGen"
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
+          <Dropdown />
+          
           <button className='sign1' type="submit">Sign Up</button>
         </div>
       </div>
