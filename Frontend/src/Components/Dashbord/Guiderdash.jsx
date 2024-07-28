@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Paper from '@mui/material/Paper';
 
 const textContainerStyle = {
   width: '100%',
@@ -125,6 +126,8 @@ const GuiderDash = () => {
           overflow: 'auto'
         }}
       >
+        <div className="bluecon"></div>
+
         <CardOverflow
           variant="solid"
           color="primary"
@@ -178,61 +181,71 @@ const GuiderDash = () => {
       </Card>
 
       {/* Add Guider Service Form */}
-      <Box sx={{ marginTop: 4, padding: 2 }}>
-        <Typography variant="h4" sx={{ mb: 2 }}>
-          Add New Guider Service
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Language"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            name="language"
-            value={form.language}
-            onChange={handleInputChange}
-            required
-          />
-          <TextField
-            label="Price"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            name="price"
-            value={form.price}
-            onChange={handleInputChange}
-            required
-          />
-          <TextField
-            label="Description"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            name="description"
-            value={form.description}
-            onChange={handleInputChange}
-            required
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
-            Add Service
-          </Button>
-        </form>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+          padding: 2,
+        }}
+      >
+        <Paper elevation={3} sx={{ maxWidth: 600, width: '100%', padding: 4, borderRadius: '8px' }}>
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            Add New Guider Service
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Language"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="language"
+              value={form.language}
+              onChange={handleInputChange}
+              required
+            />
+            <TextField
+              label="Price"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="price"
+              value={form.price}
+              onChange={handleInputChange}
+              required
+            />
+            <TextField
+              label="Description"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="description"
+              value={form.description}
+              onChange={handleInputChange}
+              required
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+            >
+              Add Service
+            </Button>
+          </form>
+        </Paper>
       </Box>
 
       {/* Guider Services */}
-      <div style={{ marginTop: "20px" }}>
+      <Box sx={{ marginTop: 4 }}>
         <Typography variant="h4" sx={{ textAlign: "center", mb: 2 }}>
           Guider Services
         </Typography>
         {loading ? (
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>
             <CircularProgress />
-          </div>
+          </Box>
         ) : services.length === 0 ? (
           <Card sx={{ mb: 2, p: 2, textAlign: "center" }}>
             <Typography>No services available.</Typography>
@@ -274,7 +287,7 @@ const GuiderDash = () => {
             </Card>
           ))
         )}
-      </div>
+      </Box>
 
       {/* Snackbar Notifications */}
       <Snackbar
