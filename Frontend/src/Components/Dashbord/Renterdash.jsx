@@ -1,12 +1,16 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Typography from '@mui/joy/Typography';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/material/Box';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const textContainerStyle = {
   width: '100%',
@@ -30,6 +34,17 @@ const Renterdash = () => {
   const [renter, setRenter] = useState(null);
   const [rentServices, setRentServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState({
+    vehicleRegNum: '',
+    type: '',
+    vehicleImage: '',
+    rentPrice: '',
+    avilableLocation: '',
+    description: ''
+  });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   // Example renter data
   const u_Data = {
@@ -40,7 +55,7 @@ const Renterdash = () => {
     NICpassportNum: "A1234567",
     email: "johnx.doe@example.com",
     contactNumber: "+1234567890",
-    travelerId: 1003,
+    renterId: 1003,
   };
 
   useEffect(() => {
@@ -50,7 +65,7 @@ const Renterdash = () => {
     // Fetch vehicle rent services based on renterId
     const fetchRentServices = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/vehicle-rent-services?renterId=${u_Data.travelerId}`);
+        const response = await axios.get(`http://localhost:3001/api/vehicle-rent-services?renterId=${u_Data.renterId}`);
         setRentServices(response.data);
         setLoading(false);
       } catch (error) {
@@ -60,7 +75,37 @@ const Renterdash = () => {
     };
 
     fetchRentServices();
-  }, [u_Data.travelerId]);
+  }, [u_Data.renterId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prevForm => ({ ...prevForm, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newVehicle = {
+      ...form,
+      renterId: u_Data.renterId,
+      rating: 0,
+      vehicleStatus: "available",
+    };
+    try {
+      await axios.post('http://localhost:3001/api/vehicle-rent-service', newVehicle);
+      setSuccessMessage('Vehicle added successfully!');
+      setSnackbarOpen(true);
+      // Refresh vehicle services
+      const response = await axios.get(`http://localhost:3001/api/vehicle-rent-services?renterId=${u_Data.renterId}`);
+      setRentServices(response.data);
+    } catch (error) {
+      setErrorMessage('Error adding vehicle. Please try again.');
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   if (!renter) {
     return <div>Loading...</div>;
@@ -138,6 +183,83 @@ const Renterdash = () => {
         </CardContent>
       </Card>
 
+      {/* Add Vehicle Form */}
+      <Box sx={{ marginTop: 4, padding: 2 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          Add New Vehicle
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Vehicle Registration Number"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="vehicleRegNum"
+            value={form.vehicleRegNum}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Type"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="type"
+            value={form.type}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Vehicle Image URL"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="vehicleImage"
+            value={form.vehicleImage}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Rent Price"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="rentPrice"
+            value={form.rentPrice}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Available Location"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="avilableLocation"
+            value={form.avilableLocation}
+            onChange={handleInputChange}
+            required
+          />
+          <TextField
+            label="Description"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="description"
+            value={form.description}
+            onChange={handleInputChange}
+            required
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Add Vehicle
+          </Button>
+        </form>
+      </Box>
+
       {/* Vehicle Rental Services */}
       <div style={{ marginTop: "20px" }}>
         <Typography variant="h4" sx={{ textAlign: "center", mb: 2 }}>
@@ -154,73 +276,33 @@ const Renterdash = () => {
         ) : (
           rentServices.map(service => (
             <Card key={service.vehicleRentServiceId} sx={{ mb: 2, position: 'relative' }}>
-              <CardOverflow variant="solid" color="primary">
-                <Typography textColor="primary.200" sx={{ fontSize: "1.2rem" }}>
-                  Vehicle: {service.vehicleRegNum} ({service.type})
-                </Typography>
-                <Typography textColor="primary.200">
-                  Rent Price: {service.rentPrice}
-                </Typography>
-                {service.vehicleStatus === "Booked" && (
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      backgroundColor: 'red',
-                      color: 'white',
-                      padding: '4px 8px',
-                      borderRadius: '0 0 8px 0',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    Booked
-                  </Box>
-                )}
-                <img
-                  src={service.vehicleImage}
-                  alt="Vehicle Image"
-                  style={vehicleImageStyle}
-                />
-                <Typography textColor="primary.200">
-                  Location: {service.avilableLocation}
-                </Typography>
+              <CardOverflow variant="solid" color="primary" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <CardContent>
+                  <img src={service.vehicleImage} alt={service.vehicleRegNum} style={vehicleImageStyle} />
+                  <Typography variant="h6" sx={{ mb: 1 }}>{service.vehicleRegNum}</Typography>
+                  <Typography variant="body2">Type: {service.type}</Typography>
+                  <Typography variant="body2">Rent Price: {service.rentPrice}</Typography>
+                  <Typography variant="body2">Location: {service.avilableLocation}</Typography>
+                  <Typography variant="body2">Description: {service.description}</Typography>
+                </CardContent>
               </CardOverflow>
-              <CardContent>
-                <Typography>
-                  Description: {service.description}
-                </Typography>
-                <Typography>
-                  Rating: {service.rating}
-                </Typography>
-                {service.vehicleStatus === "Booked" && (
-                  <Box
-                    sx={{
-                      marginTop: 2,
-                      padding: 2,
-                      borderRadius: 1,
-                      boxShadow: 1,
-                      backgroundColor: '#f1f1f1',
-                    }}
-                  >
-                    <Typography variant="h6">Rented Traveler Details:</Typography>
-                    <Typography>Name: {service.travelerFname} {service.travelerLname}</Typography>
-                    <Typography>Email: {service.travelerEmail}</Typography>
-                    <Typography>Contact: {service.travelerContactNumber}</Typography>
-                    <Avatar
-                      alt="Traveler Profile Image"
-                      src={service.travelerProfileImage}
-                      sx={{ width: 50, height: 50, mt: 2, mb: 1 }}
-                    />
-                  </Box>
-                )}
-              </CardContent>
             </Card>
           ))
         )}
       </div>
+
+      {/* Snackbar for messages */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={successMessage ? "success" : "error"}>
+          {successMessage || errorMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
-}
+};
 
 export default Renterdash;
