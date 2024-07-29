@@ -18,6 +18,8 @@ import Paper from '@mui/material/Paper'; // Added for border styling
 import { storage } from '../Login1/firebase'; // Import your configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { NavLink } from 'react-router-dom';
+import Logout from '@mui/icons-material/Logout';
+
 
 const textContainerStyle = {
   width: '100%',
@@ -461,6 +463,11 @@ const Renterdash = () => {
           </Button>
         </NavLink>
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
+  <NavLink to="/">
+      <Logout sx={{ mr: 1 }} />
+  </NavLink>
+</div>
 
       {/* Snackbar for messages */}
       <Snackbar

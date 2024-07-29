@@ -13,6 +13,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
 import { NavLink } from 'react-router-dom';
+import Logout from '@mui/icons-material/Logout';
 
 const textContainerStyle = {
   width: '100%',
@@ -127,7 +128,7 @@ const GuiderDash = () => {
         orientation="horizontal"
         sx={{
           textAlign: 'center',
-          height: '80vh',
+          height: '',
           width: '100%',
           borderRadius: 0,
           display: 'flex',
@@ -345,6 +346,11 @@ const GuiderDash = () => {
           </Button>
         </NavLink>
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
+  <NavLink to="/">
+      <Logout sx={{ mr: 1 }} />
+  </NavLink>
+</div>
 
       {/* Snackbar Notifications */}
       <Snackbar
