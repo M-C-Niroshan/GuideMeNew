@@ -11,6 +11,8 @@ import { useUserContext } from "../pages/UserContext";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography as MuiTypography } from '@mui/material';
 import "./Traveller.css";
+import Logout from "@mui/icons-material/Logout";
+import Box from "@mui/material/Box";
 
 const textContainerStyle = {
   width: "100%",
@@ -57,7 +59,6 @@ const TravelerDashboard = () => {
   const [vehicleReservations, setVehicleReservations] = useState([]);
   const [loadingGuider, setLoadingGuider] = useState(true);
   const [loadingVehicle, setLoadingVehicle] = useState(true);
-  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,18 +83,17 @@ const TravelerDashboard = () => {
       });
   }, [setUserData, userData.travelerId]);
 
-  const handleLogoutClick = () => {
-    setOpenDialog(true);
+  const handlehomeClick = () => {
+    navigate('/'); // Navigate to home page
   };
 
-  const handleConfirmLogout = () => {
-    setUserData(null);
-    navigate("/");
+
+
+  const handleLogout = () => {
+    setUserData(null); // Clear user data
+    navigate('/'); // Navigate to home page
   };
 
-  const handleCancelLogout = () => {
-    setOpenDialog(false);
-  };
 
   if (!userData) {
     return <div>Loading...</div>;
@@ -282,32 +282,21 @@ const TravelerDashboard = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={handleLogoutClick}
+        onClick={handlehomeClick}
         sx={{ marginTop: "20px", display: "block", mx: "auto" }}
       >
         Home
       </Button>
-
-      <Dialog
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-        PaperProps={{ style: confirmationDialogStyles.paper }}
-      >
-        <DialogTitle style={confirmationDialogStyles.title}>
-          <MuiTypography variant="h6" component="span">Logout Confirmation</MuiTypography>
-        </DialogTitle>
-        <DialogContent style={confirmationDialogStyles.content}>
-          <MuiTypography>Are you sure you want to log out and go to the home page?</MuiTypography>
-        </DialogContent>
-        <DialogActions style={confirmationDialogStyles.actions}>
-          <Button onClick={handleCancelLogout} color="inherit" style={confirmationDialogStyles.button}>
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmLogout} color="primary" style={confirmationDialogStyles.button}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 2 }}>
+        <Button
+          variant="contained"
+          color="error"
+          startIcon={<Logout />}
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
+      </Box>
     </div>
   );
 };
