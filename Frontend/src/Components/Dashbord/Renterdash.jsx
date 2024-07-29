@@ -1,96 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Typography from '@mui/joy/Typography';
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import AddPhotoAlternate from '@mui/icons-material/AddPhotoAlternate';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper'; // Added for border styling
-import { storage } from '../Login1/firebase'; // Import your configured Firebase storage
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { NavLink } from 'react-router-dom';
-import Logout from '@mui/icons-material/Logout';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Card from "@mui/joy/Card";
+import CardContent from "@mui/joy/CardContent";
+import CardOverflow from "@mui/joy/CardOverflow";
+import Typography from "@mui/joy/Typography";
+import Avatar from "@mui/joy/Avatar";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import AddPhotoAlternate from "@mui/icons-material/AddPhotoAlternate";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper"; // Added for border styling
+import { storage } from "../Login1/firebase"; // Import your configured Firebase storage
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { NavLink, useNavigate } from "react-router-dom";
+import Logout from "@mui/icons-material/Logout";
+import { useUserContext } from "../pages/UserContext";
 
 const textContainerStyle = {
-  width: '100%',
-  padding: '5px',
-  marginTop: '5px',
-  border: '1px solid #ccc',
-  borderRadius: '5px',
-  backgroundColor: '#f9f9f9',
-  overflow: 'hidden',
-  wordWrap: 'break-word'
+  width: "100%",
+  padding: "5px",
+  marginTop: "5px",
+  border: "1px solid #ccc",
+  borderRadius: "5px",
+  backgroundColor: "#f9f9f9",
+  overflow: "hidden",
+  wordWrap: "break-word",
 };
 
 const vehicleImageStyle = {
-  width: '100%',
-  height: 'auto',
-  borderRadius: '8px',
-  marginBottom: '8px',
+  width: "100%",
+  height: "auto",
+  borderRadius: "8px",
+  marginBottom: "8px",
 };
 
 const Renterdash = () => {
-  const [renter, setRenter] = useState(null);
+  const navigate = useNavigate();
+  const { setUserData, userData } = useUserContext();
   const [rentServices, setRentServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
-    vehicleRegNum: '',
-    type: '',
-    vehicleImage: '',
-    rentPrice: '',
-    avilableLocation: '',
-    description: ''
+    vehicleRegNum: "",
+    type: "",
+    vehicleImage: "",
+    rentPrice: "",
+    avilableLocation: "",
+    description: "",
   });
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  // Example renter data
-  const u_Data = {
-    _id: "66a4632bb0a3d660a6c0a7ed",
-    fName: "John",
-    lName: "Doe",
-    profileImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    NICpassportNum: "A1234567",
-    email: "johnx.doe@example.com",
-    contactNumber: "+1234567890",
-    renterId: 1003,
-  };
-
   useEffect(() => {
-    // Set renter data
-    setRenter(u_Data);
-
+    console.log(userData);
     // Fetch vehicle rent services based on renterId
     const fetchRentServices = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/vehicle-rent-services?renterId=${u_Data.renterId}`);
+        const response = await axios.get(
+          `http://localhost:3001/api/vehicle-rent-services?renterId=${userData.renterId}`
+        );
         setRentServices(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching rent services:', error);
+        console.error("Error fetching rent services:", error);
         setLoading(false);
       }
     };
 
     fetchRentServices();
-  }, [u_Data.renterId]);
+  }, [userData.renterId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setForm(prevForm => ({ ...prevForm, [name]: value }));
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
   const handleImageChange = (e) => {
@@ -108,7 +96,7 @@ const Renterdash = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let imageUrl = '';
+    let imageUrl = "";
     if (image) {
       // Define a reference to the storage location
       const storageRef = ref(storage, `vehicleImages/${image.name}`);
@@ -120,13 +108,13 @@ const Renterdash = () => {
         // Create a promise to handle the upload completion
         await new Promise((resolve, reject) => {
           uploadTask.on(
-            'state_changed',
+            "state_changed",
             (snapshot) => {
               // Handle progress here if needed
             },
             (error) => {
               // Handle unsuccessful uploads
-              console.error('Upload error:', error);
+              console.error("Upload error:", error);
               reject(error);
             },
             async () => {
@@ -141,7 +129,7 @@ const Renterdash = () => {
           );
         });
       } catch (error) {
-        setErrorMessage('Image upload failed. Please try again.');
+        setErrorMessage("Image upload failed. Please try again.");
         setSnackbarOpen(true);
         return;
       }
@@ -149,32 +137,37 @@ const Renterdash = () => {
 
     const newVehicle = {
       ...form,
-      renterId: u_Data.renterId,
+      renterId: userData.renterId,
       vehicleImage: imageUrl,
       rating: 0,
       vehicleStatus: "available",
     };
 
     try {
-      await axios.post('http://localhost:3001/api/vehicle-rent-service', newVehicle);
-      setSuccessMessage('Vehicle added successfully!');
+      await axios.post(
+        "http://localhost:3001/api/vehicle-rent-service",
+        newVehicle
+      );
+      setSuccessMessage("Vehicle added successfully!");
       setSnackbarOpen(true);
       // Refresh vehicle services
-      const response = await axios.get(`http://localhost:3001/api/vehicle-rent-services?renterId=${u_Data.renterId}`);
+      const response = await axios.get(
+        `http://localhost:3001/api/vehicle-rent-services?renterId=${userData.renterId}`
+      );
       setRentServices(response.data);
     } catch (error) {
-      setErrorMessage('Error adding vehicle. Please try again.');
+      setErrorMessage("Error adding vehicle. Please try again.");
       setSnackbarOpen(true);
     }
   };
 
   const handleClear = () => {
     setForm({
-      vehicleRegNum: '',
-      type: '',
-      rentPrice: '',
-      avilableLocation: '',
-      description: ''
+      vehicleRegNum: "",
+      type: "",
+      rentPrice: "",
+      avilableLocation: "",
+      description: "",
     });
     setImage(null);
     setImagePreview(null);
@@ -184,76 +177,94 @@ const Renterdash = () => {
     setSnackbarOpen(false);
   };
 
-  if (!renter) {
+/*   if (!renter) {
     return <div>Loading...</div>;
-  }
+  } */
+
+  const handlehomeClick = () => {
+    navigate("/"); // Navigate to home page
+  };
+
+  const handleLogout = () => {
+    setUserData(null); // Clear user data
+    navigate("/"); // Navigate to home page
+  };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: 2,
+      }}
+    >
       <Card
         size="lg"
         variant="plain"
         orientation="horizontal"
         sx={{
-          textAlign: 'center',
-          height: '80vh',
-          width: '100%',
+          textAlign: "center",
+          height: "80vh",
+          width: "100%",
           borderRadius: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'auto'
+          display: "flex",
+          flexDirection: "column",
+          overflow: "auto",
         }}
       >
         <CardOverflow
           variant="solid"
           color="primary"
           sx={{
-            flex: '0 0 auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            width: '100%',
-            height: 'auto',
-            px: 'var(--Card-padding)',
+            flex: "0 0 auto",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            width: "100%",
+            height: "auto",
+            px: "var(--Card-padding)",
             borderRadius: 0,
           }}
         >
           <Avatar
             alt="Profile Image"
-            src={renter.profileImage}
-            sx={{ width: 80, height: 80, mb: 2, mx: 'auto' }}
+            src={userData.profileImage}
+            sx={{ width: 80, height: 80, mb: 2, mx: "auto" }}
           />
-          <Typography textColor="primary.200" sx={{ fontSize: '1.5rem' }}>
+          <Typography textColor="primary.200" sx={{ fontSize: "1.5rem" }}>
             Renter Account
           </Typography>
           <Typography textColor="primary.200">
-            {renter.fName} {renter.lName}
+            {userData.fName} {userData.lName}
           </Typography>
         </CardOverflow>
 
-        <CardContent sx={{ gap: 1.5, minWidth: 200, width: '100%' }}>
+        <CardContent sx={{ gap: 1.5, minWidth: 200, width: "100%" }}>
           <div className="user-dashboard">
             <h2>Renter Dashboard</h2>
             <div className="user-info">
               <label>
                 Name:
-                <div style={textContainerStyle}>{renter.fName} {renter.lName}</div>
+                <div style={textContainerStyle}>
+                  {userData.fName} {userData.lName}
+                </div>
               </label>
               <label>
                 Email:
-                <div style={textContainerStyle}>{renter.email}</div>
+                <div style={textContainerStyle}>{userData.email}</div>
               </label>
               <label>
                 Address:
-                <div style={textContainerStyle}>{renter.address || 'N/A'}</div>
+                <div style={textContainerStyle}>{userData.address || "N/A"}</div>
               </label>
               <label>
                 NIC/Passport Number:
-                <div style={textContainerStyle}>{renter.NICpassportNum}</div>
+                <div style={textContainerStyle}>{userData.NICnum}</div>
               </label>
               <label>
                 Contact Number:
-                <div style={textContainerStyle}>{renter.contactNumber}</div>
+                <div style={textContainerStyle}>{userData.contactNum}</div>
               </label>
             </div>
           </div>
@@ -261,22 +272,22 @@ const Renterdash = () => {
       </Card>
 
       {/* Add Vehicle Form */}
-      <Box sx={{ marginTop: 4, width: '100%', maxWidth: 600 }}>
+      <Box sx={{ marginTop: 4, width: "100%", maxWidth: 600 }}>
         <Paper
           elevation={3}
           sx={{
             padding: 3,
             borderRadius: 2,
-            border: '1px solid #ddd',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            border: "1px solid #ddd",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography variant="h4" sx={{ mb: 2 }}>
             Add New Vehicle
           </Typography>
-          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <form onSubmit={handleSubmit} style={{ width: "100%" }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -345,7 +356,7 @@ const Renterdash = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                 />
                 {imagePreview ? (
                   <Box
@@ -353,31 +364,35 @@ const Renterdash = () => {
                     sx={{
                       height: 100,
                       width: 100,
-                      borderRadius: '8px',
-                      objectFit: 'cover',
-                      cursor: 'pointer',
-                      marginBottom: '16px',
+                      borderRadius: "8px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                      marginBottom: "16px",
                     }}
                     src={imagePreview}
                     alt="Image preview"
-                    onClick={() => document.getElementById('image-upload').click()}
+                    onClick={() =>
+                      document.getElementById("image-upload").click()
+                    }
                   />
                 ) : (
                   <Box
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       height: 100,
                       width: 100,
-                      border: '2px dashed #ccc',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
+                      border: "2px dashed #ccc",
+                      borderRadius: "8px",
+                      cursor: "pointer",
                       mb: 2,
                     }}
-                    onClick={() => document.getElementById('image-upload').click()}
+                    onClick={() =>
+                      document.getElementById("image-upload").click()
+                    }
                   >
-                    <AddPhotoAlternate sx={{ fontSize: 48, color: '#ccc' }} />
+                    <AddPhotoAlternate sx={{ fontSize: 48, color: "#ccc" }} />
                   </Box>
                 )}
               </Grid>
@@ -406,38 +421,42 @@ const Renterdash = () => {
       </Box>
 
       {/* Vehicle List */}
-      <Box sx={{ 
-        marginTop: 4, 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        gap: 2, 
-        justifyContent: 'center'  // Centers items horizontally
-      }}>
+      <Box
+        sx={{
+          marginTop: 4,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+          justifyContent: "center", // Centers items horizontally
+        }}
+      >
         {loading ? (
           <CircularProgress />
         ) : (
           rentServices.map((service) => (
-            <Card key={service._id} sx={{ width: 250, mb: 2 }}> {/* Adjust the width as needed */}
+            <Card key={service._id} sx={{ width: 250, mb: 2 }}>
+              {" "}
+              {/* Adjust the width as needed */}
               <CardOverflow>
                 <CardContent>
                   <img
                     src={service.vehicleImage}
                     alt={service.vehicleRegNum}
-                    style={{ width: '100%', height: 'auto' }} // Adjust image styling as needed
+                    style={{ width: "100%", height: "auto" }} // Adjust image styling as needed
                   />
-                  <Typography variant="h6" sx={{ mb: 1, textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ mb: 1, textAlign: "center" }}>
                     {service.vehicleRegNum}
                   </Typography>
-                  <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Type: {service.type}
                   </Typography>
-                  <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Rent Price: {service.rentPrice}
                   </Typography>
-                  <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Location: {service.avilableLocation}
                   </Typography>
-                  <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Description: {service.description}
                   </Typography>
                 </CardContent>
@@ -448,26 +467,37 @@ const Renterdash = () => {
       </Box>
 
       {/* Home Button */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom:'20px' }}>
-        <NavLink to="/">
-          <Button
-            variant="outlined"
-            color="primary"
-            sx={{
-              '--variant-borderWidth': '2px',
-              borderRadius: 40,
-              borderColor: 'primary.500',
-            }}
-          >
-            Home
-          </Button>
-        </NavLink>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "20px",
+          marginBottom: "20px",
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handlehomeClick}
+          sx={{ marginTop: "20px", display: "block", mx: "auto" }}
+        >
+          Home
+        </Button>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
-  <NavLink to="/">
-      <Logout sx={{ mr: 1 }} />
-  </NavLink>
-</div>
+      <div
+        style={{ display: "flex", justifyContent: "center", margin: "10px" }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 2 }}>
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<Logout />}
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </Box>
+      </div>
 
       {/* Snackbar for messages */}
       <Snackbar
@@ -475,7 +505,10 @@ const Renterdash = () => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity={successMessage ? "success" : "error"}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={successMessage ? "success" : "error"}
+        >
           {successMessage || errorMessage}
         </Alert>
       </Snackbar>
