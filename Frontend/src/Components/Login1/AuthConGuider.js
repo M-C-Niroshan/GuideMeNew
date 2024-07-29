@@ -4,23 +4,10 @@ import './AuthConGuider.css';
 import SignInForm from './SignInForm';
 import SignUpFormGuider from './SignUpFormGuider';
 
-import { useLocation } from "react-router-dom";
 
-function AuthContainer({status}) {
-  
-  const location = useLocation();
-  const { booleanState } = location.state || {};
-  const [active, setActive] = useState(status);
-  const [isExpanded, setIsExpanded] = useState(false);
+function AuthContainer() {
 
-  const handleArrowClick = () => {
-    setIsExpanded(!isExpanded);
-  }
-
-  useEffect(() => {
-    setActive(status);
-  }, [status]);
-
+  const [active, setActive] = useState(1);
 
   return (
     <div className='BigContainer'>

@@ -6,7 +6,7 @@ import SignUpForm from './SignUpForm';
 
 function AuthContainer() {
 
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
 
 
   return (

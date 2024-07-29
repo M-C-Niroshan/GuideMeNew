@@ -23,7 +23,7 @@ router.post('/guider', controller.addGuider);
 router.get('/travelers', controller.getTravelers);
 router.post('/traveler', controller.addTraveler);
 
-router.post('/api/login', controller.loginUser);
+router.post('/login', controller.loginUser);
 router.get('/guide-service-status', controller.getGuideServiceWithBookingStatus);
 
 
