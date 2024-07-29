@@ -1,16 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './navigation.css';
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useUserContext } from '../pages/UserContext'; // Ensure the path is correct
+
+import { useNavigate } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { useUserContext } from '../pages/UserContext';
+
 import Popup from '../Popup/popup';
 import { NavLink, useNavigate } from 'react-router-dom'; // Ensure this import
 
 function Navigation() {
+    const { userData } = useUserContext();
+
     const navRef = useRef();
     const [showPopup, setShowPopup] = useState(false);
     const [status, setstatus] = useState(false);
     const { userData } = useUserContext(); // Access user data from context
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userData) {
+            const guiderIdRange = 2000;
+            const renterIdRange = 1000;
+            const travelerIdRange = 3000;
+
+            // Determine role and navigate accordingly
+            if (userData.guiderId && userData.guiderId >= guiderIdRange && userData.guiderId < 4000) {
+                navigate("/Guiderdash");
+            } else if (userData.renterId && userData.renterId >= renterIdRange && userData.renterId < guiderIdRange) {
+                navigate("/Renterdash");
+            }/*  else if (userData.traveller && userData.traveller >= travelerIdRange && userData.traveller < renterIdRange) {
+                navigate("/");
+            } */
+        }
+    }, [userData, navigate]);
 
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
@@ -21,8 +44,11 @@ function Navigation() {
         setShowPopup(!showPopup);
     }
 
-    // Determine if user is logged in
-    const isLoggedIn = userData && userData.profileImage;
+
+    const handleOnClick = () => {
+        navigate("/AuthConGuiderSignIn");
+    }
+
 
     return (
         <header className='navheader'>
@@ -38,15 +64,18 @@ function Navigation() {
                 <NavLink to='/chat' activeClassName='active'>Live Chat</NavLink>
                 <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
-                {!isLoggedIn ? (
+
+                {!userData ? (
                     <>
-                        <button className='login' onClick={() => togglePopup(0)}>Login</button>
+                        <button className='login' onClick={() => handleOnClick()}>Login</button>
                         <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
                     </>
                 ) : (
-                    <div className='user-profile'>
-                        <img src={userData.profileImage} alt='User Profile' className='user-icon' />
-                    </div>
+                    <>
+                    <button className='login' >Welcome Traveller</button>
+
+                    </>
+
                 )}
 
                 <button onClick={showNavbar} className='ncbtn'>

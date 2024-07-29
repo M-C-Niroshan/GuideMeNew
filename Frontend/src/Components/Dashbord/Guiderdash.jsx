@@ -12,6 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
+import { NavLink } from 'react-router-dom';
 
 const textContainerStyle = {
   width: '100%',
@@ -102,6 +103,14 @@ const GuiderDash = () => {
     }
   };
 
+  const handleClear = () => {
+    setForm({
+      language: '',
+      price: '',
+      description: ''
+    });
+  };
+
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -118,7 +127,7 @@ const GuiderDash = () => {
         orientation="horizontal"
         sx={{
           textAlign: 'center',
-          height: '100vh',
+          height: '80vh',
           width: '100%',
           borderRadius: 0,
           display: 'flex',
@@ -225,14 +234,23 @@ const GuiderDash = () => {
               onChange={handleInputChange}
               required
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
-            >
-              Add Service
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                Add Service
+              </Button>
+              <Button
+                type="button"
+                variant="outlined"
+                color="secondary"
+                onClick={handleClear}
+              >
+                Clear
+              </Button>
+            </Box>
           </form>
         </Paper>
       </Box>
@@ -251,16 +269,37 @@ const GuiderDash = () => {
             <Typography>No services available.</Typography>
           </Card>
         ) : (
-          services.map(service => (
-            <Card key={service.serviceId} sx={{ mb: 2, position: 'relative' }}>
-              <CardOverflow variant="solid" color="primary">
-                <Typography textColor="primary.200">
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              overflowX: 'auto',
+              gap: 2,
+              justifyContent: 'center',
+              padding: '8px'
+            }}
+          >
+            {services.map(service => (
+              <Card
+                key={service.serviceId}
+                sx={{
+                  minWidth: 200,
+                  maxWidth: 250,
+                  p: 2,
+                  textAlign: 'center',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                <Typography>
                   Service ID: {service.serviceId}
                 </Typography>
-                <Typography textColor="primary.200" sx={{ fontSize: "1.2rem" }}>
+                <Typography sx={{ fontSize: "1.2rem" }}>
                   Language: {service.language}
                 </Typography>
-                <Typography textColor="primary.200">
+                <Typography>
                   Price: {service.price} Per Day
                 </Typography>
                 {service.serviseStatus === "Booked" && (
@@ -269,25 +308,43 @@ const GuiderDash = () => {
                       position: 'absolute',
                       top: 0,
                       left: 0,
-                      backgroundColor: 'red',
-                      color: 'white',
                       padding: '4px 8px',
                       borderRadius: '4px',
+                      border: '2px solid #ff0000',
+                      color: '#ff0000',
+                      backgroundColor: 'transparent',
                     }}
                   >
                     Booked
                   </Box>
                 )}
                 <Box sx={{ marginTop: 2 }}>
-                  <Typography textColor="primary.200">
+                  <Typography>
                     Description: {service.description}
                   </Typography>
                 </Box>
-              </CardOverflow>
-            </Card>
-          ))
+              </Card>
+            ))}
+          </Box>
         )}
       </Box>
+
+      {/* Home Button */}
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
+        <NavLink to="/">
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{
+              '--variant-borderWidth': '2px',
+              borderRadius: 40,
+              borderColor: 'primary.500',
+            }}
+          >
+            Home
+          </Button>
+        </NavLink>
+      </div>
 
       {/* Snackbar Notifications */}
       <Snackbar

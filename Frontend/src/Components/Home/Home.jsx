@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 
 import Backgroundvid from '../Backgroundvid/Backgroundvid';
 import Navigation from "../Navigation/Navigation";
@@ -9,8 +9,6 @@ import Festivals from '../Festivals/Festivals';
 import Footer from '../Footer/Footer';
 
 function Home(){
-    const location=useLocation()
-
     return (
         <div className="homep">
             <Navigation/>

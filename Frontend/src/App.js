@@ -17,6 +17,9 @@ import Test from './Components/Login1/Test';
 import AuthContainer from './Components/Login1/AuthContainer';
 import AuthConGuider from './Components/Login1/AuthConGuider';
 import AuthConRenter from './Components/Login1/AuthConRenter';
+import AuthConGuiderSignIn from './Components/Login1/AuthConGuiderSignIn';
+
+
 import Userguider from './Components/TravelPlanner/TravelPlanner';
 
 
@@ -62,23 +65,21 @@ function App() {
             <Route path="/10" element={<PaymentFailed/>}></Route>
 
             {/* <Route path="/new-page" element={<AuthContainer/>}></Route> */}
-            <Route path="/11" element={<AuthConGuider/>}></Route>
-            <Route path="/12" element={<AuthContainer/>}></Route>
-            <Route path="/13" element={<AuthConRenter/>}></Route>
+            <Route path="/AuthConGuider" element={<AuthConGuider/>}></Route>
+            <Route path="/AuthContainer" element={<AuthContainer/>}></Route>
+            <Route path="/AuthConRenter" element={<AuthConRenter/>}></Route>
+            <Route path="/AuthConGuiderSignIn" element={<AuthConGuiderSignIn/>}></Route>
+
             <Route path='/PlanTrip' element={<Userguider/>}></Route> 
 
-            <Route path='/15' element={<TravelerDashboard/>}></Route> 
-            <Route path='/16' element={<Renterdash/>}></Route> 
-            <Route path='/17' element={<Guiderdash/>}></Route> 
+            <Route path='/TravelerDashboard' element={<TravelerDashboard/>}></Route> 
+            <Route path='/Renterdash' element={<Renterdash/>}></Route> 
+            <Route path='/Guiderdash' element={<Guiderdash/>}></Route> 
 
             <Route path="/about-us" element={<AboutUs />} />
 
             {/* <Route path="/Test" element={<Test/>}></Route> */}
 
-            <Route path="/new-page" element={<AuthContainer/>}></Route>
-            <Route path="/55" element={<AuthConGuider/>}></Route>
-            <Route path="/56" element={<AuthContainer/>}></Route>
-            <Route path="/57" element={<AuthConRenter/>}></Route>
             <Route path="/vehicle-reservation-success" element={<VehicleReservationSuccess />} />
             <Route path="/guider-reservation-success" element={<GuiderReservationSuccess />} />
 

@@ -454,6 +454,7 @@ const loginUser = async (req, res, next) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 const getGuideServiceWithBookingStatus = async (req, res, next) => {
   const { guiderId } = req.query;
 

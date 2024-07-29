@@ -21,11 +21,11 @@ const GuiderReservation = () => {
   const [countdown, setCountdown] = useState(null); // State for countdown
   const [showCountdown, setShowCountdown] = useState(false); // State to control countdown display
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (userData) {
       console.log('User Data:', userData);
     }
-  }, [userData]);
+  }, [userData]); */
 
   useEffect(() => {
     if (countdown === 0) {
