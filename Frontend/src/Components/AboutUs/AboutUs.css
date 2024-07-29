@@ -7,7 +7,7 @@
 .banner-image {
   position: absolute;
   top: 0;
-  background-image: url(/Frontend/public/images/sr.jpg);
+  /* background-image: url(../../logo.svg); */
   height: 30vh; 
   width: 100%;
   background-size: cover;

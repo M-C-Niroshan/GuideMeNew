@@ -16,7 +16,7 @@ export default function Footer() {
           </div>
           <div className="about">
            <ul>
-              <Link to="/1">About Us</Link> 
+              <Link to="/about-us">About Us</Link> 
             </ul>
           </div>
           <div className="ftext">

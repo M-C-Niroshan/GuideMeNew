@@ -29,6 +29,8 @@ import image3 from "./images/BookGuiderPageImages/guider/image3.jpg";
 import image4 from "./images/BookGuiderPageImages/guider/image4.jpg";
 import image5 from "./images/BookGuiderPageImages/guider/image5.jpg";
 import image6 from "./images/BookGuiderPageImages/guider/image6.jpg";
+import Navigation from "../../Navigation/Navigation";
+import Footer from "../../Footer/Footer";
 
 const serviceCards = [
   {
@@ -152,6 +154,19 @@ const BookGuiderHome = () => {
   };
 
   return (
+
+    <>
+    <Navigation/>
+    <div className="navback">
+    <div className="travelheader">
+    <p className="travelheaderp" >Plan your trip with us</p>
+    </div>
+    <div className="relative w-full h-screen overflow-hidden" id="backimg">
+      <img src={`${process.env.PUBLIC_URL}/images/Navback.jpg`} alt='background' className='absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2' />
+    </div>    
+    </div>
+    
+    
     <Box sx={{ backgroundColor: "#eee8e8" }}>
       {/* Slideshow Section */}
       <Box sx={{ padding: { xs: "0px", md: "0px" } }}>
@@ -331,7 +346,10 @@ const BookGuiderHome = () => {
         </Box>
       </Box>
     </Box>
+    <Footer/>
+    </>
   );
 };
+
 
 export default BookGuiderHome;
