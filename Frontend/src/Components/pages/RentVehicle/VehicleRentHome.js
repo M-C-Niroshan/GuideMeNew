@@ -1,6 +1,13 @@
-import './VehicleRentHome.css';
+import "./VehicleRentHome.css";
 import React, { useState, useEffect } from "react";
-import { Box, Typography, TextField, Button, MenuItem, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+  Grid,
+} from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Slide } from "react-slideshow-image";
 
@@ -127,12 +134,11 @@ const top50Locations = [
   { label: "Gampaha" },
   { label: "Batticaloa" },
   { label: "Nuwara Eliya" },
-  { label: "Jaffna" }
+  { label: "Jaffna" },
 ];
 
-
 export default function VehicleRentHome() {
-/*   const { setUserData } = useUserContext(); */
+  /*   const { setUserData } = useUserContext(); */
   const [carType, setCarType] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [showGetVehicle, setShowGetVehicle] = useState(false);
@@ -142,7 +148,7 @@ export default function VehicleRentHome() {
       setShowGetVehicle(true);
     }
   };
-/* 
+  /* 
   useEffect(() => {
     // Setting user data for temporary purposes
     setUserData({ travelerId: 15, name: 'John Doe', email: 'john@example.com' });
@@ -153,10 +159,16 @@ export default function VehicleRentHome() {
       <Navigation />
       <div className="navback">
         <div className="travelheadervr">
-          <p className="travelheaderpvr">Discover the Freedom to Explore with Our Comprehensive</p>
+          <p className="travelheaderpvr">
+            Discover the Freedom to Explore with Our Comprehensive
+          </p>
         </div>
         <div className="relative w-full h-screen overflow-hidden" id="backimg">
-          <img src={`${process.env.PUBLIC_URL}/images/navback.jpg`} alt='background' className='absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2' />
+          <img
+            src={`${process.env.PUBLIC_URL}/images/navback.jpg`}
+            alt="background"
+            className="absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2"
+          />
         </div>
       </div>
 
@@ -174,23 +186,39 @@ export default function VehicleRentHome() {
                 justifyContent: "center",
                 width: "100%",
                 maxWidth: "800px",
-                marginTop: "-110px"
+                marginTop: "-110px",
               }}
             >
-              <Grid container spacing={2} sx={{ width: "100%", justifyContent: "center" }}>
-                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", padding: "8px" }}>
+              <Grid
+                container
+                spacing={2}
+                sx={{ width: "100%", justifyContent: "center" }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  sx={{ display: "flex", alignItems: "center", padding: "8px" }}
+                >
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     options={top50Locations}
-                    onChange={(event, newValue) => setPickupLocation(newValue ? newValue.label : "")}
+                    onChange={(event, newValue) =>
+                      setPickupLocation(newValue ? newValue.label : "")
+                    }
                     sx={{ width: "100%" }}
                     renderInput={(params) => (
                       <TextField {...params} label="Pickup Location" />
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", padding: "8px" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  sx={{ display: "flex", alignItems: "center", padding: "8px" }}
+                >
                   <TextField
                     select
                     label="Vehicle Type"
@@ -206,7 +234,17 @@ export default function VehicleRentHome() {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "8px" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "8px",
+                  }}
+                >
                   <Button
                     variant="contained"
                     sx={{
@@ -230,7 +268,16 @@ export default function VehicleRentHome() {
         )}
 
         {/* Slideshow Section */}
-        <Box sx={{ padding: { xs: "0px", md: "0px" }, marginTop: "1px", width:'80%', height:'10%', marginLeft:'auto', marginRight:'auto'}}>
+        <Box
+          sx={{
+            padding: { xs: "0px", md: "0px" },
+            marginTop: "1px",
+            width: "80%",
+            height: "10%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
           <Slide slidesToScroll={2} slidesToShow={4} indicators={true}>
             {[lcar, Bike, Tuk, Flex, Car, Van].map((src, index) => (
               <Box

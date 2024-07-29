@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 import Axios from 'axios';
 import { storage } from './firebase'; // Import the configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+// import './loading.css'; // Import CSS file for styling
 
 const SignUpFormGuider = () => {
   const [image, setImage] = useState(null);
@@ -18,8 +19,8 @@ const SignUpFormGuider = () => {
     contactNum: '',
     gender: ''
   });
-
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -43,6 +44,7 @@ const SignUpFormGuider = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show loading spinner
 
     let imageUrl = '';
     if (image) {
@@ -77,6 +79,7 @@ const SignUpFormGuider = () => {
         });
       } catch (error) {
         setError('Image upload failed. Please try again.');
+        setLoading(false); // Hide loading spinner
         return;
       }
     }
@@ -93,26 +96,27 @@ const SignUpFormGuider = () => {
       profileImage: imageUrl // Include the image URL in the data to be sent
     };
 
-    Axios.post("http://localhost:3001/api/guider", formDataToSend)
-      .then((response) => {
-        console.log("User created successfully:", response.data);
-        setFormData({
-          fName: '',
-          lName: '',
-          email: '',
-          password: '',
-          NICnum: '',
-          age: '',
-          contactNum: '',
-          gender: ''
-        });
-        setImage(null);
-        setImagePreview(null);
-      })
-      .catch((error) => {
-        console.error("Axios Error:", error);
-        setError('An error occurred. Please try again.');
+    try {
+      await Axios.post("http://localhost:3001/api/guider", formDataToSend);
+      console.log("User created successfully");
+      setFormData({
+        fName: '',
+        lName: '',
+        email: '',
+        password: '',
+        NICnum: '',
+        age: '',
+        contactNum: '',
+        gender: ''
       });
+      setImage(null);
+      setImagePreview(null);
+    } catch (error) {
+      console.error("Axios Error:", error);
+      setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false); // Hide loading spinner
+    }
   };
 
   return (
@@ -232,9 +236,10 @@ const SignUpFormGuider = () => {
               <option value="Female">Female</option>
             </select>
           </div>
-          <button className='sign1' type="submit">Sign Up</button>
+          <button className='sign1' type="submit" disabled={loading}>Sign Up</button>
         </div>
       </div>
+      {loading && <div className="loader"></div>} {/* Show loader */}
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );

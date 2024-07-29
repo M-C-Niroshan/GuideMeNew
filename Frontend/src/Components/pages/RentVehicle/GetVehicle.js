@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Pagination, Fade, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Pagination,
+  Fade,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import Axios from "axios";
 import VehicleCard from "./VehicleCard";
 
@@ -16,12 +23,15 @@ const GetVehicle = ({ pickupLocation, vehicleType }) => {
     const fetchVehicles = async () => {
       try {
         setLoading(true);
-        const response = await Axios.get("http://localhost:3001/api/vehiclelist", {
-          params: {
-            pickupLocation,
-            vehicleType,
-          },
-        });
+        const response = await Axios.get(
+          "http://localhost:3001/api/vehiclelist",
+          {
+            params: {
+              pickupLocation,
+              vehicleType,
+            },
+          }
+        );
         console.log("API Response:", response.data); // Log the response
         setVehicles(response.data); // Directly set the vehicles data
       } catch (err) {

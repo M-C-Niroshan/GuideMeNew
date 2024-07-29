@@ -1,9 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, TextField, Button, Grid, Paper, CircularProgress, Alert, LinearProgress } from "@mui/material";
-import axios from 'axios'; // Import axios
-import { useUserContext } from '../UserContext'; // Import the custom hook
-import './GuiderReservation.css'; // Import the CSS file (if needed)
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Paper,
+  CircularProgress,
+  Alert,
+  LinearProgress,
+} from "@mui/material";
+import axios from "axios"; // Import axios
+import { useUserContext } from "../UserContext"; // Import the custom hook
+import "./GuiderReservation.css"; // Import the CSS file (if needed)
 
 const GuiderReservation = () => {
   const location = useLocation();
@@ -12,16 +23,16 @@ const GuiderReservation = () => {
   const guider = state || null;
   const { userData } = useUserContext(); // Get user data from context
 
-  const [reservationDate, setReservationDate] = useState('');
-  const [reservationTime, setReservationTime] = useState('');
-  const [reservationDateError, setReservationDateError] = useState('');
-  const [reservationTimeError, setReservationTimeError] = useState('');
+  const [reservationDate, setReservationDate] = useState("");
+  const [reservationTime, setReservationTime] = useState("");
+  const [reservationDateError, setReservationDateError] = useState("");
+  const [reservationTimeError, setReservationTimeError] = useState("");
   const [loading, setLoading] = useState(false); // State for loading spinner
-  const [error, setError] = useState(''); // State for error message
+  const [error, setError] = useState(""); // State for error message
   const [countdown, setCountdown] = useState(null); // State for countdown
   const [showCountdown, setShowCountdown] = useState(false); // State to control countdown display
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (userData) {
       console.log('User Data:', userData);
     }
@@ -29,7 +40,7 @@ const GuiderReservation = () => {
 
   useEffect(() => {
     if (countdown === 0) {
-      navigate('/'); // Redirect to home page
+      navigate("/"); // Redirect to home page
     } else if (countdown > 0) {
       const timer = setInterval(() => {
         setCountdown(countdown - 1);
@@ -39,7 +50,12 @@ const GuiderReservation = () => {
     }
   }, [countdown, navigate]);
 
-  if (!guider) return <Typography variant="h6" color="error">No details found</Typography>;
+  if (!guider)
+    return (
+      <Typography variant="h6" color="error">
+        No details found
+      </Typography>
+    );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,17 +63,17 @@ const GuiderReservation = () => {
     let hasError = false;
     // Validate inputs
     if (!reservationDate) {
-      setReservationDateError('Reservation date is required.');
+      setReservationDateError("Reservation date is required.");
       hasError = true;
     } else {
-      setReservationDateError('');
+      setReservationDateError("");
     }
 
     if (!reservationTime) {
-      setReservationTimeError('Reservation time is required.');
+      setReservationTimeError("Reservation time is required.");
       hasError = true;
     } else {
-      setReservationTimeError('');
+      setReservationTimeError("");
     }
 
     if (hasError) return; // Stop submission if there are errors
@@ -82,23 +98,27 @@ const GuiderReservation = () => {
       rating: guider.rating,
       email: userData.email,
       name: userData.name,
-      contactNum:guider.contactNum
+      contactNum: guider.contactNum,
     };
 
     try {
       setLoading(true); // Show the loading spinner
-      setError(''); // Clear any existing error
-      console.log('Sending reservation data:', reservationData);
+      setError(""); // Clear any existing error
+      console.log("Sending reservation data:", reservationData);
       // Make API request using axios
-      await axios.post('http://localhost:3001/api/guider-booking-details', reservationData);
+      await axios.post(
+        "http://localhost:3001/api/guider-booking-details",
+        reservationData
+      );
 
-      console.log('Reservation confirmed, navigating to success page...');
+      console.log("Reservation confirmed, navigating to success page...");
       // Navigate to a success page or another component
-      navigate('/guider-reservation-success', { state: { fullReservationData } });
-
+      navigate("/guider-reservation-success", {
+        state: { fullReservationData },
+      });
     } catch (error) {
-      console.error('Error:', error);
-      setError('Reservation failed. Please try again later.'); // Set error message
+      console.error("Error:", error);
+      setError("Reservation failed. Please try again later."); // Set error message
       setShowCountdown(true); // Show countdown and initiate redirection
       setCountdown(5); // Set countdown duration in seconds
     } finally {
@@ -108,7 +128,15 @@ const GuiderReservation = () => {
 
   return (
     <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
@@ -116,8 +144,10 @@ const GuiderReservation = () => {
         )}
 
         {showCountdown && (
-          <Box sx={{ width: '100%', mb: 2 }}>
-            <Typography variant="body1" align="center">Redirecting in {countdown} seconds...</Typography>
+          <Box sx={{ width: "100%", mb: 2 }}>
+            <Typography variant="body1" align="center">
+              Redirecting in {countdown} seconds...
+            </Typography>
             <LinearProgress variant="indeterminate" />
           </Box>
         )}
@@ -126,11 +156,13 @@ const GuiderReservation = () => {
           src={guider.profileImg}
           alt={guider.name}
           className="guider-image"
-          style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
+          style={{ width: "100%", borderRadius: 8, marginBottom: 16 }}
         />
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-          <Typography variant="h6" gutterBottom>Reservation Details</Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          <Typography variant="h6" gutterBottom>
+            Reservation Details
+          </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -181,9 +213,22 @@ const GuiderReservation = () => {
               />
             </Grid>
 
-            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button variant="contained" color="primary" type="submit" disabled={loading}>
-                {loading ? <CircularProgress size={24} /> : 'Confirm Reservation'}
+            <Grid
+              item
+              xs={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  "Confirm Reservation"
+                )}
               </Button>
             </Grid>
           </Grid>

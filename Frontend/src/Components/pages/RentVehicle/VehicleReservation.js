@@ -1,9 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, TextField, Button, Grid, Paper, CircularProgress, Alert, LinearProgress } from "@mui/material";
-import axios from 'axios'; // Import axios
-import { useUserContext } from '../UserContext'; // Import the custom hook
-import './VehicleReservation.css'; // Import the CSS file
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Paper,
+  CircularProgress,
+  Alert,
+  LinearProgress,
+} from "@mui/material";
+import axios from "axios"; // Import axios
+import { useUserContext } from "../UserContext"; // Import the custom hook
+import "./VehicleReservation.css"; // Import the CSS file
 
 const VehicleReservation = () => {
   const location = useLocation();
@@ -12,20 +23,20 @@ const VehicleReservation = () => {
   const vehicle = state || null;
   const { userData } = useUserContext(); // Get user data from context
 
-  const [pickupDate, setPickupDate] = useState('');
-  const [pickupTime, setPickupTime] = useState('');
-  const [handoverDate, setHandoverDate] = useState('');
-  const [handoverTime, setHandoverTime] = useState('');
-  const [pickupDateError, setPickupDateError] = useState('');
-  const [pickupTimeError, setPickupTimeError] = useState('');
-  const [handoverDateError, setHandoverDateError] = useState('');
-  const [handoverTimeError, setHandoverTimeError] = useState('');
+  const [pickupDate, setPickupDate] = useState("");
+  const [pickupTime, setPickupTime] = useState("");
+  const [handoverDate, setHandoverDate] = useState("");
+  const [handoverTime, setHandoverTime] = useState("");
+  const [pickupDateError, setPickupDateError] = useState("");
+  const [pickupTimeError, setPickupTimeError] = useState("");
+  const [handoverDateError, setHandoverDateError] = useState("");
+  const [handoverTimeError, setHandoverTimeError] = useState("");
   const [loading, setLoading] = useState(false); // State for loading spinner
-  const [error, setError] = useState(''); // State for error message
+  const [error, setError] = useState(""); // State for error message
   const [countdown, setCountdown] = useState(null); // State for countdown
   const [showCountdown, setShowCountdown] = useState(false); // State to control countdown display
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (userData) {
       console.log('User Data:', userData);
     }
@@ -33,7 +44,7 @@ const VehicleReservation = () => {
 
   useEffect(() => {
     if (countdown === 0) {
-      navigate('/'); // Redirect to home page
+      navigate("/"); // Redirect to home page
     } else if (countdown > 0) {
       const timer = setInterval(() => {
         setCountdown(countdown - 1);
@@ -43,7 +54,12 @@ const VehicleReservation = () => {
     }
   }, [countdown, navigate]);
 
-  if (!vehicle) return <Typography variant="h6" color="error">No details found</Typography>;
+  if (!vehicle)
+    return (
+      <Typography variant="h6" color="error">
+        No details found
+      </Typography>
+    );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -51,31 +67,31 @@ const VehicleReservation = () => {
     let hasError = false;
     // Validate inputs
     if (!pickupDate) {
-      setPickupDateError('Pickup date is required.');
+      setPickupDateError("Pickup date is required.");
       hasError = true;
     } else {
-      setPickupDateError('');
+      setPickupDateError("");
     }
 
     if (!pickupTime) {
-      setPickupTimeError('Pickup time is required.');
+      setPickupTimeError("Pickup time is required.");
       hasError = true;
     } else {
-      setPickupTimeError('');
+      setPickupTimeError("");
     }
 
     if (!handoverDate) {
-      setHandoverDateError('Handover date is required.');
+      setHandoverDateError("Handover date is required.");
       hasError = true;
     } else {
-      setHandoverDateError('');
+      setHandoverDateError("");
     }
 
     if (!handoverTime) {
-      setHandoverTimeError('Handover time is required.');
+      setHandoverTimeError("Handover time is required.");
       hasError = true;
     } else {
-      setHandoverTimeError('');
+      setHandoverTimeError("");
     }
 
     if (hasError) return; // Stop submission if there are errors
@@ -109,18 +125,22 @@ const VehicleReservation = () => {
 
     try {
       setLoading(true); // Show the loading spinner
-      setError(''); // Clear any existing error
-      console.log('Sending reservation data:', reservationData);
+      setError(""); // Clear any existing error
+      console.log("Sending reservation data:", reservationData);
       // Make API request using axios
-      await axios.post('http://localhost:3001/api/vehicle-rent-details', reservationData);
+      await axios.post(
+        "http://localhost:3001/api/vehicle-rent-details",
+        reservationData
+      );
 
-      console.log('Reservation confirmed, navigating to success page...');
+      console.log("Reservation confirmed, navigating to success page...");
       // Navigate to a success page or another component
-      navigate('/vehicle-reservation-success', { state: { fullReservationData } });
-
+      navigate("/vehicle-reservation-success", {
+        state: { fullReservationData },
+      });
     } catch (error) {
-      console.error('Error:', error);
-      setError('Reservation failed. Please try again later.'); // Set error message
+      console.error("Error:", error);
+      setError("Reservation failed. Please try again later."); // Set error message
       setShowCountdown(true); // Show countdown and initiate redirection
       setCountdown(5); // Set countdown duration in seconds
     } finally {
@@ -130,7 +150,15 @@ const VehicleReservation = () => {
 
   return (
     <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
@@ -138,8 +166,10 @@ const VehicleReservation = () => {
         )}
 
         {showCountdown && (
-          <Box sx={{ width: '100%', mb: 2 }}>
-            <Typography variant="body1" align="center">Redirecting in {countdown} seconds...</Typography>
+          <Box sx={{ width: "100%", mb: 2 }}>
+            <Typography variant="body1" align="center">
+              Redirecting in {countdown} seconds...
+            </Typography>
             <LinearProgress variant="indeterminate" />
           </Box>
         )}
@@ -148,11 +178,13 @@ const VehicleReservation = () => {
           src={vehicle.vehicleImage}
           alt={vehicle.name}
           className="vehicle-image"
-          style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
+          style={{ width: "100%", borderRadius: 8, marginBottom: 16 }}
         />
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-          <Typography variant="h6" gutterBottom>Reservation Details</Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          <Typography variant="h6" gutterBottom>
+            Reservation Details
+          </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -232,9 +264,22 @@ const VehicleReservation = () => {
               />
             </Grid>
 
-            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button variant="contained" color="primary" type="submit" disabled={loading}>
-                {loading ? <CircularProgress size={24} /> : 'Confirm Reservation'}
+            <Grid
+              item
+              xs={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  "Confirm Reservation"
+                )}
               </Button>
             </Grid>
           </Grid>

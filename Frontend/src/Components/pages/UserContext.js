@@ -1,20 +1,20 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(() => {
     // Retrieve user data from sessionStorage if available
-    const savedUserData = sessionStorage.getItem('userData');
+    const savedUserData = sessionStorage.getItem("userData");
     return savedUserData ? JSON.parse(savedUserData) : null;
   });
 
   // Effect to store userData in sessionStorage whenever it changes
   useEffect(() => {
     if (userData) {
-      sessionStorage.setItem('userData', JSON.stringify(userData));
+      sessionStorage.setItem("userData", JSON.stringify(userData));
     } else {
-      sessionStorage.removeItem('userData');
+      sessionStorage.removeItem("userData");
     }
   }, [userData]);
 

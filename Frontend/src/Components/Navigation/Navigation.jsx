@@ -5,6 +5,46 @@ import { useNavigate } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import { useUserContext } from '../pages/UserContext';
 import Popup from '../Popup/popup';
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      backgroundColor: '#44b700',
+      color: '#44b700',
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      '&::after': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        animation: 'ripple 1.2s infinite ease-in-out',
+        border: '1px solid currentColor',
+        content: '""',
+      },
+    },
+    '@keyframes ripple': {
+      '0%': {
+        transform: 'scale(.8)',
+        opacity: 1,
+      },
+      '100%': {
+        transform: 'scale(2.4)',
+        opacity: 0,
+      },
+    },
+  }));
+  
+  const SmallAvatar = styled(Avatar)(({ theme }) => ({
+    width: 22,
+    height: 22,
+    border: `2px solid ${theme.palette.background.paper}`,
+  }));
 
 function Navigation() {
     const { userData } = useUserContext();
@@ -13,7 +53,7 @@ function Navigation() {
     const [showPopup, setShowPopup] = useState(false);
     const [status, setstatus] = useState(false);
     const navigate = useNavigate();
-
+    console.log(userData);
     useEffect(() => {
         if (userData) {
             const guiderIdRange = 2000;
@@ -52,11 +92,10 @@ function Navigation() {
             </div>
 
             <nav ref={navRef}>
+                <NavLink to='/' activeClassName='active'>Home</NavLink>
                 <NavLink to='/PlanTrip' activeClassName='active'>Trip</NavLink>
                 <NavLink to='/BookGuider' activeClassName='active'>Guider</NavLink>
                 <NavLink to='/RentVehicle' activeClassName='active'>Vehicle</NavLink>
-                <NavLink to='/chat' activeClassName='active'>Live Chat</NavLink>
-                <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
                 {!userData ? (
                     <>
@@ -65,7 +104,15 @@ function Navigation() {
                     </>
                 ) : (
                     <>
-                    <button className='login' >Welcome Traveller</button>
+
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+          >
+            <Avatar alt="Remy Sharp" src={userData.profileImage} />
+          </StyledBadge>
+
 
                     </>
                 )}

@@ -68,7 +68,7 @@ const data = [
         review:"Nestled in Sri Lanka's lush hill country, Kandy is a vibrant city known for its rich cultural heritage and stunning natural beauty. Home to the sacred Temple of the Tooth Relic and the tranquil Kandy Lake, it offers a unique blend of history and serenity."
     },
     {
-        place:'KKITHULGALA',
+        place:'KITHULGALA',
         img:'/images/kithulgala.jpg',
         review:"Kithulgala is a small town in Sri Lanka known for its lush rainforests, scenic landscapes, and thrilling adventure activities such as white-water rafting on the Kelani River."
     },

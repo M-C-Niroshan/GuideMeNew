@@ -8,6 +8,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Avatar from "@mui/joy/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useUserContext } from "../pages/UserContext";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -17,6 +18,10 @@ import {
   DialogTitle,
   Typography as MuiTypography,
 } from "@mui/material";
+
+
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography as MuiTypography } from '@mui/material';
+
 import "./Traveller.css";
 import Logout from "@mui/icons-material/Logout";
 import Box from "@mui/material/Box";
@@ -34,6 +39,7 @@ const textContainerStyle = {
 
 const confirmationDialogStyles = {
   paper: {
+
     backgroundColor: "#e0f7fa", // Light Cyan
     color: "#00796b", // Teal
     borderRadius: "8px",
@@ -57,6 +63,31 @@ const confirmationDialogStyles = {
   },
   button: {
     marginLeft: "8px",
+=======
+    backgroundColor: '#e0f7fa', // Light Cyan
+    color: '#00796b', // Teal
+    borderRadius: '8px',
+    padding: '20px',
+    minWidth: '300px',
+  },
+  title: {
+    backgroundColor: '#004d40', // Dark Teal
+    color: '#ffffff', // White
+    borderRadius: '8px 8px 0 0',
+    padding: '10px 16px',
+    fontSize: '1.1rem',
+  },
+  content: {
+    marginTop: '10px',
+    marginBottom: '10px',
+  },
+  actions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginLeft: '8px',
+
   },
 };
 
@@ -66,14 +97,18 @@ const TravelerDashboard = () => {
   const [vehicleReservations, setVehicleReservations] = useState([]);
   const [loadingGuider, setLoadingGuider] = useState(true);
   const [loadingVehicle, setLoadingVehicle] = useState(true);
+
+
+
+
+
+  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:3001/api/guider-booking-details?travelerId=${userData.travelerId}`
-      )
-      .then((response) => {
+    axios.get(`http://localhost:3001/api/guider-booking-details?travelerId=${userData.travelerId}`)
+      .then(response => {
+
         setGuiderReservations(response.data);
         setLoadingGuider(false);
       })
@@ -82,11 +117,10 @@ const TravelerDashboard = () => {
         setLoadingGuider(false);
       });
 
-    axios
-      .get(
-        `http://localhost:3001/api/vehicle-rent-details?travelerId=${userData.travelerId}`
-      )
-      .then((response) => {
+
+    axios.get(`http://localhost:3001/api/vehicle-rent-details?travelerId=${userData.travelerId}`)
+      .then(response => {
+
         setVehicleReservations(response.data);
         setLoadingVehicle(false);
       })
@@ -96,13 +130,19 @@ const TravelerDashboard = () => {
       });
   }, [setUserData, userData.travelerId]);
 
-  const handlehomeClick = () => {
-    navigate("/"); // Navigate to home page
+
+  const handleLogoutClick = () => {
+    setOpenDialog(true);
   };
 
-  const handleLogout = () => {
-    setUserData(null); // Clear user data
-    navigate("/"); // Navigate to home page
+  const handleConfirmLogout = () => {
+    setUserData(null);
+    navigate("/");
+  };
+
+  const handleCancelLogout = () => {
+    setOpenDialog(false);
+
   };
 
   if (!userData) {
@@ -310,20 +350,20 @@ const TravelerDashboard = () => {
                   {reservation.vehicleName}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
-                  Pickup Date:{" "}
-                  {new Date(reservation.pickupDate).toLocaleDateString()}
+
+                  Pickup Date: {new Date(reservation.pickupDate).toLocaleDateString()}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
                   Pickup Time: {reservation.pickupTime}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
-                  Return Date:{" "}
-                  {new Date(reservation.returnDate).toLocaleDateString()}
+                  Return Date: {new Date(reservation.returnDate).toLocaleDateString()}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
                   Return Time: {reservation.returnTime}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
+
                   Price: ${reservation.price}
                 </Typography>
               </Card>
@@ -335,11 +375,14 @@ const TravelerDashboard = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={handlehomeClick}
+
+        onClick={handleLogoutClick}
+
         sx={{ marginTop: "20px", display: "block", mx: "auto" }}
       >
         Home
       </Button>
+
       <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 2 }}>
         <Button
           variant="contained"
@@ -350,6 +393,29 @@ const TravelerDashboard = () => {
           Logout
         </Button>
       </Box>
+
+
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        PaperProps={{ style: confirmationDialogStyles.paper }}
+      >
+        <DialogTitle style={confirmationDialogStyles.title}>
+          <MuiTypography variant="h6" component="span">Logout Confirmation</MuiTypography>
+        </DialogTitle>
+        <DialogContent style={confirmationDialogStyles.content}>
+          <MuiTypography>Are you sure you want to log out and go to the home page?</MuiTypography>
+        </DialogContent>
+        <DialogActions style={confirmationDialogStyles.actions}>
+          <Button onClick={handleCancelLogout} color="inherit" style={confirmationDialogStyles.button}>
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmLogout} color="primary" style={confirmationDialogStyles.button}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };
