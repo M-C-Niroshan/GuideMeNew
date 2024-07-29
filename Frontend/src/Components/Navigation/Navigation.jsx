@@ -56,7 +56,6 @@ function Navigation() {
                 <NavLink to='/PlanTrip' activeClassName='active'>Trip</NavLink>
                 <NavLink to='/BookGuider' activeClassName='active'>Guider</NavLink>
                 <NavLink to='/RentVehicle' activeClassName='active'>Vehicle</NavLink>
-                <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
                 {!userData ? (
                     <>
