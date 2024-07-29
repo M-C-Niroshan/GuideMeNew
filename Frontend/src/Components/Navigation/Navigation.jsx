@@ -52,10 +52,10 @@ function Navigation() {
             </div>
 
             <nav ref={navRef}>
+                <NavLink to='/' activeClassName='active'>Home</NavLink>
                 <NavLink to='/PlanTrip' activeClassName='active'>Trip</NavLink>
                 <NavLink to='/BookGuider' activeClassName='active'>Guider</NavLink>
                 <NavLink to='/RentVehicle' activeClassName='active'>Vehicle</NavLink>
-                <NavLink to='/chat' activeClassName='active'>Live Chat</NavLink>
                 <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
                 {!userData ? (
