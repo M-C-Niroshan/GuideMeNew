@@ -156,7 +156,7 @@ const handleSubmit = async (e) => {
         <div className='minisub1'>
           <input
             type="text"
-            name="fName"
+            name="firstName"
             placeholder="First name"
             className='tx1'
             value={formData.fName}
@@ -184,7 +184,7 @@ const handleSubmit = async (e) => {
         <div className='minisub2'>
           <input
             type="text"
-            name="lName"
+            name="lastName"
             placeholder="Last name"
             className='tx7'
             value={formData.lName}
