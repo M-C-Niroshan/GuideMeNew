@@ -20,7 +20,7 @@ function Tlanka() {
             enchantment. Indulge in the tantalizing flavors of Sri Lankan cuisine and
             immerse yourself in the vibrant culture of this island paradise. Your journey awaits.</p>
         </div>
-        <button className='text-part-signup'>Sign Up</button>
+        <button className='text-part-signup'></button>
       </div>
 
     </div>
