@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './navigation.css';
 import { FaBars, FaTimes } from "react-icons/fa";
+
 import { useNavigate } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import { useUserContext } from '../pages/UserContext';
+
 import Popup from '../Popup/popup';
+import { NavLink, useNavigate } from 'react-router-dom'; // Ensure this import
 
 function Navigation() {
     const { userData } = useUserContext();
@@ -12,6 +15,7 @@ function Navigation() {
     const navRef = useRef();
     const [showPopup, setShowPopup] = useState(false);
     const [status, setstatus] = useState(false);
+    const { userData } = useUserContext(); // Access user data from context
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,9 +44,11 @@ function Navigation() {
         setShowPopup(!showPopup);
     }
 
+
     const handleOnClick = () => {
         navigate("/AuthConGuiderSignIn");
     }
+
 
     return (
         <header className='navheader'>
@@ -58,6 +64,7 @@ function Navigation() {
                 <NavLink to='/chat' activeClassName='active'>Live Chat</NavLink>
                 <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
+
                 {!userData ? (
                     <>
                         <button className='login' onClick={() => handleOnClick()}>Login</button>
@@ -68,6 +75,7 @@ function Navigation() {
                     <button className='login' >Welcome Traveller</button>
 
                     </>
+
                 )}
 
                 <button onClick={showNavbar} className='ncbtn'>
