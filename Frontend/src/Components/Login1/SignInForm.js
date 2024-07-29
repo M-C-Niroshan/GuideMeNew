@@ -20,8 +20,20 @@ const SignInForm = () => {
       // If login is successful, log user details
       console.log('Login successful:', response.data);
 
+
       // Set user data using context
       setUserData({ name: '', email: '' }); // Adjust as necessary based on your user data
+
+      if (renterId) {
+        navigate('/Renterdash');
+      } else if (guiderId) {
+        navigate('/Guiderdash');
+      } else if (travelerId) {
+        navigate('/Travelerdash');
+      } else {
+        console.error('Unknown user type');
+      }
+
 
       // Optionally redirect or perform additional actions with user details
     } catch (error) {
