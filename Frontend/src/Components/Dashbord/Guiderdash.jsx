@@ -52,6 +52,7 @@ const GuiderDash = () => {
         );
         setServices(response.data);
         setLoading(false);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching guider services:", error);
         setLoading(false);
@@ -91,6 +92,7 @@ const GuiderDash = () => {
         `http://localhost:3001/api/guide-service-status?guiderId=${userData.guiderId}`
       );
       setServices(fetchServices.data);
+      
       setForm({ language: "", price: "", description: "" }); // Clear form fields after successful submission
     } catch (error) {
       if (
