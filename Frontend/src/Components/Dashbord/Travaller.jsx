@@ -10,6 +10,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useUserContext } from "../pages/UserContext";
 import { NavLink } from 'react-router-dom';
 import { Button } from '@mui/material';
+import Logout from '@mui/icons-material/Logout';
+
 import "./Traveller.css";
 
 const textContainerStyle = {
@@ -265,6 +267,11 @@ const TravelerDashboard = () => {
           </Button>
         </NavLink>
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
+  <NavLink to="/">
+      <Logout sx={{ mr: 1 }} />
+  </NavLink>
+</div>
     </div>
   );
 };
