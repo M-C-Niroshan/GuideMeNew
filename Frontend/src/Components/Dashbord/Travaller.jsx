@@ -8,8 +8,8 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from "@mui/joy/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useUserContext } from "../pages/UserContext";
-import { NavLink } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography as MuiTypography } from '@mui/material';
 import "./Traveller.css";
 
 const textContainerStyle = {
@@ -23,28 +23,45 @@ const textContainerStyle = {
   wordWrap: "break-word",
 };
 
-const TravelerDashboard = () => {
-  const u_Data = {
-    _id: "66a4632bb0a3d660a6c0a7ed",
-    fName: "John",
-    lName: "Doe",
-    profileImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-    NICpassportNum: "A1234567",
-    email: "johnx.doe@example.com",
-    contactNumber: "+1234567890",
-    travelerId: 15,
-  };
+const confirmationDialogStyles = {
+  paper: {
+    backgroundColor: '#e0f7fa', // Light Cyan
+    color: '#00796b', // Teal
+    borderRadius: '8px',
+    padding: '20px',
+    minWidth: '300px',
+  },
+  title: {
+    backgroundColor: '#004d40', // Dark Teal
+    color: '#ffffff', // White
+    borderRadius: '8px 8px 0 0',
+    padding: '10px 16px',
+    fontSize: '1.1rem',
+  },
+  content: {
+    marginTop: '10px',
+    marginBottom: '10px',
+  },
+  actions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginLeft: '8px',
+  },
+};
 
+const TravelerDashboard = () => {
   const { setUserData, userData } = useUserContext();
   const [guiderReservations, setGuiderReservations] = useState([]);
   const [vehicleReservations, setVehicleReservations] = useState([]);
   const [loadingGuider, setLoadingGuider] = useState(true);
   const [loadingVehicle, setLoadingVehicle] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setUserData(u_Data);
-
-    axios.get(`http://localhost:3001/api/guider-booking-details?travelerId=${u_Data.travelerId}`)
+    axios.get(`http://localhost:3001/api/guider-booking-details?travelerId=${userData.travelerId}`)
       .then(response => {
         setGuiderReservations(response.data);
         setLoadingGuider(false);
@@ -54,7 +71,7 @@ const TravelerDashboard = () => {
         setLoadingGuider(false);
       });
 
-    axios.get(`http://localhost:3001/api/vehicle-rent-details?travelerId=${u_Data.travelerId}`)
+    axios.get(`http://localhost:3001/api/vehicle-rent-details?travelerId=${userData.travelerId}`)
       .then(response => {
         setVehicleReservations(response.data);
         setLoadingVehicle(false);
@@ -63,7 +80,20 @@ const TravelerDashboard = () => {
         console.error("Error fetching vehicle reservations:", error);
         setLoadingVehicle(false);
       });
-  }, [setUserData]);
+  }, [setUserData, userData.travelerId]);
+
+  const handleLogoutClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setUserData(null);
+    navigate("/");
+  };
+
+  const handleCancelLogout = () => {
+    setOpenDialog(false);
+  };
 
   if (!userData) {
     return <div>Loading...</div>;
@@ -107,7 +137,7 @@ const TravelerDashboard = () => {
             sx={{ width: 80, height: 80, mb: 2, mx: "auto" }}
           />
           <Typography textColor="primary.200" sx={{ fontSize: "1.5rem" }}>
-          {userData.fName} {userData.lName}
+            {userData.fName} {userData.lName}
           </Typography>
         </CardOverflow>
 
@@ -226,45 +256,58 @@ const TravelerDashboard = () => {
                   <img src={reservation.vehicleImage} alt="Vehicle Image" style={{ width: '100%', borderRadius: '8px' }} />
                 </AspectRatio>
                 <Typography variant="h6" textAlign="center" sx={{ mb: 1 }}>
-                  {reservation.vehicleType}
+                  {reservation.vehicleName}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
-                  {reservation.vehicleRegNum}
-                </Typography>
-{/*                 <Avatar
-                  alt="Renter Image"
-                  src={reservation.renterProfileImg}
-                  sx={{ width: 80, height: 80, mb: 2 }}
-                /> */}
-                <Typography textAlign="center" sx={{ mb: 1 }}>
-                  Pickup Date: {new Date(reservation.pickupDate).toLocaleDateString()} {reservation.pickupTime}
+                  Pickup Date: {new Date(reservation.pickupDate).toLocaleDateString()}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
-                  Handover Date: {new Date(reservation.handoverDate).toLocaleDateString()} {reservation.handoverTime}
+                  Pickup Time: {reservation.pickupTime}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
-                  Renter Contact: {reservation.renterContactNum}
+                  Return Date: {new Date(reservation.returnDate).toLocaleDateString()}
+                </Typography>
+                <Typography textAlign="center" sx={{ mb: 1 }}>
+                  Return Time: {reservation.returnTime}
+                </Typography>
+                <Typography textAlign="center" sx={{ mb: 1 }}>
+                  Price: ${reservation.price}
                 </Typography>
               </Card>
             ))}
           </div>
         )}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom:'20px' }}>
-        <NavLink to="/">
-          <Button
-            variant="outlined"
-            color="primary"
-            sx={{
-              '--variant-borderWidth': '2px',
-              borderRadius: 40,
-              borderColor: 'primary.500',
-            }}
-          >
-            Home
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleLogoutClick}
+        sx={{ marginTop: "20px", display: "block", mx: "auto" }}
+      >
+        Home
+      </Button>
+
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        PaperProps={{ style: confirmationDialogStyles.paper }}
+      >
+        <DialogTitle style={confirmationDialogStyles.title}>
+          <MuiTypography variant="h6" component="span">Logout Confirmation</MuiTypography>
+        </DialogTitle>
+        <DialogContent style={confirmationDialogStyles.content}>
+          <MuiTypography>Are you sure you want to log out and go to the home page?</MuiTypography>
+        </DialogContent>
+        <DialogActions style={confirmationDialogStyles.actions}>
+          <Button onClick={handleCancelLogout} color="inherit" style={confirmationDialogStyles.button}>
+            Cancel
           </Button>
-        </NavLink>
-      </div>
+          <Button onClick={handleConfirmLogout} color="primary" style={confirmationDialogStyles.button}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
