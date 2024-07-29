@@ -25,9 +25,9 @@ function Navigation() {
                 navigate("/Guiderdash");
             } else if (userData.renterId && userData.renterId >= renterIdRange && userData.renterId < guiderIdRange) {
                 navigate("/Renterdash");
-            } else if (userData.traveller && userData.traveller >= travelerIdRange && userData.traveller < renterIdRange) {
+            }/*  else if (userData.traveller && userData.traveller >= travelerIdRange && userData.traveller < renterIdRange) {
                 navigate("/");
-            }
+            } */
         }
     }, [userData, navigate]);
 
@@ -64,10 +64,10 @@ function Navigation() {
                         <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
                     </>
                 ) : (
-                    <div>
-                        {/* Add your additional content here */}
-                        <p>Welcome, {userData.fName}!</p>
-                    </div>
+                    <>
+                    <button className='login' >Welcome Traveller</button>
+
+                    </>
                 )}
 
                 <button onClick={showNavbar} className='ncbtn'>

@@ -7,7 +7,7 @@ import { Slide } from "react-slideshow-image";
 import GetVehicle from "./GetVehicle";
 import Navigation from "../../Navigation/Navigation";
 import Footer from "../../Footer/Footer";
-import { useUserContext } from '../UserContext';
+/* import { useUserContext } from '../UserContext'; */
 
 import Diverse_Vehicle_Selection from "./images/RentVehiclePageImages/Diverse Vehicle Selection.jpg";
 import Simple_Booking_Process from "./images/RentVehiclePageImages/Simple Booking Process.jpg";
@@ -132,7 +132,7 @@ const top50Locations = [
 
 
 export default function VehicleRentHome() {
-  const { setUserData } = useUserContext();
+/*   const { setUserData } = useUserContext(); */
   const [carType, setCarType] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [showGetVehicle, setShowGetVehicle] = useState(false);
@@ -142,11 +142,11 @@ export default function VehicleRentHome() {
       setShowGetVehicle(true);
     }
   };
-
+/* 
   useEffect(() => {
     // Setting user data for temporary purposes
     setUserData({ travelerId: 15, name: 'John Doe', email: 'john@example.com' });
-  }, [setUserData]);
+  }, [setUserData]); */
 
   return (
     <div className="maincont">

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./BookGuiderHome.css";
-import Card from "react-bootstrap/Card";
+/* import Card from "react-bootstrap/Card"; */
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
-import { useNavigate } from "react-router-dom";
+/* import { useNavigate } from "react-router-dom"; */
 import GetGuider from "./GetGuider"; // Import the GetGuider component
-import { useUserContext } from '../UserContext';
+/* import { useUserContext } from '../UserContext'; */
 import {
   Box,
   Typography,
@@ -126,7 +126,7 @@ const top100Languages = [
 
 
 const BookGuiderHome = () => {
-  const { setUserData } = useUserContext();
+/*   const { setUserData } = useUserContext();
   useEffect(() => {
 
     setUserData({
@@ -139,9 +139,9 @@ const BookGuiderHome = () => {
       contactNumber: "+1234567890",
       travelerId: 17,
     });
-  }, [setUserData]);
+  }, [setUserData]); */
 
-  const navigate = useNavigate();
+/*   const navigate = useNavigate(); */
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [showGetGuider, setShowGetGuider] = useState(false);
 
