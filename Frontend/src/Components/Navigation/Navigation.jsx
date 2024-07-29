@@ -10,6 +10,7 @@ import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
       backgroundColor: '#44b700',
@@ -52,7 +53,7 @@ function Navigation() {
     const [showPopup, setShowPopup] = useState(false);
     const [status, setstatus] = useState(false);
     const navigate = useNavigate();
-
+    console.log(userData);
     useEffect(() => {
         if (userData) {
             const guiderIdRange = 2000;
@@ -103,24 +104,15 @@ function Navigation() {
                     </>
                 ) : (
                     <>
-                        <Stack direction="row" spacing={2}>
-      <StyledBadge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
-      >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-      </StyledBadge>
-      <Badge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        badgeContent={
-          <SmallAvatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        }
-      >
-        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-      </Badge>
-    </Stack>
+
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+          >
+            <Avatar alt="Remy Sharp" src={userData.profileImage} />
+          </StyledBadge>
+
 
                     </>
                 )}
