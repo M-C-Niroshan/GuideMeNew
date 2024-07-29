@@ -13,10 +13,10 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AddPhotoAlternate from "@mui/icons-material/AddPhotoAlternate";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper"; // Added for border styling
-import { storage } from "../Login1/firebase"; // Import your configured Firebase storage
+import Paper from "@mui/material/Paper";
+import { storage } from "../Login1/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/Logout";
 import { useUserContext } from "../pages/UserContext";
 import Rating from "@mui/material/Rating";
@@ -59,7 +59,6 @@ const Renterdash = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch vehicle rent services based on renterId
     const fetchRentServices = async () => {
       try {
         const response = await axios.get(
@@ -99,14 +98,10 @@ const Renterdash = () => {
 
     let imageUrl = "";
     if (image) {
-      // Define a reference to the storage location
       const storageRef = ref(storage, `vehicleImages/${image.name}`);
-
-      // Start the upload task
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       try {
-        // Create a promise to handle the upload completion
         await new Promise((resolve, reject) => {
           uploadTask.on(
             "state_changed",
@@ -114,12 +109,10 @@ const Renterdash = () => {
               // Handle progress here if needed
             },
             (error) => {
-              // Handle unsuccessful uploads
               console.error("Upload error:", error);
               reject(error);
             },
             async () => {
-              // Handle successful uploads
               try {
                 imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
                 resolve();
@@ -151,7 +144,6 @@ const Renterdash = () => {
       );
       setSuccessMessage("Vehicle added successfully!");
       setSnackbarOpen(true);
-      // Refresh vehicle services
       const response = await axios.get(
         `http://localhost:3001/api/vehicle-rent-services?renterId=${userData.renterId}`
       );
@@ -178,17 +170,9 @@ const Renterdash = () => {
     setSnackbarOpen(false);
   };
 
-/*   if (!renter) {
-    return <div>Loading...</div>;
-  } */
-/* 
-  const handlehomeClick = () => {
-    navigate("/"); // Navigate to home page
-  };
- */
   const handleLogout = () => {
-    setUserData(null); // Clear user data
-    navigate("/"); // Navigate to home page
+    setUserData(null);
+    navigate("/");
   };
 
   return (
@@ -234,7 +218,7 @@ const Renterdash = () => {
             sx={{ width: 80, height: 80, mb: 2, mx: "auto" }}
           />
           <Typography textColor="primary.200" sx={{ fontSize: "1.5rem" }}>
-          {userData.fName} {userData.lName}
+            {userData.fName} {userData.lName}
           </Typography>
         </CardOverflow>
 
@@ -269,7 +253,6 @@ const Renterdash = () => {
         </CardContent>
       </Card>
 
-      {/* Add Vehicle Form */}
       <Box sx={{ marginTop: 4, width: "100%", maxWidth: 600 }}>
         <Paper
           elevation={3}
@@ -350,48 +333,35 @@ const Renterdash = () => {
               </Grid>
               <Grid item xs={12}>
                 <input
-                  id="image-upload"
                   type="file"
+                  id="fileInput"
                   accept="image/*"
-                  onChange={handleImageChange}
                   style={{ display: "none" }}
+                  onChange={handleImageChange}
                 />
-                {imagePreview ? (
+                <label htmlFor="fileInput">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    startIcon={<AddPhotoAlternate />}
+                    sx={{ width: "100%" }}
+                  >
+                    Upload Image
+                  </Button>
+                </label>
+                {imagePreview && (
                   <Box
                     component="img"
-                    sx={{
-                      height: 100,
-                      width: 100,
-                      borderRadius: "8px",
-                      objectFit: "cover",
-                      cursor: "pointer",
-                      marginBottom: "16px",
-                    }}
                     src={imagePreview}
-                    alt="Image preview"
-                    onClick={() =>
-                      document.getElementById("image-upload").click()
-                    }
-                  />
-                ) : (
-                  <Box
+                    alt="Image Preview"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: 100,
-                      width: 100,
-                      border: "2px dashed #ccc",
+                      width: 200,
+                      height: "auto",
                       borderRadius: "8px",
-                      cursor: "pointer",
+                      mt: 2,
                       mb: 2,
                     }}
-                    onClick={() =>
-                      document.getElementById("image-upload").click()
-                    }
-                  >
-                    <AddPhotoAlternate sx={{ fontSize: 48, color: "#ccc" }} />
-                  </Box>
+                  />
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -399,7 +369,7 @@ const Renterdash = () => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  sx={{ mt: 2 }}
+                  sx={{ width: "100%", mb: 1 }}
                 >
                   Add Vehicle
                 </Button>
@@ -407,7 +377,7 @@ const Renterdash = () => {
                   type="button"
                   variant="outlined"
                   color="secondary"
-                  sx={{ mt: 2, ml: 2 }}
+                  sx={{ width: "100%" }}
                   onClick={handleClear}
                 >
                   Clear
@@ -418,7 +388,6 @@ const Renterdash = () => {
         </Paper>
       </Box>
 
-      {/* Vehicle List */}
       <Box
         sx={{
           marginTop: 4,
@@ -433,19 +402,22 @@ const Renterdash = () => {
         ) : (
           rentServices.map((service) => (
             <Card key={service._id} sx={{ width: 250, mb: 2 }}>
-              {" "}
-              {/* Adjust the width as needed */}
               <CardOverflow>
                 <CardContent>
                   <img
                     src={service.vehicleImage}
                     alt={service.vehicleRegNum}
-                    style={{ width: "100%", height: "auto" }} // Adjust image styling as needed
+                    style={vehicleImageStyle} // Use defined style for the image
                   />
                   <Typography variant="h6" sx={{ mb: 1, textAlign: "center" }}>
                     {service.vehicleRegNum}
                   </Typography>
-                  <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={3.5}
+                    precision={0.5}
+                    readOnly
+                  />
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Type: {service.type}
                   </Typography>
@@ -458,6 +430,41 @@ const Renterdash = () => {
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Description: {service.description}
                   </Typography>
+
+                  {service.serviceStatus === "Booked" && (
+                    <Box
+                      sx={{
+                        mt: 2,
+                        padding: 2,
+                        border: "1px solid #ddd",
+                        borderRadius: "8px",
+                        backgroundColor: "#f9f9f9",
+                      }}
+                    >
+                      <Typography variant="h6" sx={{ mb: 1, textAlign: "center" }}>
+                        Booked Traveler Details
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Full Name:</strong> {service.travelerFname}{" "}
+                        {service.travelerLname}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Email:</strong> {service.travelerEmail || "N/A"}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Contact Number:</strong>{" "}
+                        {service.travelerContactNumber || "N/A"}
+                      </Typography>
+                      {service.travelerProfileImage && (
+                        <Box
+                          component="img"
+                          src={service.travelerProfileImage}
+                          alt="Traveler Profile"
+                          sx={{ width: 100, height: 100, borderRadius: "50%", mt: 1 }}
+                        />
+                      )}
+                    </Box>
+                  )}
                 </CardContent>
               </CardOverflow>
             </Card>
@@ -465,40 +472,17 @@ const Renterdash = () => {
         )}
       </Box>
 
-      {/* Home Button */}
-{/*       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
+      <Box sx={{ marginTop: 2 }}>
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
-          onClick={handlehomeClick}
-          sx={{ marginTop: "20px", display: "block", mx: "auto" }}
+          onClick={handleLogout}
+          startIcon={<Logout />}
         >
-          Home
+          Logout
         </Button>
-      </div> */}
-      <div
-        style={{ display: "flex", justifyContent: "center", margin: "10px" }}
-      >
-        <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 2 }}>
-          <Button
-            variant="contained"
-            color="error"
-            startIcon={<Logout />}
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        </Box>
-      </div>
+      </Box>
 
-      {/* Snackbar for messages */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -506,9 +490,10 @@ const Renterdash = () => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={successMessage ? "success" : "error"}
+          severity={errorMessage ? "error" : "success"}
+          sx={{ width: "100%" }}
         >
-          {successMessage || errorMessage}
+          {errorMessage || successMessage}
         </Alert>
       </Snackbar>
     </Box>
