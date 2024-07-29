@@ -28,11 +28,11 @@ const SignInForm = () => {
       const { renterId, guiderId, travelerId } = response.data;
 
       if (renterId) {
-        navigate('/16');
+        navigate('/Renterdash');
       } else if (guiderId) {
-        navigate('/17');
+        navigate('/Guiderdash');
       } else if (travelerId) {
-        navigate('/8');
+        navigate('/Travelerdash');
       } else {
         console.error('Unknown user type');
       }

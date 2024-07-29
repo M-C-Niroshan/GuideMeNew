@@ -1,16 +1,16 @@
 import React, { useState, useRef } from 'react';
 import './navigation.css';
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from 'react-router-dom';
-
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useUserContext } from '../pages/UserContext'; // Ensure this path is correct
 import Popup from '../Popup/popup';
 
 function Navigation() {
     const navRef = useRef();
     const [showPopup, setShowPopup] = useState(false);
     const [status, setstatus] = useState(false);
-    const navigate = useNavigate();
+    const { userData } = useUserContext(); // Access user data from context
+    const navigate = useNavigate(); // Correct usage of useNavigate
 
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
@@ -20,6 +20,9 @@ function Navigation() {
         setstatus(value);
         setShowPopup(!showPopup);
     }
+
+    // Determine if user is logged in
+    const isLoggedIn = userData && userData.profileImage;
 
     return (
         <header className='navheader'>
@@ -35,8 +38,18 @@ function Navigation() {
                 <NavLink to='/chat' activeClassName='active'>Live Chat</NavLink>
                 <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
-                <button className='login' onClick={() => togglePopup(0)}>Login</button>
-                <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
+                <div className='nav-buttons'>
+                    {!isLoggedIn ? (
+                        <>
+                            <button className='login' onClick={() => togglePopup(0)}>Login</button>
+                            <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
+                        </>
+                    ) : (
+                        <div className='user-profile'>
+                            <img src={userData.profileImage} alt='User Profile' className='user-icon' />
+                        </div>
+                    )}
+                </div>
 
                 <button onClick={showNavbar} className='ncbtn'>
                     <FaTimes />
