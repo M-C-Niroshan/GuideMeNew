@@ -10,11 +10,36 @@ import { Box, Typography, Stack, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 
-const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name, profileImg }) => {
+const VehicleCard = ({
+  vehicleRentServiceId,
+  renterId,
+  vehicleRegNum,
+  type,
+  vehicleImage,
+  rentPrice,
+  avilableLocation,
+  description,
+  rating,
+  name,
+  profileImg,
+}) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/reservation/${vehicleRentServiceId}`, { state: { vehicleRentServiceId, renterId, vehicleRegNum, type, vehicleImage, rentPrice, avilableLocation, description, rating, name } });
+    navigate(`/reservation/${vehicleRentServiceId}`, {
+      state: {
+        vehicleRentServiceId,
+        renterId,
+        vehicleRegNum,
+        type,
+        vehicleImage,
+        rentPrice,
+        avilableLocation,
+        description,
+        rating,
+        name,
+      },
+    });
   };
 
   return (
@@ -31,11 +56,26 @@ const VehicleCard = ({ vehicleRentServiceId, renterId, vehicleRegNum, type, vehi
         }
         title={name}
       />
-      <CardMedia component="img" height="194" image={vehicleImage} alt="Vehicle Image" />
+      <CardMedia
+        component="img"
+        height="194"
+        image={vehicleImage}
+        alt="Vehicle Image"
+      />
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+        >
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
+            <Rating
+              name="half-rating-read"
+              defaultValue={rating}
+              precision={0.5}
+              readOnly
+            />
             <Typography variant="body2" color="text.secondary">
               {rating}
             </Typography>

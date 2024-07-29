@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Pagination, Fade, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Pagination,
+  Fade,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import Axios from "axios";
 import GuiderCard from "./GuiderCard"; // Assuming you have a GuiderCard component
 
@@ -16,11 +23,14 @@ const GetGuider = ({ selectedLanguage }) => {
     const fetchGuiders = async () => {
       try {
         setLoading(true);
-        const response = await Axios.get("http://localhost:3001/api/guide-servise", {
-          params: {
-            language: selectedLanguage.title, // Pass the selected language to the API
-          },
-        });
+        const response = await Axios.get(
+          "http://localhost:3001/api/guide-servise",
+          {
+            params: {
+              language: selectedLanguage.title, // Pass the selected language to the API
+            },
+          }
+        );
         console.log("API Response:", response.data); // Log the response
         setGuiders(response.data); // Directly set the guiders data
       } catch (err) {

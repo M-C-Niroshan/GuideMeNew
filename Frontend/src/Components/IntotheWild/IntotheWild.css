@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+
+
+.topicboxI {
+    width: 80%;
+    height: 40px;
+    background-color: #ffffff;
+    display: flex;
+    border-radius: 40px;
+    justify-content: left;
+    align-items: center;
+    position: relative;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    margin-left: 20%;
+    
+  
+   
+  }
+  
+  .topicI {
+    margin-right: 0;
+    font-family: "Nunito", sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+  }
+  
+  .backrectaI {
+    width: 170px;
+    height: 100px;
+    background-color: #D9D9D9;
+    margin: 14px -80px;
+    display: flex;
+    flex-direction: column;
+  
+    
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    
+  }
+  
+
+
+
+.adventure-container {
+  align-items: center;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin-left: 15%;
+  
+
+  }
+  
+  .adventure-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    width: 250px;
+    height: 350px;
+  }
+  
+  .adventure-image img {
+    max-width: 100%;
+    height: auto;
+    
+  }
+  
+  .adventure-content {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .adventure-content p {
+    font-size: larger;
+    line-height: 1.6;
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .adventure-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .adventure-image,
+    .adventure-content {
+      width: 100%;
+      padding: 10px 0;
+    }
+  
+    .adventure-content p {
+      text-align: center;
+      font-size: medium;
+    }
+    .topicbox {
+        
+        margin-bottom: 10%;
+       
+      }
+      
+  }
+  

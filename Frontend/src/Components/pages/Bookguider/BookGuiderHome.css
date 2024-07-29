@@ -27,14 +27,14 @@
 .rental-services .card:hover {
   transform: translateY(-10px) scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  border: 1px solid #007BFF;
+  border: 1px solid #007bff;
 }
 
 .rental-title {
   font-size: 2.5em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   color: #000000;
 }
 .Form {
@@ -42,7 +42,6 @@
   justify-content: center;
   padding: 20px;
   width: 100%;
-
 }
 
 /* Responsive Design */
@@ -89,7 +88,6 @@
   .Form {
     padding: 5px;
   }
-  
 }
 
 @media (max-width: 576px) {
@@ -99,7 +97,9 @@
   .Form {
     padding: 2px;
   }
-  .MuiAutocomplete-root, .MuiTextField-root, .MuiButton-root {
+  .MuiAutocomplete-root,
+  .MuiTextField-root,
+  .MuiButton-root {
     width: 100%;
   }
 }

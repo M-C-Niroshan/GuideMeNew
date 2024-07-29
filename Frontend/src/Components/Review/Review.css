@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+.review-container {
+  display: flex;
+  flex-direction: column;
+  padding:50px;
+  width: 80%;
+  position: relative;
+  border: 2px solid red;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid black;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+
+.page-rating .star {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.page-rating .star.filled {
+  color: #ffc107;
+}
+
+.comment-form,
+.comments-section {
+  margin: 10px 0;
+
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form h2 {
+  margin-bottom: 10px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.comment-form .rating {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.comment-form .star {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.comment-form .star:hover,
+.comment-form .star.filled {
+  color: #ffc107;
+}
+
+.comment-form input[type="file"] {
+  margin-bottom: 10px;
+}
+
+.comment-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.comments-section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.comment p {
+  margin: 0;
+}
+
+.comment-rating {
+  display: flex;
+}
+
+.comment-rating .star {
+  font-size: 20px;
+  color: #ffc107;
+}
+
+.show-more-button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.Head h1{
+
+  font-family: "Nunito", sans-serif;
+}
+
+
+@media (max-width: 768px) {
+  .review-container {
+    flex-direction: column;
+  }
+
+  .comment-form,
+  .comments-section {
+    margin: 10px 0;
+  }
+}
+
+.rmaincon{
+  width: 100%;
+  height: 100vh;
+}

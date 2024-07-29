@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-import { Box, Button } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material'; // Import CircularProgress
 import Axios from 'axios';
 import { storage } from './firebase'; // Import the configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+// import './loading.css'; // Import CSS file for styling
 
 const SignUpFormRenter = () => {
   const [image, setImage] = useState(null);
@@ -17,8 +18,8 @@ const SignUpFormRenter = () => {
     address: '',
     contactNum: '',
   });
-
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -42,29 +43,24 @@ const SignUpFormRenter = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when submission starts
 
     let imageUrl = '';
     if (image) {
-      // Define a reference to the storage location
       const storageRef = ref(storage, `profileImages/${image.name}`);
-      
-      // Start the upload task
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       try {
-        // Create a promise to handle the upload completion
         await new Promise((resolve, reject) => {
           uploadTask.on('state_changed', 
             (snapshot) => {
               // Handle progress here if needed
             }, 
             (error) => {
-              // Handle unsuccessful uploads
               console.error("Upload error:", error);
               reject(error);
             }, 
             async () => {
-              // Handle successful uploads
               try {
                 imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
                 resolve();
@@ -76,6 +72,7 @@ const SignUpFormRenter = () => {
         });
       } catch (error) {
         setError('Image upload failed. Please try again.');
+        setLoading(false); // Set loading to false if there's an error
         return;
       }
     }
@@ -92,9 +89,8 @@ const SignUpFormRenter = () => {
     };
 
     Axios.post("http://localhost:3001/api/renter", formDataToSend)
-        .then((response) => {
+      .then((response) => {
         console.log("User created successfully:", response.data);
-        // Clear form and image preview after successful submission
         setFormData({
           fName: '',
           lName: '',
@@ -106,10 +102,12 @@ const SignUpFormRenter = () => {
         });
         setImage(null);
         setImagePreview(null);
+        setLoading(false); // Set loading to false after successful submission
       })
       .catch((error) => {
         console.error("Axios Error:", error);
         setError('An error occurred. Please try again.');
+        setLoading(false); // Set loading to false if there's an error
       });
   };
 
@@ -216,9 +214,14 @@ const SignUpFormRenter = () => {
             value={formData.contactNum}
             onChange={handleInputChange}
           />
-          <button className='sign1' type="submit">Sign Up</button>
+          <button className='sign1' type="submit" disabled={loading}>Sign Up</button>
         </div>
       </div>
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <CircularProgress />
+        </Box>
+      )}
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );

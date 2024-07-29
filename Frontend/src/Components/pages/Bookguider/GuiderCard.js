@@ -10,24 +10,60 @@ import { Box, Typography, Stack, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Rating from "@mui/material/Rating";
 
-
-const GuiderCard = ({ guiderId, serviceId, language, price, description, rating, name, profileImg, email, contactNum }) => {
+const GuiderCard = ({
+  guiderId,
+  serviceId,
+  language,
+  price,
+  description,
+  rating,
+  name,
+  profileImg,
+  email,
+  contactNum,
+}) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/guider-reservation/${guiderId}`, { state: { guiderId, serviceId, language, price, description, rating, name, profileImg, email, contactNum } });
+    navigate(`/guider-reservation/${guiderId}`, {
+      state: {
+        guiderId,
+        serviceId,
+        language,
+        price,
+        description,
+        rating,
+        name,
+        profileImg,
+        email,
+        contactNum,
+      },
+    });
   };
 
   return (
     <Card sx={{ maxWidth: 345, backgroundColor: "white" }}>
-      <CardHeader
-        title={name}
+      <CardHeader title={name} />
+      <CardMedia
+        component="img"
+        height="194"
+        image={profileImg}
+        alt="fill Image"
       />
-      <CardMedia component="img" height="194" image={profileImg} alt="fill Image" />
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+        >
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
+            <Rating
+              name="half-rating-read"
+              defaultValue={rating}
+              precision={0.5}
+              readOnly
+            />
             <Typography variant="body2" color="text.secondary">
               {rating}
             </Typography>

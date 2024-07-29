@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./BookGuiderHome.css";
-/* import Card from "react-bootstrap/Card"; */
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
-/* import { useNavigate } from "react-router-dom"; */
-import GetGuider from "./GetGuider"; // Import the GetGuider component
-/* import { useUserContext } from '../UserContext'; */
+import GetGuider from "./GetGuider";
 import {
   Box,
   Typography,
@@ -14,7 +11,6 @@ import {
   Autocomplete,
   TextField,
 } from "@mui/material";
-// Image Imports
 import Guiding_Services_Selection from "./images/RentVehiclePageImages/Diverse Vehicle Selection.jpg";
 import Simple_Booking_Process from "./images/RentVehiclePageImages/Simple Booking Process.jpg";
 import Flexible_Guide_Periods from "./images/RentVehiclePageImages/Flexible Rental Periods.jpg";
@@ -23,12 +19,14 @@ import Customer_Support from "./images/RentVehiclePageImages/Customer Support.jp
 import Convenient_Locations from "./images/RentVehiclePageImages/Convenient Locations.jpg";
 import Safe_and_Reliable_Guides from "./images/RentVehiclePageImages/Safe and Reliable Vehicles.jpg";
 import Guide_Ratings from "./images/RentVehiclePageImages/Vehicle Ratings.jpg";
-import image1 from "./images/BookGuiderPageImages/guider/image1.jpg";
-import image2 from "./images/BookGuiderPageImages/guider/image2.jpg";
-import image3 from "./images/BookGuiderPageImages/guider/image3.jpg";
+import Navigation from "../../Navigation/Navigation";
+import image1 from "./images/BookGuiderPageImages/guider/image1.png";
+import image2 from "./images/BookGuiderPageImages/guider/image2.png";
+import image3 from "./images/BookGuiderPageImages/guider/image3.png";
 import image4 from "./images/BookGuiderPageImages/guider/image4.jpg";
 import image5 from "./images/BookGuiderPageImages/guider/image5.jpg";
 import image6 from "./images/BookGuiderPageImages/guider/image6.jpg";
+import Footer from "../../Footer/Footer";
 
 const serviceCards = [
   {
@@ -124,24 +122,7 @@ const top100Languages = [
   { title: "Kyrgyz" },
 ];
 
-
 const BookGuiderHome = () => {
-/*   const { setUserData } = useUserContext();
-  useEffect(() => {
-
-    setUserData({
-      _id: "66a4632bb0a3d660a6c0a7ed",
-      fName: "John",
-      lName: "Doe",
-      profileImage: "https://images.pexels.com/photos/1643387/pexels-photo-1643387.jpeg",
-      NICpassportNum: "A1234567",
-      email: "johnx.doe@example.com",
-      contactNumber: "+1234567890",
-      travelerId: 17,
-    });
-  }, [setUserData]); */
-
-/*   const navigate = useNavigate(); */
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [showGetGuider, setShowGetGuider] = useState(false);
 
@@ -152,185 +133,195 @@ const BookGuiderHome = () => {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#eee8e8" }}>
-      {/* Slideshow Section */}
-      <Box sx={{ padding: { xs: "0px", md: "0px" } }}>
-        <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
-          {[image1, image2, image3, image4, image5, image6].map(
-            (src, index) => (
+    <>
+      <Navigation />
+      <div className="navback">
+        <div className="travelheadervr">
+          <p className="travelheaderpvr">
+            Discover the Freedom to Explore with Our Comprehensive
+          </p>
+        </div>
+        <div className="relative w-full h-screen overflow-hidden" id="backimg">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/navback.jpg`}
+            alt="background"
+            className="absolute top-1/2 left-1/2 w-full h-auto transform -translate-x-1/2 -translate-y-1/2"
+          />
+        </div>
+      </div>
+      <Box sx={{ backgroundColor: "white" }}>
+        <Box sx={{ padding: { xs: "10px", md: "0px" } }}>
+          <Slide slidesToScroll={1} slidesToShow={4} indicators={true}>
+            {[image1, image2, image3, image4, image5, image6].map(
+              (src, index) => (
+                <Box
+                  key={index}
+                  sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
+                >
+                  <img
+                    src={src}
+                    alt={`Slide ${index + 1}`}
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                </Box>
+              )
+            )}
+          </Slide>
+          <Box sx={{ padding: { xs: "20px", md: "5px" }, textAlign: "center" }}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                color: "#000",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                fontFamily: "Times New Roman, Times, serif",
+                marginBottom: "10px",
+              }}
+            >
+              Discover the World with Our Comprehensive
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                color: "#000",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                fontFamily: "Times New Roman, Times, serif",
+              }}
+            >
+              Guiding Services
+            </Typography>
+          </Box>
+        </Box>
+
+        <div className="Form">
+          <Box
+            sx={{
+              p: 2,
+              bgcolor: "background.paper",
+              borderRadius: 5,
+              boxShadow: 5,
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: "800px",
+            }}
+          >
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                width: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "8px",
+                }}
+              >
+                <Autocomplete
+                  options={top100Languages}
+                  getOptionLabel={(option) => option.title}
+                  value={selectedLanguage}
+                  onChange={(event, newValue) => setSelectedLanguage(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select Native Language"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ backgroundColor: "#fff" }}
+                    />
+                  )}
+                  sx={{
+                    width: "100%",
+                    "& .MuiAutocomplete-inputRoot": {
+                      padding: "10px",
+                    },
+                  }}
+                />
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "8px",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#0056b3",
+                    width: "100%",
+                    "&:hover": {
+                      bgcolor: "#063f7c",
+                    },
+                  }}
+                  onClick={handleFindGuideClick}
+                >
+                  Find a Guide
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+
+        {showGetGuider && <GetGuider selectedLanguage={selectedLanguage} />}
+
+        <Box sx={{ padding: { xs: "20px", md: "5px", marginTop: "180px" } }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "16px",
+            }}
+          >
+            {serviceCards.map((service, index) => (
               <Box
                 key={index}
-                sx={{ textAlign: "center", padding: "0px", fontSize: "30px" }}
+                sx={{
+                  width: { xs: "100%", sm: "45%", md: "30%" },
+                  maxWidth: "300px",
+                  backgroundColor: "#4bccbe",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                }}
               >
                 <img
-                  src={src}
-                  alt={`Slide ${index + 1}`}
-                  style={{ width: "100%", height: "auto" }}
+                  src={service.src}
+                  alt={service.title}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    objectFit: "cover",
+                    maxHeight: "200px",
+                  }}
                 />
+                <Box sx={{ padding: "16px" }}>
+                  <Typography variant="h6" sx={{ mb: 1 }}>
+                    {service.title}
+                  </Typography>
+                  <Typography variant="body2">{service.text}</Typography>
+                </Box>
               </Box>
-            )
-          )}
-        </Slide>
-
-        {/* Title Section */}
-        <Box sx={{ padding: { xs: "20px", md: "5px" }, textAlign: "center" }}>
-          <Typography
-            variant="h4"
-            sx={{
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-              color: "#000",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-              fontFamily: "Times New Roman, Times, serif",
-              marginBottom: "10px",
-            }}
-          >
-            Discover the World with Our Comprehensive
-          </Typography>
-          <Typography
-            variant="h4"
-            sx={{
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-              color: "#000",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-              fontFamily: "Times New Roman, Times, serif",
-            }}
-          >
-            Guiding Services
-          </Typography>
+            ))}
+          </Box>
         </Box>
       </Box>
-
-      {/* Booking Form Section */}
-      <div className="Form">
-        <Box
-          sx={{
-            p: 2,
-            bgcolor: "background.paper",
-            borderRadius: 5,
-            boxShadow: 5,
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            maxWidth: "800px", // Ensure the max width is consistent
-          }}
-        >
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              width: "100%",
-              justifyContent: "center",
-            }}
-          >
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                padding: "8px",
-              }}
-            >
-              <Autocomplete
-                options={top100Languages}
-                getOptionLabel={(option) => option.title}
-                value={selectedLanguage}
-                onChange={(event, newValue) => setSelectedLanguage(newValue)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select Native Language"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ backgroundColor: "#fff" }}
-                  />
-                )}
-                sx={{
-                  width: "100%",
-                  "& .MuiAutocomplete-inputRoot": {
-                    padding: "10px",
-                  },
-                }}
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "8px",
-              }}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: "#0056b3",
-                  width: "100%",
-                  "&:hover": {
-                    bgcolor: "#063f7c",
-                  },
-                }}
-                onClick={handleFindGuideClick}
-              >
-                Find a Guide
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </div>
-
-      {/* Conditionally Render GetGuider Component */}
-      {showGetGuider && (
-        <GetGuider selectedLanguage={selectedLanguage} />
-      )}
-
-      {/* Guiding Services Section */}
-      <Box sx={{ padding: { xs: "20px", md: "5px", marginTop:"180px" } }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "16px",
-          }}
-        >
-          {serviceCards.map((service, index) => (
-            <Box
-              key={index}
-              sx={{
-                width: { xs: "100%", sm: "45%", md: "30%" },
-                maxWidth: "300px",
-                backgroundColor: "#4bccbe",
-                borderRadius: "8px",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={service.src}
-                alt={service.title}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  objectFit: "cover",
-                  maxHeight: "200px",
-                }}
-              />
-              <Box sx={{ padding: "16px" }}>
-                <Typography variant="h6" sx={{ mb: 1 }}>
-                  {service.title}
-                </Typography>
-                <Typography variant="body2">{service.text}</Typography>
-              </Box>
-            </Box>
-          ))}
-        </Box>
-      </Box>
-    </Box>
+      <Footer />
+    </>
   );
 };
 
