@@ -9,7 +9,7 @@ const renterSchema = new Schema({
   lName: { type: String, required: true},
   address: { type: String, required: true},
 
-  profileImage: String,
+  profileImage: { type: String, required: true},
 
   NICnum: { type: String, required: true},
   email: { type: String, unique: true, required: true },

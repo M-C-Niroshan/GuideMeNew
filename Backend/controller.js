@@ -56,7 +56,7 @@ const getVehicleRentServices = async (req, res, next) => {
         description: service.description,
         rating: service.rating,
         name: renter ? `${renter.fName} ${renter.lName}` : null,
-        profileImg: renter ? renter.profileImg : null,
+        profileImg: renter ? renter.profileImage : null,
         email: renter ? renter.email : null,
         contactNum: renter ? renter.contactNum : null
       };
@@ -332,7 +332,7 @@ const addRenter = async (req, res, next) => {
       fName: req.body.fName,
       lName: req.body.lName,
       address: req.body.address,
-      profileImg: req.body.profileImg,
+      profileImage: req.body.profileImage, // Ensure this field matches the model
       NICnum: req.body.NICnum,
       email: req.body.email,
       password: req.body.password,

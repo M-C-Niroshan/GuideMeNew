@@ -4,13 +4,27 @@ import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import CardOverflow from "@mui/joy/CardOverflow";
 import Typography from "@mui/joy/Typography";
-import AspectRatio from '@mui/joy/AspectRatio';
+import AspectRatio from "@mui/joy/AspectRatio";
 import Avatar from "@mui/joy/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useUserContext } from "../pages/UserContext";
-import { NavLink, useNavigate } from 'react-router-dom';
+
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography as MuiTypography,
+} from "@mui/material";
+
+
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography as MuiTypography } from '@mui/material';
+
 import "./Traveller.css";
+import Logout from "@mui/icons-material/Logout";
+import Box from "@mui/material/Box";
 
 const textContainerStyle = {
   width: "100%",
@@ -25,6 +39,31 @@ const textContainerStyle = {
 
 const confirmationDialogStyles = {
   paper: {
+
+    backgroundColor: "#e0f7fa", // Light Cyan
+    color: "#00796b", // Teal
+    borderRadius: "8px",
+    padding: "20px",
+    minWidth: "300px",
+  },
+  title: {
+    backgroundColor: "#004d40", // Dark Teal
+    color: "#ffffff", // White
+    borderRadius: "8px 8px 0 0",
+    padding: "10px 16px",
+    fontSize: "1.1rem",
+  },
+  content: {
+    marginTop: "10px",
+    marginBottom: "10px",
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  button: {
+    marginLeft: "8px",
+=======
     backgroundColor: '#e0f7fa', // Light Cyan
     color: '#00796b', // Teal
     borderRadius: '8px',
@@ -48,6 +87,7 @@ const confirmationDialogStyles = {
   },
   button: {
     marginLeft: '8px',
+
   },
 };
 
@@ -57,30 +97,39 @@ const TravelerDashboard = () => {
   const [vehicleReservations, setVehicleReservations] = useState([]);
   const [loadingGuider, setLoadingGuider] = useState(true);
   const [loadingVehicle, setLoadingVehicle] = useState(true);
+
+
+
+
+
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:3001/api/guider-booking-details?travelerId=${userData.travelerId}`)
       .then(response => {
+
         setGuiderReservations(response.data);
         setLoadingGuider(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching guider reservations:", error);
         setLoadingGuider(false);
       });
 
+
     axios.get(`http://localhost:3001/api/vehicle-rent-details?travelerId=${userData.travelerId}`)
       .then(response => {
+
         setVehicleReservations(response.data);
         setLoadingVehicle(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching vehicle reservations:", error);
         setLoadingVehicle(false);
       });
   }, [setUserData, userData.travelerId]);
+
 
   const handleLogoutClick = () => {
     setOpenDialog(true);
@@ -93,6 +142,7 @@ const TravelerDashboard = () => {
 
   const handleCancelLogout = () => {
     setOpenDialog(false);
+
   };
 
   if (!userData) {
@@ -173,11 +223,28 @@ const TravelerDashboard = () => {
       </Card>
 
       <div style={{ marginTop: "20px" }}>
-        <Typography variant="h4" sx={{ textAlign: "center", mb: 2 }}>
+{/*         <Typography variant="h4" sx={{ textAlign: "center", mb: 2 }}>
           Guider Reservations
-        </Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: "center",
+              mb: 2,
+              color: (theme) => theme.palette.primary.main, // Using primary color from theme
+            }}
+          >
+            Guider Reservations
+          </Typography>
+        </Typography> */}
         {loadingGuider ? (
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100px",
+            }}
+          >
             <CircularProgress />
           </div>
         ) : guiderReservations.length === 0 ? (
@@ -185,18 +252,24 @@ const TravelerDashboard = () => {
             <Typography>No guider reservations available.</Typography>
           </Card>
         ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {guiderReservations.map(reservation => (
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            {guiderReservations.map((reservation) => (
               <Card
                 key={reservation.id}
                 sx={{
                   width: 300,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                   marginBottom: 2,
                   marginX: 1,
-                  padding: 2
+                  padding: 2,
                 }}
               >
                 <Avatar
@@ -211,7 +284,8 @@ const TravelerDashboard = () => {
                   {reservation.guiderEmail}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
-                  Reservation Date: {new Date(reservation.reservationDate).toLocaleDateString()}
+                  Reservation Date:{" "}
+                  {new Date(reservation.reservationDate).toLocaleDateString()}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
                   Reservation Time: {reservation.reservationTime}
@@ -230,7 +304,14 @@ const TravelerDashboard = () => {
           Vehicle Reservations
         </Typography>
         {loadingVehicle ? (
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100px",
+            }}
+          >
             <CircularProgress />
           </div>
         ) : vehicleReservations.length === 0 ? (
@@ -238,27 +319,38 @@ const TravelerDashboard = () => {
             <Typography>No vehicle reservations available.</Typography>
           </Card>
         ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {vehicleReservations.map(reservation => (
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            {vehicleReservations.map((reservation) => (
               <Card
                 key={reservation.id}
                 sx={{
                   width: 300,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                   marginBottom: 2,
                   marginX: 1,
-                  padding: 2
+                  padding: 2,
                 }}
               >
-                <AspectRatio ratio="1/1" sx={{ width: '100%', mb: 2 }}>
-                  <img src={reservation.vehicleImage} alt="Vehicle Image" style={{ width: '100%', borderRadius: '8px' }} />
+                <AspectRatio ratio="1/1" sx={{ width: "100%", mb: 2 }}>
+                  <img
+                    src={reservation.vehicleImage}
+                    alt="Vehicle Image"
+                    style={{ width: "100%", borderRadius: "8px" }}
+                  />
                 </AspectRatio>
                 <Typography variant="h6" textAlign="center" sx={{ mb: 1 }}>
                   {reservation.vehicleName}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
+
                   Pickup Date: {new Date(reservation.pickupDate).toLocaleDateString()}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
@@ -271,6 +363,7 @@ const TravelerDashboard = () => {
                   Return Time: {reservation.returnTime}
                 </Typography>
                 <Typography textAlign="center" sx={{ mb: 1 }}>
+
                   Price: ${reservation.price}
                 </Typography>
               </Card>
@@ -282,11 +375,25 @@ const TravelerDashboard = () => {
       <Button
         variant="contained"
         color="primary"
+
         onClick={handleLogoutClick}
+
         sx={{ marginTop: "20px", display: "block", mx: "auto" }}
       >
         Home
       </Button>
+
+      <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 2 }}>
+        <Button
+          variant="contained"
+          color="error"
+          startIcon={<Logout />}
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
+      </Box>
+
 
       <Dialog
         open={openDialog}
@@ -308,6 +415,7 @@ const TravelerDashboard = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
     </div>
   );
 };

@@ -70,6 +70,10 @@ const VehicleCard = ({
           spacing={2}
         >
           <Stack direction="row" alignItems="center" spacing={1}>
+
+            <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
+{/*             <Typography variant="body2" color="text.secondary">
+
             <Rating
               name="half-rating-read"
               defaultValue={rating}
@@ -77,16 +81,20 @@ const VehicleCard = ({
               readOnly
             />
             <Typography variant="body2" color="text.secondary">
+
               {rating}
-            </Typography>
+            </Typography> */}
           </Stack>
-          <Typography variant="h6" color="text.primary">
-            {rentPrice}
+          <Typography variant="h7" color="text.primary">
+            {rentPrice} /= PerDay
           </Typography>
         </Stack>
         <Box mt={2} />
         <Typography variant="body2" color="text.secondary">
-          {description}
+          Description :{description}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -16,30 +16,72 @@ const SignUpFormRenter = () => {
     password: '',
     NICnum: '',
     address: '',
-    contactNum: '',
+    contactNum: ''
   });
-  const [error, setError] = useState(null);
+
+
+ const [error, setError] = useState(null);
+
   const [loading, setLoading] = useState(false); // Add loading state
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
+ const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  setImage(file);
 
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
-    } else {
-      setImagePreview(null);
-    }
-  };
+  if (file) {
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+  } else {
+    setImagePreview(null);
+  }
+};
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({
+    ...formData,
+    [name]: value
+  });
+};
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  let imageUrl = '';
+  if (image) {
+    // Define a reference to the storage location
+    const storageRef = ref(storage, `profileImages/${image.name}`);
+    
+    // Start the upload task
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    try {
+      // Create a promise to handle the upload completion
+      await new Promise((resolve, reject) => {
+        uploadTask.on('state_changed', 
+          (snapshot) => {
+            // Handle progress here if needed
+          }, 
+          (error) => {
+            // Handle unsuccessful uploads
+            console.error("Upload error:", error);
+            reject(error);
+          }, 
+          async () => {
+            // Handle successful uploads
+            try {
+              imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
+          }
+        );
+      });
+    } catch (error) {
+      setError('Image upload failed. Please try again.');
+      return;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +117,9 @@ const SignUpFormRenter = () => {
         setLoading(false); // Set loading to false if there's an error
         return;
       }
+
     }
+  }
 
     const formDataToSend = {
       fName: formData.fName,
@@ -98,7 +142,7 @@ const SignUpFormRenter = () => {
           password: '',
           NICnum: '',
           address: '',
-          contactNum: '',
+          contactNum: ''
         });
         setImage(null);
         setImagePreview(null);
