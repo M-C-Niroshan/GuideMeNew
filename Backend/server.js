@@ -11,8 +11,8 @@ app.use(express.json());
 
 /* app.use((req,res) => {
     console.log(req.body);
-})
- */
+}) */
+
 const uri = 'mongodb+srv://gaming:gaming1234@cluster0.cpigsp9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 const connect = async() =>{

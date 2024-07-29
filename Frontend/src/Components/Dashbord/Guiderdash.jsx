@@ -15,7 +15,8 @@ import Paper from "@mui/material/Paper";
 import { NavLink } from "react-router-dom";
 import Logout from "@mui/icons-material/Logout";
 import { useUserContext } from "../pages/UserContext";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import Rating from "@mui/material/Rating";
 
 const textContainerStyle = {
   width: "100%",
@@ -119,7 +120,7 @@ const GuiderDash = () => {
 
   const handleLogout = () => {
     setUserData(null); // Clear user data
-    navigate('/'); // Navigate to home page
+    navigate("/"); // Navigate to home page
   };
 
   if (!userData) {
@@ -176,7 +177,7 @@ const GuiderDash = () => {
             <h2>Guider Dashboard</h2>
             <div className="user-info">
               <label>
-                Name:
+                Full Name:
                 <div style={textContainerStyle}>
                   {userData.fName} {userData.lName}
                 </div>
@@ -186,14 +187,12 @@ const GuiderDash = () => {
                 <div style={textContainerStyle}>{userData.email}</div>
               </label>
               <label>
-                NIC/Passport Number:
-                <div style={textContainerStyle}>
-                  {userData.NICpassportNum}
-                </div>
+                GuiderId ID:
+                <div style={textContainerStyle}>{userData.guiderId}</div>
               </label>
               <label>
                 Contact Number:
-                <div style={textContainerStyle}>{userData.contactNumber}</div>
+                <div style={textContainerStyle}>{userData.contactNum}</div>
               </label>
             </div>
           </div>
@@ -336,6 +335,7 @@ const GuiderDash = () => {
                 <Box sx={{ marginTop: 2 }}>
                   <Typography>Description: {service.description}</Typography>
                 </Box>
+                <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
               </Card>
             ))}
           </Box>
@@ -343,7 +343,7 @@ const GuiderDash = () => {
       </Box>
 
       {/* Home Button */}
-      <div
+{/*       <div
         style={{ display: "flex", justifyContent: "center", margin: "10px" }}
       >
         <NavLink to="/">
@@ -359,8 +359,8 @@ const GuiderDash = () => {
             Home
           </Button>
         </NavLink>
-      </div>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 2 }}>
+      </div> */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", padding: 2 }}>
         <Button
           variant="contained"
           color="error"

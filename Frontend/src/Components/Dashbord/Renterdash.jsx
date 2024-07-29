@@ -19,6 +19,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { NavLink, useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/Logout";
 import { useUserContext } from "../pages/UserContext";
+import Rating from "@mui/material/Rating";
 
 const textContainerStyle = {
   width: "100%",
@@ -58,7 +59,6 @@ const Renterdash = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
-    console.log(userData);
     // Fetch vehicle rent services based on renterId
     const fetchRentServices = async () => {
       try {
@@ -67,6 +67,7 @@ const Renterdash = () => {
         );
         setRentServices(response.data);
         setLoading(false);
+        console.error(response.data);
       } catch (error) {
         console.error("Error fetching rent services:", error);
         setLoading(false);
@@ -180,11 +181,11 @@ const Renterdash = () => {
 /*   if (!renter) {
     return <div>Loading...</div>;
   } */
-
+/* 
   const handlehomeClick = () => {
     navigate("/"); // Navigate to home page
   };
-
+ */
   const handleLogout = () => {
     setUserData(null); // Clear user data
     navigate("/"); // Navigate to home page
@@ -233,10 +234,7 @@ const Renterdash = () => {
             sx={{ width: 80, height: 80, mb: 2, mx: "auto" }}
           />
           <Typography textColor="primary.200" sx={{ fontSize: "1.5rem" }}>
-            Renter Account
-          </Typography>
-          <Typography textColor="primary.200">
-            {userData.fName} {userData.lName}
+          {userData.fName} {userData.lName}
           </Typography>
         </CardOverflow>
 
@@ -245,7 +243,7 @@ const Renterdash = () => {
             <h2>Renter Dashboard</h2>
             <div className="user-info">
               <label>
-                Name:
+                Full Name:
                 <div style={textContainerStyle}>
                   {userData.fName} {userData.lName}
                 </div>
@@ -447,6 +445,7 @@ const Renterdash = () => {
                   <Typography variant="h6" sx={{ mb: 1, textAlign: "center" }}>
                     {service.vehicleRegNum}
                   </Typography>
+                  <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     Type: {service.type}
                   </Typography>
@@ -467,7 +466,7 @@ const Renterdash = () => {
       </Box>
 
       {/* Home Button */}
-      <div
+{/*       <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -483,7 +482,7 @@ const Renterdash = () => {
         >
           Home
         </Button>
-      </div>
+      </div> */}
       <div
         style={{ display: "flex", justifyContent: "center", margin: "10px" }}
       >

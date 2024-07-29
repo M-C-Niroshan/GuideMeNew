@@ -56,7 +56,7 @@ const getVehicleRentServices = async (req, res, next) => {
         description: service.description,
         rating: service.rating,
         name: renter ? `${renter.fName} ${renter.lName}` : null,
-        profileImg: renter ? renter.profileImg : null,
+        profileImg: renter ? renter.profileImage : null,
         email: renter ? renter.email : null,
         contactNum: renter ? renter.contactNum : null
       };
