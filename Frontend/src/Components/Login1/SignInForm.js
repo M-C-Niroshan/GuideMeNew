@@ -19,11 +19,23 @@ const SignInForm = () => {
 
       const userData = response.data;
 
-      // Save user data in context
-      setUserData(userData);
-      
-      // Navigate to the home page
-      navigate('/');
+
+
+      // Set user data using context
+      setUserData({ name: '', email: '' }); // Adjust as necessary based on your user data
+
+      if (renterId) {
+        navigate('/Renterdash');
+      } else if (guiderId) {
+        navigate('/Guiderdash');
+      } else if (travelerId) {
+        navigate('/Travelerdash');
+      } else {
+        console.error('Unknown user type');
+      }
+
+
+      // Optionally redirect or perform additional actions with user details
 
     } catch (error) {
       console.error('Error logging in:', error.response ? error.response.data : error.message);
