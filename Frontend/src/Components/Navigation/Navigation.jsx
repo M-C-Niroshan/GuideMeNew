@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './navigation.css';
 import { FaBars, FaTimes } from "react-icons/fa";
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useUserContext } from '../pages/UserContext'; // Ensure this path is correct
+import { useUserContext } from '../pages/UserContext'; // Ensure the path is correct
 import Popup from '../Popup/popup';
+import { NavLink, useNavigate } from 'react-router-dom'; // Ensure this import
 
 function Navigation() {
     const navRef = useRef();
     const [showPopup, setShowPopup] = useState(false);
     const [status, setstatus] = useState(false);
     const { userData } = useUserContext(); // Access user data from context
-    const navigate = useNavigate(); // Correct usage of useNavigate
+    const navigate = useNavigate();
 
     const showNavbar = () => {
         navRef.current.classList.toggle("responsive_nav");
@@ -38,18 +38,16 @@ function Navigation() {
                 <NavLink to='/chat' activeClassName='active'>Live Chat</NavLink>
                 <NavLink to='/warranty' activeClassName='active'>Warranty</NavLink>
 
-                <div className='nav-buttons'>
-                    {!isLoggedIn ? (
-                        <>
-                            <button className='login' onClick={() => togglePopup(0)}>Login</button>
-                            <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
-                        </>
-                    ) : (
-                        <div className='user-profile'>
-                            <img src={userData.profileImage} alt='User Profile' className='user-icon' />
-                        </div>
-                    )}
-                </div>
+                {!isLoggedIn ? (
+                    <>
+                        <button className='login' onClick={() => togglePopup(0)}>Login</button>
+                        <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
+                    </>
+                ) : (
+                    <div className='user-profile'>
+                        <img src={userData.profileImage} alt='User Profile' className='user-icon' />
+                    </div>
+                )}
 
                 <button onClick={showNavbar} className='ncbtn'>
                     <FaTimes />
