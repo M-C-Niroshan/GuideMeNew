@@ -37,8 +37,8 @@ import TravelerDashboard from './Components/Dashbord/Travaller';
 import Renterdash from './Components/Dashbord/Renterdash';
 import Guiderdash from './Components/Dashbord/Guiderdash';
 
-import AboutUs from './Components/AboutUs/AboutUs';
-
+/* import AboutUs from './Components/AboutUs/AboutUs';
+ */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -76,8 +76,8 @@ function App() {
             <Route path='/Renterdash' element={<Renterdash/>}></Route> 
             <Route path='/Guiderdash' element={<Guiderdash/>}></Route> 
 
-            <Route path="/about-us" element={<AboutUs />} />
-
+{/*             <Route path="/about-us" element={<AboutUs />} />
+ */}
             {/* <Route path="/Test" element={<Test/>}></Route> */}
 
             <Route path="/vehicle-reservation-success" element={<VehicleReservationSuccess />} />

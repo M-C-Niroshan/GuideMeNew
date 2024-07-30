@@ -4,22 +4,22 @@ import { Box, Button } from '@mui/material';
 import Axios from 'axios';
 import { storage } from './firebase'; // Import the configured Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import './loading.css'; // Import CSS file for styling
 
 const SignUpForm = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
-
     fName: '',
     lName: '',
     email: '',
     password: '',
     NICpassportNum: '',
     contactNumber: '',
-
   });
   const [error, setError] = useState('');
-  
+  const [loading, setLoading] = useState(false); // Loading state
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -40,58 +40,64 @@ const SignUpForm = () => {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Show loading spinner
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  let imageUrl = '';
-  if (image) {
-    // Define a reference to the storage location
-    const storageRef = ref(storage, `profileImages/${image.name}`);
-    
-    // Start the upload task
-    const uploadTask = uploadBytesResumable(storageRef, image);
+    let imageUrl = '';
+    if (image) {
+      // Define a reference to the storage location
+      const storageRef = ref(storage, `profileImages/${image.name}`);
+      
+      // Start the upload task
+      const uploadTask = uploadBytesResumable(storageRef, image);
 
+      // Create a promise to handle the upload completion
+      try {
+        await new Promise((resolve, reject) => {
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+              // Handle progress here if needed
+            }, 
+            (error) => {
+              // Handle unsuccessful uploads
+              console.error("Upload error:", error);
+              reject(error);
+            }, 
+            async () => {
+              // Handle successful uploads
+              try {
+                imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve();
+              } catch (error) {
+                reject(error);
+              }
+            }
+          );
+        });
+      } catch (error) {
+        console.error("Upload Error:", error);
+        setError('Failed to upload image. Please try again.');
+        setLoading(false);
+        return;
+      }
+    }
 
-    // Create a promise to handle the upload completion
-    await new Promise((resolve, reject) => {
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          // You can handle progress here if needed
-        }, 
-        (error) => {
-          // Handle unsuccessful uploads
-          console.error("Upload error:", error);
-          reject(error);
-        }, 
-        async () => {
-          // Handle successful uploads
-          try {
-            imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve();
-          } catch (error) {
-            reject(error);
-          }
-        }
-      );
-    });
-  }
+    // Prepare the data to send to your backend
+    const formDataToSend = {
+      fName: formData.fName,
+      lName: formData.lName,
+      email: formData.email,
+      password: formData.password,
+      NICpassportNum: formData.NICpassportNum,
+      contactNumber: formData.contactNumber,
+      profileImage: imageUrl // Include the image URL in the data to be sent
+    };
 
-  // Prepare the data to send to your backend
-  const formDataToSend = {
-    fName: formData.fName,
-    lName: formData.lName,
-    email: formData.email,
-    password: formData.password,
-    NICpassportNum: formData.NICpassportNum,
-    contactNumber: formData.contactNumber,
-    profileImage: imageUrl // Include the image URL in the data to be sent
-  };
-
-  // Send the data to your backend
-  Axios.post("http://localhost:3001/api/traveler", formDataToSend)
-    .then((response) => {
-      console.log("User created successfully:", response.data);
+    // Send the data to your backend
+    try {
+      await Axios.post("http://localhost:3001/api/traveler", formDataToSend);
+      console.log("User created successfully");
       setFormData({
         fName: '',
         lName: '',
@@ -102,12 +108,13 @@ const handleSubmit = async (e) => {
       });
       setImage(null);
       setImagePreview(null);
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error("Axios Error:", error);
       setError('An error occurred. Please try again.');
-    });
-};
+    } finally {
+      setLoading(false); // Hide loading spinner
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -172,9 +179,7 @@ const handleSubmit = async (e) => {
           />
           <input
             type="text"
-
             name="NICpassportNum"
-
             placeholder="NIC number"
             className='tx4'
             value={formData.NICpassportNum}
@@ -200,18 +205,17 @@ const handleSubmit = async (e) => {
           />
           <input
             type="text"
-
             name="contactNumber"
-
-
             placeholder="Mobile number"
             className='tx6'
             value={formData.contactNumber}
             onChange={handleInputChange}
           />
-          <button className='sign1' type="submit">Sign Up</button>
+          <button className='sign1' type="submit" disabled={loading}>Sign Up</button>
         </div>
       </div>
+      {loading && <div className="loader"></div>} {/* Show loader */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };
