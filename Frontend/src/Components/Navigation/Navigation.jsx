@@ -8,8 +8,6 @@ import Popup from '../Popup/popup';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -38,36 +36,29 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         opacity: 0,
       },
     },
-  }));
-  
-  const SmallAvatar = styled(Avatar)(({ theme }) => ({
-    width: 22,
-    height: 22,
-    border: `2px solid ${theme.palette.background.paper}`,
-  }));
+}));
 
 function Navigation() {
-    const { userData } = useUserContext();
-
+    const { setUserData, userData } = useUserContext();
     const navRef = useRef();
     const [showPopup, setShowPopup] = useState(false);
-    const [status, setstatus] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
     const navigate = useNavigate();
-    console.log(userData);
+
     useEffect(() => {
         if (userData) {
             const guiderIdRange = 2000;
             const renterIdRange = 1000;
             const travelerIdRange = 3000;
 
-            // Determine role and navigate accordingly
             if (userData.guiderId && userData.guiderId >= guiderIdRange && userData.guiderId < 4000) {
                 navigate("/Guiderdash");
             } else if (userData.renterId && userData.renterId >= renterIdRange && userData.renterId < guiderIdRange) {
                 navigate("/Renterdash");
-            }/*  else if (userData.traveller && userData.traveller >= travelerIdRange && userData.traveller < renterIdRange) {
-                navigate("/");
-            } */
+            } else if (userData.traveler && userData.traveler >= travelerIdRange && userData.traveler < renterIdRange) {
+                navigate("/TravelerDashboard");
+            }
         }
     }, [userData, navigate]);
 
@@ -76,12 +67,21 @@ function Navigation() {
     }
 
     const togglePopup = (value) => {
-        setstatus(value);
+        setStatus(value);
         setShowPopup(!showPopup);
     }
 
     const handleOnClick = () => {
         navigate("/AuthConGuiderSignIn");
+    }
+
+    const handleDashboardClick = () => {
+        setShowMenu(!showMenu);
+    }
+
+    const handleLogoutClick = () => {
+        setUserData(null);
+        navigate("/");
     }
 
     return (
@@ -99,21 +99,26 @@ function Navigation() {
 
                 {!userData ? (
                     <>
-                        <button className='login' onClick={() => handleOnClick()}>Login</button>
+                        <button className='login' onClick={handleOnClick}>Login</button>
                         <button className='signup' onClick={() => togglePopup(1)}>Sign Up</button>
                     </>
                 ) : (
                     <>
+                        <StyledBadge
+                            overlap="circular"
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            variant="dot"
+                            onClick={handleDashboardClick}
+                        >
+                            <Avatar alt="User Avatar" src={userData.profileImage} />
+                        </StyledBadge>
 
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            variant="dot"
-          >
-            <Avatar alt="Remy Sharp" src={userData.profileImage} />
-          </StyledBadge>
-
-
+                        {showMenu && (
+                            <div className="menu">
+                                <button onClick={() => navigate("/Guiderdash")}>Dashboard</button>
+                                <button onClick={handleLogoutClick}>Logout</button>
+                            </div>
+                        )}
                     </>
                 )}
 

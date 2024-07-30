@@ -21,7 +21,7 @@ const SignInForm = () => {
 
       // Save user data in context
       setUserData(userData);
-      
+      console.log(userData)
       // Navigate to the home page
       navigate('/');
 
