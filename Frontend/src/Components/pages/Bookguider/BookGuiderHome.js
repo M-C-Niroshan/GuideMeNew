@@ -23,9 +23,9 @@ import Navigation from "../../Navigation/Navigation";
 import image1 from "./images/BookGuiderPageImages/guider/image1.png";
 import image2 from "./images/BookGuiderPageImages/guider/image2.png";
 import image3 from "./images/BookGuiderPageImages/guider/image3.png";
-import image4 from "./images/BookGuiderPageImages/guider/image4.jpg";
-import image5 from "./images/BookGuiderPageImages/guider/image5.jpg";
-import image6 from "./images/BookGuiderPageImages/guider/image6.jpg";
+import image4 from "./images/BookGuiderPageImages/guider/image4.png";
+import image5 from "./images/BookGuiderPageImages/guider/image5.png";
+import image6 from "./images/BookGuiderPageImages/guider/image1.png";
 import Footer from "../../Footer/Footer";
 
 const serviceCards = [
@@ -174,7 +174,6 @@ const BookGuiderHome = () => {
                 fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
                 color: "#000",
                 textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-                fontFamily: "Times New Roman, Times, serif",
                 marginBottom: "10px",
               }}
             >
@@ -186,7 +185,6 @@ const BookGuiderHome = () => {
                 fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
                 color: "#000",
                 textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-                fontFamily: "Times New Roman, Times, serif",
               }}
             >
               Guiding Services

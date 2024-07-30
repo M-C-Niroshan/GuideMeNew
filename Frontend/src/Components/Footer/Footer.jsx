@@ -25,7 +25,7 @@ export default function Footer() {
 
       <div className="copyright">
         <p className="copyrightp">
-          Copyright © 2024 Sri Lanka GuideMe. All rights reserved. Privacy Policy | Terms 0% Service
+          Copyright © 2024 Sri Lanka GuideMe. All rights reserved. Privacy Policy | Terms of Service
         </p>
       </div>
     </div>

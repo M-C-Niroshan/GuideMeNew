@@ -37,7 +37,7 @@ function Popup({ show, onClose, status }) {
                 <div className="cards-container">
                     <div className="card" onClick={() => handleRoleSelection('user')}>
                         <img src={`${process.env.PUBLIC_URL}/images/userrole.jpg`} alt='User role' className='post1' />
-                        <h3><br/>User</h3>
+                        <h3><br/>Traveler</h3>
                     </div>
                     <div className="card" onClick={() => handleRoleSelection('guider')}>
                         <img src={`${process.env.PUBLIC_URL}/images/guiderrole.jpg`} alt='Guider role' className='post2' />
